@@ -63,6 +63,7 @@ over short programs.
 | **v15** | governance that **climbs** | given recurring phrases, the governed loop discovers a *hierarchy* (idioms→phrases): held-out **25→100%**, deep-solve **~11× cheaper**, stays lean | scope: shows hierarchy *use*, not a clean phrases-vs-idioms isolation (→ v16) |
 | **v16** | when is depth *necessary*? (budget sweep) | matched libs + budget sweep: necessity regime is **real** (depth-6 idioms cap 67% within 100k; phrases 100%) | *confounded*: some "deep" tasks collapse to short functions → inflates idiom baseline; clean isolation = v17 |
 | **v17** | the necessity window, **clean** | provably-incompressible tasks (each idiom doubles degree): idiom cost ~\|V\|^depth — d6 **unsolved** within 100k — vs phrases near-flat (161→2,108 nodes) | resolves v16: deeper abstraction is **required**, not just cheaper |
+| **v18** | learned **policy** in the loop | policy-order vs uniform-order over the same library: held-out deep tasks **~14× fewer nodes** (220→16); policy (branching↓) + library (depth↓) co-evolve | round 0 (no lib/policy) identical — gain is purely the learned ordering |
 
 ---
 
