@@ -371,6 +371,23 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   the loop ACROSS tasks (a library of reusable grid transforms + policy) — does
   cross-task abstraction push past the geometric floor?
 
+## v19 (cycle 2) — ARC: recolor + scale, and an honest boundary  (`induct_v19b.py`)
+- Added scale-up ops + INFERRED recolor (a per-task color map derived from the
+  train pairs after any geometric prefix — data-derived, not searched).
+- **Result:** 5.0% → **6.8%** (27/400): 23 pure-geometric (scale added 3 over
+  cycle 1), 4 geometric+recolor. A modest DSL-coverage gain.
+- **KEY FINDING (the real result):** the cross-task airfoil LOOP — library learning,
+  the project's core mechanism — is NOT what moved this. ARC solutions are SHALLOW
+  (1-3 ops), so there's nothing deep to compress; the lever is DSL BREADTH (many
+  distinct primitive concepts). This maps the thesis's boundary precisely: the loop
+  attacks **depth** (compositional reuse of structure — shown cleanly on synthetic
+  deep tasks, v1-v18); ARC's difficulty lives on a different axis, **breadth**, which
+  the loop doesn't help. Not a failure — the external benchmark honestly telling us
+  where the idea applies and where it doesn't. That distinction is the finding.
+- **Next (cycle 3):** turn the boundary from assertion into DATA — measure cross-task
+  library transfer on ARC (expected ≈0) against the large transfer on synthetic deep
+  tasks. Then consolidate; the genuine-findings plateau is near.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

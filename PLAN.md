@@ -115,9 +115,16 @@ free lunch.
       not ours. **Cycle 1 baseline:** parameter-free geometric DSL (11 ops) + depth-3
       search solves **20/400 = 5.0%** (geometric slice; train-consistent programs also
       pass held-out test — no overfit). The honest floor.
-- [ ] **v19 cycle 2+** add recolor (infer color map) / object / parameterized ops;
-      then the airfoil loop ACROSS tasks (library of reusable grid transforms +
-      policy) — does cross-task abstraction beat the 5% geometric floor?
+- [~] **v19 cycle 2** +scale +inferred recolor → 6.8% (27/400). KEY FINDING: the
+      cross-task airfoil LOOP did NOT move ARC — solutions are shallow (1-3 ops), so
+      there's nothing deep to compress; the lever is DSL *breadth*. This maps the
+      thesis boundary: the loop attacks DEPTH (compositional reuse, shown on v1-v18);
+      ARC is hard along BREADTH (many distinct concepts). A measured scope boundary,
+      not a failure.
+- [ ] **v19 cycle 3** turn that boundary from assertion into DATA: run cross-task
+      library learning over solved ARC programs and measure its transfer to new ARC
+      tasks (expected ≈0, vs the large transfer on synthetic deep tasks). Then
+      consolidate — the project has reached an honest plateau of genuine findings.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
