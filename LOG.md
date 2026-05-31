@@ -425,6 +425,46 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Next (v21):** LLM-as-recognizer — test what a runnable local model can recognize,
   and name the gap honestly.
 
+## v21 — aborted (no result)  (`induct_v21.py`)
+- First LLM-as-recognizer attempt (360M names concept categories). Crashed: large ARC
+  grids rendered to 3815 tokens > the 2048 context window. No numbers. Superseded by v22.
+
+## v22 — the airfoil STAIRCASE on ARC: does payoff scale with size / perception?  (`induct_v22.py`)
+- Two axes: capability (SmolLM2-135M → 360M → Qwen3-1.7B-PMRA, Alex's own frankentensor
+  quant) × perception (raw grid vs "struct" rendering — sizes/area-ratio/color-sets/
+  symmetry, a cheap perception prosthetic). EQUAL-COMPUTE node budget (256) so correctly
+  narrowing the op-set BUYS depth (the v20 fix — depth was frozen at 2 there, so its
+  recognizer could only hurt).
+- **Two bugs found + fixed (engineering):** (1) budgeted depth had no grid-size guard →
+  when the LLM named a small category (e.g. "scale", 2 ops) search ran to depth 8;
+  `scale3`^8 ≈ 6500× blow-up → multi-GB grid, 41-min hang at 80% RAM (the just-installed
+  zram saved it from OOM). Fixed: prune any intermediate >2500 cells (ARC outputs ≤900)
+  + MAXDEPTH=6 — pathological case 41 min → 49 ms. (2) ops raise on ill-shaped grids
+  (`downscale` of a non-divisible grid) → wrapped op application in try/except→None.
+- **135M dropped:** combo-raw **1.5%** < 6.5% blind floor = net-negative recognizer (the
+  bug only slowed it, didn't depress the score — shallow programs are always tried before
+  the deep explosions). A foregone-conclusion rung.
+- **Result (360M, all 400 ARC tasks):**
+    - ALONE (direct grid output) : 0/30 = **0%** (a small model can't free-hand a grid)
+    - +AIRFOIL (raw)    : 14/400 = **3.5%** (named ≥1 category on 354/400)
+    - +AIRFOIL (struct) :  7/400 = **1.8%** (named ≥1 on 317/400)
+    - blind search (no LLM, v20) : **6.5%**
+- **1.7B arm abandoned:** on this CPU the 1.7B combo arm ran >55 min on 400 tasks (and the
+  struct arm would add hours), on a benchmark already conclusively negative at 360M.
+  Re-runnable on a sample later if wanted; not worth blocking the transfer suite.
+- **READ (honest, negative):** on ARC the scaffold is BELOW the blind floor at every
+  runnable model, and the perception prosthetic HURT the 360M (struct 1.8 < raw 3.5; it
+  named on FEWER tasks — the longer cue header confused the small model rather than
+  grounding it). Two compounding causes: (a) a 360M's category-naming is wrong often
+  enough that narrowing EXCLUDES needed ops (net-negative, same shape as v20's heuristic);
+  (b) ARC is breadth-hard (v19/v20) — recognition, not depth, is the bottleneck, and these
+  models can't perceive grids-as-text well enough. **GATE verdict on ARC = NEGATIVE.**
+- **But this does NOT kill the method:** ARC is the wrong (breadth-hard) benchmark for a
+  DEPTH engine. The decisive test is v23 — the same scaffold on depth-compositional
+  domains (lists/strings/numbers) where undirected search has real headroom.
+- **Next (v23):** the transfer suite — broad uplift across 3 domains, 4 arms
+  (alone / blind / +airfoil / oracle-ceiling).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

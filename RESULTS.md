@@ -66,6 +66,7 @@ over short programs.
 | **v18** | learned **policy** in the loop | policy-order vs uniform-order over the same library: held-out deep tasks **~14× fewer nodes** (220→16); policy (branching↓) + library (depth↓) co-evolve | round 0 (no lib/policy) identical — gain is purely the learned ordering |
 | **v19** | the **external** benchmark (real ARC) | geometric→**5.0%**; +recolor+scale→**6.8%** (27/400). But the **cross-task loop added nothing** | **boundary mapped**: the loop attacks *depth* (v1–v18); ARC is *breadth*-hard — a different axis. Honest scope, not a win |
 | **v20** | the **breadth** half (recognition) | architecture test on ARC: small 5.8% / big-no-recog **6.5%** / big+recog 6.0%; overfit 1/1/1 | prediction **falsified** — recognition needs an LLM (perception), not a heuristic → v21 |
+| **v22** | LLM-as-recognizer **staircase** on ARC (size × perception) | 360M+airfoil **3.5%** raw / **1.8%** struct — both *below* the **6.5%** blind floor; the perception aid HURT; 135M 1.5% (dropped); 1.7B arm abandoned (CPU-slow) | ARC gate **NEGATIVE**: a small model's category-naming is wrong often enough to *exclude* needed ops, and ARC is breadth-hard. Wrong benchmark for a depth engine → **v23** (depth-compositional transfer) |
 
 ---
 

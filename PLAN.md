@@ -137,8 +137,37 @@ free lunch.
       weak (clueless on grids); the laptop's RAM limit bites precisely on the BREADTH
       organ (which wants the big frozen model) while the depth half runs cheap. Test
       what a runnable local model (e.g. a 1-3B Q4) can recognize, and name the gap.
-- [ ] **(other side)** also: loop on a depth-compositional *realistic* benchmark
-      (list-functions), where it SHOULD help — the positive other-side case.
+- [x] **v22** the airfoil STAIRCASE on ARC. **RESULT (NEGATIVE on ARC):** 360M+airfoil
+      3.5% raw / 1.8% struct — both BELOW the 6.5% blind floor; the perception aid HURT
+      (struct named on fewer tasks); 135M 1.5% (dropped); 1.7B arm abandoned (CPU-slow on
+      a benchmark already negative). A small model's category-naming excludes needed ops,
+      and ARC is breadth-hard — wrong benchmark for a depth engine. Doesn't kill the
+      method; the decisive test is v23. Two bugs fixed en route (grid-explosion, downscale).
+      ORIGINAL SPEC: two axes on real ARC. CAPABILITY =
+      SmolLM2-135M → 360M → Qwen3-1.7B-PMRA (Alex's own frankentensor quant, pulled
+      from HF). PERCEPTION = raw grid vs a "struct" rendering (sizes, area-ratio,
+      color sets, symmetry) — a cheap perception prosthetic so the model need only
+      NAME, not perceive. Fixes v20's dead end: an EQUAL-COMPUTE node budget (256 ≈
+      full-DSL depth-2) so correctly narrowing the op-set BUYS depth (depth-2 over 15
+      ops ≈ depth-3 over 6) — the only way the LLM's breadth can ADD over blind search.
+      Q: does scaffold payoff scale with perception/size? ("imagine for a 60B.")
+- [ ] **GATE (Alex, 2026-05-31):** proceed to a shippable release ONLY if v22 shows a
+      JUSTIFYING lift SOMEWHERE on the ladder — a (model × perception) combo where
+      +AIRFOIL beats BOTH floors (model-alone AND the 6.5% blind-search). No lift on
+      the ladder → report the boundary, don't ship, rethink. ARC is breadth-hard
+      (v19/v20), so a null here doesn't kill the method — it may just confirm ARC is
+      the wrong target and push v23 forward as the real test.
+- [ ] **v23 — TRANSFER SUITE (gated; the real ship-or-not evidence).** Prove METHOD
+      transfer: the SAME propose→search→verify harness lifts a small frozen LLM across
+      ≥3 DISTINCT example→program domains chosen where the airfoil is STRONG (depth-
+      compositional), not breadth-hard. Domains: (1) list functions (map/filter/sort/
+      rev/dedup/take-drop), (2) string transforms FlashFill-style (substring/concat/
+      case/replace/split-join — literature-backed PBE), (3) numeric function induction
+      ((x,y)→program, from v17's incompressible polynomials). Per domain, the v22
+      three-baseline protocol: LLM-alone vs blind full-DSL search vs LLM+airfoil;
+      domain-appropriate DSL but ONE harness. SHIP CRITERION: lift positive AND
+      consistent across all three → not ARC-overfit → earns the HF card. Then (and only
+      then) the rung-A/C "shippable airfoil" repo (harness + GGUF + GBNF grammar).
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
