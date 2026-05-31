@@ -97,3 +97,22 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Next (v5):** richer DSL — lists with map/fold/filter + parameterized ops — to
   test whether the story survives in a combinatorially larger, more realistic
   program space (DreamCoder-style list functions). Where it gets real.
+
+## v5 — richer domain: list-processing pipelines  (`induct_v5.py`)
+- Swapped toy unary int ops for real list functions (map inc/dbl/sqr/neg,
+  filter even/pos, reverse, tail, init, sort). Motifs are genuine idioms:
+  "even dbl*" (double the evens), "pos sqr*" (square the positives),
+  "inc*×3" (+3), "rev tail" (drop last). Same BPE+min-symbol harness.
+- **Result (holds):** transfer related **2.28×**, both controls flat (1.00×);
+  depth generalization flat **2.25×** at depths 2-6; learned exactly the real
+  idioms. Identical to v1/v4. Sanity-checked semantics (A([1,-2,3,4,-5,6])=[-4,8,12]).
+- **Read:** the mechanism is domain-agnostic — it keys off compositional
+  structure, which real programs share. The thesis isn't an artifact of the toy DSL.
+- **Caveat (honest):** v5 is still LINEAR pipelines (point-free composition), so
+  the harness is unchanged. The real leap is abstraction over TREES — higher-order
+  map/fold with sub-program arguments (true DreamCoder). That's v6/v7.
+- **Next (v6):** either (a) the "domesticated learner" — a learned proposer that
+  guides search (features→next symbol) vs uniform enumeration, measuring the
+  search-efficiency gain (where a small model could play proposer); or (b) the
+  jump to a higher-order tree DSL. Lean (a) first — smaller, and directly tests
+  the "domesticated learner" idea from the design conversation.

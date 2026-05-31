@@ -29,8 +29,10 @@ free lunch.
       depths 3-6 (compositional, not interpolation). Memorize-vs-generalize:
       forcing compression past generic motifs cuts TRAIN 1.71× but leaves novel
       held-out unchanged → BPE's own stopping point = the generalization optimum.
-- [ ] **v5** richer DSL (lists: map/fold/filter, parameterised ops) → a proper
-      DreamCoder-style "list functions" testbed.
+- [x] **v5** richer domain: LINEAR list-processing pipelines (map/filter/rev/sort/
+      drop, real semantics). Transfer 2.28×, controls flat, depth-gen flat 2.25× —
+      identical to the toy DSL → thesis is domain-agnostic, not a toy artifact.
+      (Still linear; true higher-order TREE abstraction = v6/v7.)
 - [ ] **v6** the domesticated learner: a learned search guide (features → which
       symbol to try) vs uniform search. (A small GGUF could play proposer here.)
 - [ ] **v7** graduate toward an abstraction benchmark (mini-ARC subset).
