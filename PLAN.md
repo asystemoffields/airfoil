@@ -67,10 +67,14 @@ free lunch.
       NOTHING; antiunification recovers the schema → novel instances 1.5× shorter to
       describe and 51× less search (fill one hole), generalizing to unseen fillers.
       Clean best case (one schema, single-op holes); general antiunification = v12.
-- [ ] **v12** the real test: a mini-ARC subset or held-out list-functions suite
-      (generalization measured, not assumed) + general antiunification (clustering
-      multiple schemas, choosing among generalizations, tree-level holes). Best
-      co-driven — real design choices. Also: the proposer as a small learned model.
+- [x] **v12** generalization MEASURED — held-out list-functions benchmark. Trained
+      by SOLVING depth-2 tasks then BPE-DISCOVERING the idioms (recovered all 4,
+      untold); evaluated on NOVEL depth-3 held-out tasks vs a base baseline at a
+      fixed budget. test-near: base 35% → learned 100%. test-far (held-out idiom):
+      25% → 50% (honest boundary). Discovered, held-out, baselined — not planted.
+- [ ] **v13** push the realism further: (a) iterative wake-sleep (not single pass);
+      (b) wire v11 antiunification + v6 proposer into THIS loop; (c) a real external
+      benchmark (mini-ARC subset) where the distribution isn't ours. Co-driven.
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
       graduate toward an abstraction benchmark (mini-ARC subset).
 

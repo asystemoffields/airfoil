@@ -56,6 +56,8 @@ over short programs.
 | **v8** | the verifier (the load-bearing wall) | a 10% false-accept verifier *alone* → **4%** solved; redundancy rescues as `eps^M` (M=3→92%, M=5→100%) | — |
 | **v9** | repetition vs diversity | systematic-error verifier: repetition flat **~29%**; *diverse* verifiers (same budget) → **100%** | — |
 | **v10** | the loop closes (poisoning) | no gate: skills 29% → depth-3 compositions **10%** (reuse amplifies error); diverse gate → **99/99/99** | — |
+| **v11** | reuse a *pattern* (antiunification) | on a non-contiguous template, exact reuse learns nothing; a schema → **1.5×** desc, **51×** less search, generalizes to unseen fillers | exact/BPE: **0** |
+| **v12** | generalization **measured** (held-out) | *discovered* (not planted) library solves **100%** of novel depth-3 test-near (base 35%) within budget | test-far (held-out idiom) 25%→50% — the honest boundary |
 
 ---
 
@@ -123,6 +125,24 @@ that assumption matters:
     matters *more* than in one-shot solving because it protects every future reuse
     at once.
 
+**Part III — past exact reuse, and out of the sandbox (v11–v12).**
+
+12. **Reuse the *pattern*, not just the structure (v11).** Exact compression only
+    sees contiguous repeats. On a corpus whose shared structure is a *template with
+    a varying slot*, exact reuse learns nothing — but antiunification recovers the
+    schema, describing novel instances 1.5× shorter and solving them 51× faster by
+    *filling one hole*, generalizing to fillers never trained. The step from "reuse
+    what recurs verbatim" to "reuse the pattern."
+
+13. **Generalization measured, not assumed (v12).** v1–v11 planted the structure.
+    v12 *discovers* the idioms by compressing solutions to training tasks
+    (recovering all four, untold), then evaluates on *novel, deeper, held-out*
+    tasks against a base baseline: a discovered library lifts solve-rate on novel
+    near tasks from 35% to **100%** within a fixed budget, and on far tasks (a
+    held-out idiom) only 25%→50% — the honest boundary. Training experience,
+    compressed into reusable idioms, extends the solvable frontier to harder novel
+    tasks it never saw.
+
 **The recurring signature across all of it:** abstractions are a *double-edged*
 tool — a large win where structure matches, a real cost where it doesn't. That the
 controls reliably *fail* to benefit (and sometimes pay a tax) is what makes the
@@ -143,7 +163,11 @@ These are clean **mechanism demonstrations**, not benchmark results. In particul
 - **Limited notion of "generalization."** It's compositional *reuse* of learned
   fragments. It does **not** yet test variable binding beyond a single hole,
   recursion, or invention of genuinely novel primitives.
-- **No external benchmark yet** (e.g. ARC, held-out list-function suites).
+- **Still a synthetic distribution.** v12 is a genuine *held-out* measurement
+  (discovered library, novel tasks, real baseline) — but the task distribution is
+  still ours, and it's a single solve-then-compress pass, not the full iterative
+  wake-sleep, with v11's antiunification not yet wired into the loop. A real
+  *external* benchmark (ARC) remains future.
 - **v7's tree caveat is real:** the same-primitive control isn't perfectly flat
   (1.06×) because sharing a leaf op means sharing the tiny subtree `dbl(x)` — a
   partial-subtree overlap with no analogue in the linear case. The *disjoint*
@@ -177,6 +201,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v10.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v12.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*

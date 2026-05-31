@@ -209,6 +209,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   measured, not assumed) + general antiunification. Best co-driven (real design
   choices).
 
+## v12 — generalization MEASURED (held-out benchmark)  (`induct_v12.py`)
+- Left "by construction". Trained by SOLVING 16 depth-2 list-program tasks at base
+  level, then BPE-DISCOVERED the idioms by compressing the solutions (never told
+  them). Evaluated on NOVEL depth-3 held-out tasks — test-near (novel compositions
+  of discovered idioms) and test-far (a HELD-OUT idiom E) — vs a base-only baseline
+  at a fixed 20k-node budget.
+- **Discovery worked:** recovered exactly the 4 ground-truth idioms (even dbl*,
+  pos inc*, rev tail, sqr* neg*) + one composite, purely by compression.
+- **Result:** test-near base **35%** → learned **100%**; test-far base 25% →
+  learned 50% (median nodes near-learned ~2431).
+- **Read:** generalization measured — a library DISCOVERED (not planted) from
+  depth-2 training extends the solvable frontier to novel *deeper* held-out tasks;
+  strongly where they share learned structure (35→100%), weakly where they don't
+  (25→50%, the honest boundary). The transition from toy demonstration to real
+  held-out measurement.
+- **Honest scope:** still a synthetic distribution (not an external benchmark like
+  ARC); single solve-then-compress pass (not the full iterative wake-sleep);
+  exact-match idioms (v11 antiunification not yet wired into the loop).
+- **Next (v13):** iterative wake-sleep; wire in v11 antiunification + v6 proposer;
+  then a real external benchmark (mini-ARC).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
