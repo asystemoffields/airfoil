@@ -188,6 +188,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   graduate toward a real abstraction benchmark (mini-ARC) — where generalization is
   measured, not assumed.
 
+## v11 — parameterized fragments (antiunification)  (`induct_v11.py`)
+- Built a corpus whose shared structure is a NON-CONTIGUOUS template: frame
+  (sqr, ?, inc), middle op varies. Exact/BPE reuse only sees contiguous repeats →
+  learns NOTHING here. Antiunification (positional least-general-generalization)
+  recovers the schema (sqr, ?, inc).
+- **Result on held-out novel-filler instances:** exact desc 3 symbols / ~205-node
+  search; schema desc 2 tokens (**1.5×**) / ~4-node search (**51×** less). And it
+  generalizes to fillers never seen in training.
+- **Read:** parameterized fragments earn their keep exactly where exact ones are
+  blind — when the shared structure is a template with a varying slot. The step
+  from "reuse what recurs verbatim" to "reuse the pattern"; binding a schema's hole
+  is what lets a few examples cover an open set (the essence of generalization).
+- **Honest caveat:** clean best case — one schema, single-op holes, equal lengths,
+  positional lgg. The general problem (many schemas needing CLUSTERING, choosing
+  WHICH generalization among many candidate lggs, multi-op/tree-level holes) is
+  genuinely hard — and is where this connects to real abstraction and a real
+  benchmark.
+- **Next (v12):** a mini-ARC subset or held-out list-functions suite (generalization
+  measured, not assumed) + general antiunification. Best co-driven (real design
+  choices).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

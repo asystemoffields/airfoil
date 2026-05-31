@@ -62,9 +62,15 @@ free lunch.
       AMPLIFIES with reuse (~skill_acc^depth). Diverse gate (K=5) → 99/99/99. Because
       reuse compounds error, the crystallization gate matters MORE than in one-shot
       solving — it protects every future composition at once. Loop closes.
-- [ ] **v11** parameterized (antiunification) fragments EARN their keep on a corpus
-      where a holed schema beats every ground fragment; then graduate toward a real
-      abstraction benchmark (mini-ARC subset).
+- [x] **v11** parameterized (antiunification) fragments earn their keep: on a
+      NON-CONTIGUOUS template corpus (frame sqr,?,inc), exact/BPE reuse learns
+      NOTHING; antiunification recovers the schema → novel instances 1.5× shorter to
+      describe and 51× less search (fill one hole), generalizing to unseen fillers.
+      Clean best case (one schema, single-op holes); general antiunification = v12.
+- [ ] **v12** the real test: a mini-ARC subset or held-out list-functions suite
+      (generalization measured, not assumed) + general antiunification (clustering
+      multiple schemas, choosing among generalizations, tree-level holes). Best
+      co-driven — real design choices. Also: the proposer as a small learned model.
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
       graduate toward an abstraction benchmark (mini-ARC subset).
 
