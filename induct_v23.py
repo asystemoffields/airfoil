@@ -306,7 +306,7 @@ def main():
     flush("v23  TRANSFER SUITE — broad uplift from the airfoil scaffold across 3 domains")
     flush("=" * 84)
     tasks = {d.name: make_tasks(d, N_COMBO, seed=1234 + i) for i, d in enumerate(DOMAINS)}
-    flush(f"  {N_COMBO} tasks/domain (depth 1-3, held-out test); node budget {NODE_BUDGET}; "
+    flush(f"  {N_COMBO} tasks/domain (depth 2-3, held-out test); node budget {NODE_BUDGET}; "
           f"DSL sizes {{{', '.join(f'{d.name}:{len(d.all_ops)}' for d in DOMAINS)}}}\n")
 
     floors = {}

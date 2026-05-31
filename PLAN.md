@@ -157,7 +157,12 @@ free lunch.
       the ladder → report the boundary, don't ship, rethink. ARC is breadth-hard
       (v19/v20), so a null here doesn't kill the method — it may just confirm ARC is
       the wrong target and push v23 forward as the real test.
-- [ ] **v23 — TRANSFER SUITE (gated; the real ship-or-not evidence).** Prove METHOD
+- [x] **v23 — TRANSFER SUITE. RESULT (two findings):** 1.7B+airfoil vs ALONE = lists
+      10→27%, strings 7→57%, numbers 7→31% (+17/+50/+25, ALL 3 domains; 360M net-negative)
+      → the scaffold is a REAL, broad, size-scaling 3-8× amplifier of a small LLM. BUT
+      +airfoil ≈ blind (vs-blind ≈0), captures only 42-73% of oracle → uplift is
+      SEARCH-driven, not recognition-driven. Naming doesn't beat blind yet. Next lever =
+      close the combo→oracle gap (v24). ORIGINAL SPEC: Prove METHOD
       transfer: the SAME propose→search→verify harness lifts a small frozen LLM across
       ≥3 DISTINCT example→program domains chosen where the airfoil is STRONG (depth-
       compositional), not breadth-hard. Domains: (1) list functions (map/filter/sort/

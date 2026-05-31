@@ -465,6 +465,52 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Next (v23):** the transfer suite — broad uplift across 3 domains, 4 arms
   (alone / blind / +airfoil / oracle-ceiling).
 
+## v23 — the TRANSFER SUITE: broad uplift across 3 domains  (`induct_v23.py`)
+- The decisive test after ARC: same propose→search→verify harness on three DISTINCT
+  depth-compositional example→program domains — lists (30-op DSL), strings (22), numbers
+  (22) — chosen where undirected search has real HEADROOM (unlike breadth-hard ARC).
+  150 tasks/domain (depth 2-3, held-out test), node budget 160. Four arms: ALONE
+  (model emits the answer) / BLIND (no LLM, full DSL) / +AIRFOIL (model names concept
+  CATEGORIES → search those ops → verify) / ORACLE (narrow to the TRUE program's
+  categories = perfect-recognizer ceiling). (Caught a design flaw in a unit test first:
+  small DSLs left no headroom → enlarged the vocabularies. Honest header still prints
+  "depth 1-3"; tasks are 2-3.)
+- **Search baselines (model-independent):** blind→oracle = lists 27.3→64.7%,
+  strings 57.3→77.3%, numbers 29.3→59.3%. Real headroom (+37/+20/+30) for recognition.
+- **Result:**
+    ```
+                ALONE   +AIRFOIL        vs-alone  vs-blind  capture(of oracle)
+    360M  lists  10.0%   0.7% (45/150)    -9.3     -26.7      1%
+          strs    6.7%   2.0% (93/150)    -4.7     -55.3      3%
+          nums   10.0%  16.0% (131/150)   +6.0     -13.3     27%
+    1.7B  lists  10.0%  27.3% (150/150)  +17.3      +0.0     42%
+          strs    6.7%  56.7% (150/150)  +50.0      -0.7     73%
+          nums    6.7%  31.3% (150/150)  +24.7      +2.0     53%
+    ```
+- **READ — two findings, both honest:**
+  1. **BROAD UPLIFT vs the model alone is REAL and scales with size.** The 1.7B+scaffold
+     beats its own single-pass accuracy by +17 / +50 / +25 across all three domains — a
+     3-8× capability multiplication, consistent (not one lucky domain). The 360M can't
+     (net-negative: named on only 45-131/150 and narrowed wrongly); the 1.7B can (named on
+     150/150). The scaffold makes the model APPLY knowledge it has but can't EXECUTE
+     single-pass. This is Alex's thesis demonstrated — and the turn-on is at a tiny scale.
+  2. **But the uplift is SEARCH-driven, not recognition-driven.** 1.7B+airfoil ≈ blind
+     (vs-blind +0.0/-0.7/+2.0); recognition captures only 42-73% of the oracle ceiling,
+     landing at blind level. So the model's category-naming is "good enough not to hurt"
+     (1.7B) but does NOT beat undirected search — search+verify does the heavy lifting.
+     The model's latent breadth is NOT yet being effectively extracted by naming.
+- **The opportunity = the combo→oracle gap.** Oracle is +20 to +37 above blind; the 1.7B
+  leaves most of that on the table because its single-shot recognition is noisy/imperfect.
+  Closing that gap is where the model's breadth would genuinely ADD over search.
+- **GATE (Alex's ship test):** "+AIRFOIL beats BOTH floors consistently." Beats ALONE
+  decisively (broad, all 3); only TIES blind. So: a real, broad, scaling capability
+  amplifier for a small LLM — but not yet proof that recognition adds over search. Not
+  ship-ready; the method is validated as an LLM-amplifier, with a clear next lever.
+- **Next (v24):** attack RECOGNITION to capture the oracle headroom — self-consistency
+  voting (sample K, majority categories) + a never-worse-than-blind fallback (narrowed
+  search, else blind). Does better recognition push combo from ~blind toward oracle
+  (combo > blind = breadth finally adding over search)?
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
