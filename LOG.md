@@ -166,6 +166,28 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   loop — does it prevent the noisy-verifier library *poisoning* (compressing wrong
   solutions into garbage abstractions)? First true end-to-end loop test.
 
+## v10 — library poisoning & the consensus gate  (`induct_v10.py`)
+- First end-to-end loop test. Crystallize 4 primitive skills (the motifs) by
+  solving each under a verifier gate, then solve held-out COMPOSITIONS (depth 2,3)
+  purely by composing the crystallized skills (no new search). Verifier = partial
+  test suite (v9 model); gate K = # of diverse suites that must agree to crystallize.
+- **Result:**  skill / depth-2 / depth-3 correct
+    - K=1: 29 / 15 / 10      K=2: 89 / 81 / 75
+    - K=3: 96 / 92 / 90      K=5: 99 / 99 / 99
+- **Findings:** (1) poisoning AMPLIFIES through reuse — a composition is correct
+  only if every reused skill is, so accuracy compounds ~skill_acc^depth (29%→10%
+  by depth 3); one bad primitive corrupts a whole family. (2) The diverse-consensus
+  gate at crystallization restores skills→99%→compositions→99%. (3) Because reuse
+  amplifies, the gate matters MORE than in one-shot solving — it protects every
+  future composition at once.
+- **Read:** the loop closes. A cheap weak verifier + diversity AT THE GATE buys a
+  clean reusable library. In a reuse/amortization system, verification isn't
+  per-task insurance — it's the wall between you and compounding structural error.
+  This is v8+v9's payoff inside the actual loop.
+- **Next (v11):** parameterized fragments (antiunification) earning their keep, then
+  graduate toward a real abstraction benchmark (mini-ARC) — where generalization is
+  measured, not assumed.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

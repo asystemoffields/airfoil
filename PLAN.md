@@ -57,9 +57,14 @@ free lunch.
       30%→100% on the SAME budget. Redundancy only buys v8's eps^M when errors are
       independent — for systematic errors you must MANUFACTURE independence. Verifier
       diversity, not volume, is the lever.
-- [ ] **v10** wire a diverse-verifier consensus gate into the actual library loop:
-      does it prevent the noisy-verifier library POISONING (compressing wrong
-      solutions into garbage abstractions)? The first end-to-end loop test.
+- [x] **v10** library poisoning & the consensus gate (first end-to-end loop test).
+      No gate (K=1): skills 29% correct → depth-3 compositions just 10% — poisoning
+      AMPLIFIES with reuse (~skill_acc^depth). Diverse gate (K=5) → 99/99/99. Because
+      reuse compounds error, the crystallization gate matters MORE than in one-shot
+      solving — it protects every future composition at once. Loop closes.
+- [ ] **v11** parameterized (antiunification) fragments EARN their keep on a corpus
+      where a holed schema beats every ground fragment; then graduate toward a real
+      abstraction benchmark (mini-ARC subset).
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
       graduate toward an abstraction benchmark (mini-ARC subset).
 
