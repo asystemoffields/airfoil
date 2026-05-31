@@ -82,10 +82,17 @@ free lunch.
       holds held-out at 79% with 6 macros; ungoverned bloats to 24 and declines to
       75%. Suppression buys STABILITY + PARSIMONY (not, here, further climbing).
       Unifies v2 (two-part MDL) + v4 (stop where reuse stops) as the loop's governor.
-- [ ] **v15+** antiunification + a learned proposer in the loop; a real EXTERNAL
-      benchmark (mini-ARC), where the distribution isn't ours. Co-driven.
-- [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
-      graduate toward an abstraction benchmark (mini-ARC subset).
+- [x] **v15** governance that CLIMBS: given a curriculum with genuine deeper
+      structure (recurring 2-idiom phrases), the governed loop discovers a HIERARCHY
+      in steps (idioms → phrases) — held-out 25→100%, deep-solve cost ~11× cheaper
+      (2576→227 nodes) as phrases form, library stays lean. Honest scope: shows
+      hierarchy use, NOT a clean phrases-vs-idioms isolation (caught myself
+      budget-fiddling to fake a gap, stopped) — the payoff is search cost + tight-
+      budget reach.
+- [ ] **v16** the clean ablation v15 owes: matched-library idioms-vs-phrases +
+      tight-budget sweep (isolate when deeper abstraction is NECESSARY, not just
+      cheaper). Then: a learned proposer in the loop; a real EXTERNAL benchmark
+      (mini-ARC). Co-driven.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

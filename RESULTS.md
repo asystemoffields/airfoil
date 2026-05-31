@@ -60,6 +60,7 @@ over short programs.
 | **v12** | generalization **measured** (held-out) | *discovered* (not planted) library solves **100%** of novel depth-3 test-near (base 35%) within budget | test-far (held-out idiom) 25%→50% — the honest boundary |
 | **v13** | the loop **bootstraps** (wake-sleep) | round 0→1 discovering idioms lifts the solvable frontier 58→83% train, **46→79% held-out** (fixed budget, frozen base) | but *ungoverned* it bloats → held-out then **declines** (the sleep needs an Occam razor → v14) |
 | **v14** | the sleep must **suppress** | an MDL razor at the sleep holds held-out at **79%** with **6** macros | vs ungoverned: **24** macros, declines to 75% — suppression = stability + parsimony |
+| **v15** | governance that **climbs** | given recurring phrases, the governed loop discovers a *hierarchy* (idioms→phrases): held-out **25→100%**, deep-solve **~11× cheaper**, stays lean | scope: shows hierarchy *use*, not a clean phrases-vs-idioms isolation (→ v16) |
 
 ---
 
@@ -159,6 +160,12 @@ that assumption matters:
     macros) and the gain stable (held-out holds 79% vs declining to 75%). Most of
     intelligence is inhibition; the sleep's job is forgetting as much as learning.
 
+16. **And, given real structure, it climbs (v15).** With a curriculum containing
+    recurring *phrases*, the governed loop discovers a *hierarchy* — idioms, then
+    the phrases built on them — riding it to 100% held-out with deep-solving ~11×
+    cheaper, still lean. (Honestly scoped: this shows the loop *uses* a hierarchy;
+    it doesn't cleanly isolate phrases-vs-idioms — that ablation is v16.)
+
 **The recurring signature across all of it:** abstractions are a *double-edged*
 tool — a large win where structure matches, a real cost where it doesn't. That the
 controls reliably *fail* to benefit (and sometimes pay a tax) is what makes the
@@ -217,6 +224,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v14.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v15.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*

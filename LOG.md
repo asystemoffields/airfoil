@@ -271,6 +271,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   curriculum + antiunification composites that genuinely pay their way; then a
   learned proposer; then a real external benchmark.
 
+## v15 — governance that climbs (hierarchy from reusable structure)  (`induct_v15.py`)
+- Gave the governed loop a curriculum with genuine deeper structure (recurring
+  2-idiom PHRASES). Measured held-out solve-rate AND median search nodes per round
+  (both untuned).
+- **Result:** solve-rate climbs **25→62→88→100%** across rounds as the library
+  builds idioms (round 1) then phrases (rounds 2-4); median nodes to solve deep
+  held-out **drop ~11× (2576→227)** once phrases form; library stays lean (9 pieces
+  = 4 idioms + the 3 true phrases + 2 boundary scraps). Recovered the idiom→phrase
+  hierarchy.
+- **Read:** governance that CLIMBS, not just holds — the loop discovers and rides a
+  hierarchy, reaching tasks (and reaching them far cheaper) as bigger reusable
+  pieces appear, staying lean via the MDL razor.
+- **HONEST SCOPE (a self-correction):** first cut had a RANDOM control arm; tuning
+  the budget to make it plateau-below was manufacturing a gap, so I cut it. This
+  shows hierarchy *discovery + use*; it does NOT cleanly isolate "phrases beat
+  idioms" (at a generous budget idioms can suffice). The robust, untuned payoff is
+  search COST (~11× cheaper deep solving) + tight-budget reach.
+- **Next (v16):** the clean ablation — matched-library idioms-vs-phrases + a
+  tight-budget sweep (isolate when deeper abstraction is *necessary*, not just
+  cheaper).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
