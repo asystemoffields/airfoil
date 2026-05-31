@@ -194,6 +194,47 @@ controls reliably *fail* to benefit (and sometimes pay a tax) is what makes the
 
 ---
 
+## What this establishes — and its honest scope
+
+One mechanism runs through v1–v18: **compress experience into a reusable,
+MDL-governed library, and guide the search over it with a learned policy.** On
+synthetic program-induction tasks with honest controls, that mechanism:
+
+- **transfers** to novel, deeper, held-out tasks (v1, v5, v7) and is **measured,
+  not assumed** — a *discovered* library solves 100% of held-out where base does
+  35% (v12);
+- is **real MDL**, not bookkeeping (the library pays its own bits, v2), and
+  **computational**, not just descriptive (it cuts *search* ~21×, v3; +policy ~14×
+  more, v18);
+- has its **generalization optimum at the compression stopping point** — *Occam ≡
+  generalization*; compressing past reuse is mere memorization (v4);
+- **bootstraps** competence from its own experience on a *frozen* base (v13) — but
+  only if the sleep **suppresses** the junk (v14), and it only **climbs** given
+  genuine deeper structure to find (v15);
+- is **necessary, not merely cheaper**, the deeper a task is relative to the search
+  budget — flat search costs ~|V|^depth, so abstraction is the *only* way the search
+  closes in the weak-hardware regime (v17);
+- and rests on a verifier that must be cheap, **diverse** (not just repeated), and
+  **consensus-gated** against the library poisoning that reuse amplifies (v8–v10).
+
+**The scope, measured honestly (v19).** Pointed at *real ARC* — a benchmark we
+didn't design — the mechanism's payoff **vanishes**: the cross-task library that
+gave ~14× on synthetic deep tasks transfers **≈0** to held-out ARC (solve-rate
+6→6/200, search 10→10 nodes). A geometric+recolor DSL solves 6.8% of ARC by
+*coverage*, and the loop adds nothing. The reason is the cleanest statement of the
+whole project's edge **and** its limit:
+
+> **The airfoil loop is a *depth* tool, not a *breadth* tool.** It wins when
+> difficulty is *compositional reuse of shared structure* (depth) — and ARC's
+> difficulty is *many distinct shallow concepts* (breadth), a different axis. The
+> external benchmark is what told us so, not a story we told ourselves.
+
+That boundary — demonstrated on both sides — is the honest result: a real, narrow,
+defensible claim about *where* compression-as-generalization pays, earned with
+controls and an adversary, on a 7 GB laptop.
+
+---
+
 ## Honest limitations
 
 These are clean **mechanism demonstrations**, not benchmark results. In particular:
