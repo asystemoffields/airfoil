@@ -250,6 +250,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   missing governor on the loop.
 - **Next (v14):** MDL/consensus-governed crystallization inside the loop.
 
+## v14 — the sleep must suppress (governed wake-sleep)  (`induct_v14.py`)
+- Resolved v13's bloat. Governed the SLEEP with a two-part-MDL razor: keep a macro
+  only if adding it reduces total description length of the solved corpus (reuse
+  savings > storage + codebook-growth cost). Head-to-head vs v13's ungoverned
+  hoarding, same tasks/budget/seed.
+- **Result (held-out / library size per round):** both bootstrap identically
+  round 0→1 (46→79%, 6 macros). Then UNGOVERNED bloats (16→24 macros) and held-out
+  DECLINES to 75%; GOVERNED stays at 6 macros and HOLDS at 79%. Governed kept the
+  4 true idioms + 2 genuinely-reused composites; suppressed the rest.
+- **Read:** the razor buys STABILITY + PARSIMONY — the bootstrap gain holds instead
+  of self-eating, with a 4× smaller library. Governance prevents decline; it
+  doesn't by itself climb *further* here (extending the frontier needs genuinely-
+  reusable deeper structure this distribution doesn't supply). The value is in what
+  it DROPS — the biological point made mechanical: most of intelligence is
+  inhibition; the sleep's job is forgetting as much as learning (synaptic pruning,
+  made of MDL). Unifies v2 (two-part MDL) + v4 (stop where reuse stops) as the loop's
+  governor.
+- **Next (v15):** make governance CLIMB, not just hold — a phrase-structured
+  curriculum + antiunification composites that genuinely pay their way; then a
+  learned proposer; then a real external benchmark.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

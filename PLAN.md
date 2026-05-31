@@ -77,9 +77,11 @@ free lunch.
       46→79% (HELD-OUT) on a fixed budget with a frozen base, generalizing. BUT
       ungoverned it then bloats (junk composites) and held-out DECLINES — unbounded
       compression eats itself. The wake-sleep needs an Occam razor at the sleep.
-- [ ] **v14** govern the sleep: MDL/Occam pruning + a consensus gate on
-      crystallization (keep only pieces that pay their way) so the bootstrap doesn't
-      bloat — unifies v4 (stop where reuse stops) + v10 (gating) into the loop.
+- [x] **v14** govern the sleep — a two-part-MDL razor (keep a macro only if it
+      reduces total description length). Head-to-head vs v13's hoarding: governed
+      holds held-out at 79% with 6 macros; ungoverned bloats to 24 and declines to
+      75%. Suppression buys STABILITY + PARSIMONY (not, here, further climbing).
+      Unifies v2 (two-part MDL) + v4 (stop where reuse stops) as the loop's governor.
 - [ ] **v15+** antiunification + a learned proposer in the loop; a real EXTERNAL
       benchmark (mini-ARC), where the distribution isn't ours. Co-driven.
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
