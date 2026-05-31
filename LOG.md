@@ -134,3 +134,58 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Next (v7):** the real leap — a higher-order TREE DSL (map/fold with sub-program
   arguments) to test abstraction over trees, not linear pipelines (true
   DreamCoder). Stretch: a context-conditioned proposer (small net / GGUF).
+
+## v7 — the tree leap: abstraction over higher-order EXPRESSION TREES  (`induct_v7.py`)
+- The leap the whole project was building toward. Programs are now TREES, not
+  sequences: a higher-order DSL with `map(λx.body, xs)` / `filter(λx.pred, xs)`
+  where the body/pred are SUB-PROGRAMS (lambda bodies over a bound var) built from
+  leaf int ops (inc/dbl/tpl/sqr/neg/dec) and predicates (even/odd/pos). Real
+  semantics, sanity-checked (`map(λx.2x+1,·)`, `filter(pos, map(λx.x²+1,·))`, and a
+  genuinely tree-shaped depth-2 program all evaluate correctly).
+- Abstraction = the tree analogue of BPE: greedily MINE the most-reused SUBTREE
+  across the TRAIN trees, name it a library fragment, repeat until reuse runs out
+  (count<2) — the exact stopping rule of v1/v4, lifted to trees. DL of a tree =
+  node count where any subtree equal to a fragment collapses to 1 node (bottom-up).
+  Ground fragments done cleanly; one-hole antiunification done as a small honest
+  stretch (reported, NOT wired into the metric).
+- Setup mirrors v1: TRAIN = motif bodies under single + depth-2 combinator stacks;
+  TEST_RELATED = novel deeper (depth 3-4) trees REUSING the motif subtrees;
+  ctrl-disjoint = leaf ops no motif uses (true no-shared-structure control);
+  ctrl-scramble = SAME map-body leaf ops but arranged so no body-motif appears,
+  filtered by the non-trained `odd` predicate.
+- **Result (✓ holds, one honest caveat):**
+    - related        12.50 -> 6.17 nodes  (**2.03×**)
+    - ctrl-disjoint  12.50 -> 12.50       (1.00×, dead flat)
+    - ctrl-scramble  12.50 -> 11.83       (1.06×, near-flat)
+    - depth-gen: flat ~2.2× at depths 2-6 (2.40/2.29/2.22/2.18/2.15) — gently
+      DECAYING toward an asymptote (deep trees accrue cheap leaf nodes the library
+      can't collapse), not the perfectly-flat 2.25× of the linear v4/v5.
+  Library mined exactly the intended motifs (inc∘dbl, inc∘sqr, dbl∘dbl as bodies;
+  the two filters; the three full maps) plus the sub-fragment `dbl(x)`.
+- **Read:** structural transfer LIFTS from linear pipelines to trees. Recurring
+  subtrees discovered on shallow training shorten unseen deeper compositions and
+  do literally nothing for the disjoint control. The thesis is not a property of
+  the linear/BPE encoding — it keys off compositional reuse, which trees have too.
+- **Caveat (the genuinely tree-specific finding, honestly):** ctrl-scramble is
+  1.06×, not a perfect 1.00×. Cause: in a TREE, sharing a leaf op (`dbl`) means
+  sharing the 2-node subtree `dbl(x)`, which the miner names — so any control that
+  reuses leaf ops leaks a little via PARTIAL-subtree overlap. This has NO analogue
+  in v1-v6: a linear "scramble" could perfectly avoid every motif bigram, but trees
+  expose sub-motifs at every internal node. The disjoint control (no shared ops at
+  all) is therefore the clean structural control here, and it is exactly flat. An
+  earlier scramble that also reused the trained even/pos filters leaked more (1.15×);
+  isolating to leaf-only overlap drops it to 1.06×, with the residual fully
+  accounted for (5/6 trees contain `sqr(dbl(x))`, saving 1 node each).
+- **Antiunification (stretch, correct but minor):** the least-general
+  generalization of two same-shaped subtrees yields a one-hole schema, e.g.
+  `map(λx.dbl(dbl(x)), map(λx.?(dbl(x)), xs))`. It works and is deterministic, but
+  on this tiny corpus the highest-support one-hole schema only matches 2 subtrees,
+  so it earns little — left out of the DL metric on purpose (ground fragments are
+  where the measured gain lives). Real parameterized-fragment payoff needs a bigger,
+  more varied corpus.
+- **Next (v8):** (a) make antiunification EARN its keep — a corpus where a
+  parameterized schema (map-over-any-op, fold-with-any-combiner) beats every ground
+  fragment, and fold them into the DL metric to measure parameterized transfer; or
+  (b) graduate toward a mini-ARC / abstraction-benchmark subset (the PLAN's other v7
+  branch) now that tree abstraction is demonstrated. Lean (a): it's the honest next
+  rung — ground subtrees transferred; the open question is whether HOLED subtrees do.

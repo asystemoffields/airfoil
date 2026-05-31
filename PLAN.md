@@ -37,7 +37,17 @@ free lunch.
       best-first search. Related 12.7× fewer nodes than uniform (~270× cumulative
       over naive); control 0.4× (guidance actively mis-prioritizes where no
       structure was learned). Objective unchanged — the learner just guides.
-- [ ] **v7** graduate toward an abstraction benchmark (mini-ARC subset).
+- [x] **v7** the tree leap: higher-order TREE DSL (map/filter over sub-program
+      lambda bodies), abstraction by mining recurring SUBTREES (BPE-for-trees),
+      DL = node count with fragments as 1 node. Related compresses **2.03×**,
+      disjoint control dead flat (1.00×), depth-gen ~2.2× (depths 2-6). Honest
+      tree-specific caveat: same-leaf-ops control isn't perfectly flat (1.06×) —
+      sharing a leaf op shares the tiny subtree `dbl(x)`, a partial-subtree leak
+      with no linear analogue. Antiunification (holed fragments) sketched & correct
+      but earns little on this tiny corpus → deferred to v8.
+- [ ] **v8** make parameterized (antiunification) fragments EARN their keep on a
+      corpus where a holed schema beats every ground fragment; OR graduate toward an
+      abstraction benchmark (mini-ARC subset).
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
