@@ -58,6 +58,7 @@ over short programs.
 | **v10** | the loop closes (poisoning) | no gate: skills 29% → depth-3 compositions **10%** (reuse amplifies error); diverse gate → **99/99/99** | — |
 | **v11** | reuse a *pattern* (antiunification) | on a non-contiguous template, exact reuse learns nothing; a schema → **1.5×** desc, **51×** less search, generalizes to unseen fillers | exact/BPE: **0** |
 | **v12** | generalization **measured** (held-out) | *discovered* (not planted) library solves **100%** of novel depth-3 test-near (base 35%) within budget | test-far (held-out idiom) 25%→50% — the honest boundary |
+| **v13** | the loop **bootstraps** (wake-sleep) | round 0→1 discovering idioms lifts the solvable frontier 58→83% train, **46→79% held-out** (fixed budget, frozen base) | but *ungoverned* it bloats → held-out then **declines** (the sleep needs an Occam razor → v14) |
 
 ---
 
@@ -201,6 +202,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v12.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v13.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*

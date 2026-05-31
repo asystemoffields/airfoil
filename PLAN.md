@@ -72,9 +72,16 @@ free lunch.
       untold); evaluated on NOVEL depth-3 held-out tasks vs a base baseline at a
       fixed budget. test-near: base 35% → learned 100%. test-far (held-out idiom):
       25% → 50% (honest boundary). Discovered, held-out, baselined — not planted.
-- [ ] **v13** push the realism further: (a) iterative wake-sleep (not single pass);
-      (b) wire v11 antiunification + v6 proposer into THIS loop; (c) a real external
-      benchmark (mini-ARC subset) where the distribution isn't ours. Co-driven.
+- [x] **v13** iterative wake-sleep — the loop BOOTSTRAPS: round 0→1, discovering
+      idioms from its own solutions lifts the solvable frontier 58→83% (train) and
+      46→79% (HELD-OUT) on a fixed budget with a frozen base, generalizing. BUT
+      ungoverned it then bloats (junk composites) and held-out DECLINES — unbounded
+      compression eats itself. The wake-sleep needs an Occam razor at the sleep.
+- [ ] **v14** govern the sleep: MDL/Occam pruning + a consensus gate on
+      crystallization (keep only pieces that pay their way) so the bootstrap doesn't
+      bloat — unifies v4 (stop where reuse stops) + v10 (gating) into the loop.
+- [ ] **v15+** antiunification + a learned proposer in the loop; a real EXTERNAL
+      benchmark (mini-ARC), where the distribution isn't ours. Co-driven.
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
       graduate toward an abstraction benchmark (mini-ARC subset).
 

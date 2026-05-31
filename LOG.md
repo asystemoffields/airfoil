@@ -230,6 +230,26 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Next (v13):** iterative wake-sleep; wire in v11 antiunification + v6 proposer;
   then a real external benchmark (mini-ARC).
 
+## v13 — the loop bootstraps (iterative wake-sleep)  (`induct_v13.py`)
+- Closed v12's single pass into the wake-sleep loop: WAKE (solve train within a
+  fixed budget with the current library), SLEEP (BPE-compress everything solved so
+  far → grow the library), repeat. Tracked train + HELD-OUT solve-rate per round.
+- **Result:** round 0 (base) 58% / 46% (train / held-out) → round 1 (idioms
+  discovered) **83% / 79%** — the bootstrap: one wake-sleep cycle expands the
+  solvable frontier on a FIXED budget with a frozen base, and generalizes
+  (held-out rises with train). Rounds 2-4: train plateaus 83%, held-out **declines**
+  82→75%.
+- **The honest failure:** the library grows unchecked to 24 macros, many junk
+  composites (shortest-equivalent scrambling at composition boundaries); a bloated
+  vocabulary raises the search branching factor (the v3/v6 tax), re-burying tasks
+  past budget. Ungoverned compression bloats and degrades.
+- **Read:** the loop genuinely bootstraps competence from experience (no extra
+  compute, frozen base) — but it needs an **Occam razor AT THE SLEEP**.
+  Crystallization must be governed (MDL: keep only pieces that pay their way, v4;
+  consensus-gate, v10) or unbounded growth eats the gain. Unifies v4 + v10 as the
+  missing governor on the loop.
+- **Next (v14):** MDL/consensus-governed crystallization inside the loop.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
