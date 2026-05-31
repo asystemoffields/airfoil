@@ -173,6 +173,18 @@ free lunch.
       domain-appropriate DSL but ONE harness. SHIP CRITERION: lift positive AND
       consistent across all three → not ARC-overfit → earns the HF card. Then (and only
       then) the rung-A/C "shippable airfoil" repo (harness + GGUF + GBNF grammar).
+- [x] **v24 — close the recognition gap (voting + fallback). RESULT: did NOT close it.**
+      Self-consistency majority/union voting + blind-fallback; best vs-blind +1.3 to +2.0
+      (within ±3% noise). DIAGNOSIS from op-set sizes: the 1.7B OVER-INCLUDES (majority
+      names ~20-25 of ~22-30 ops → no narrowing → combo=blind); 360M UNDER-includes
+      (~3-4 → misses). The model HAS the breadth but can't SELECT which concepts are
+      RELEVANT to a task — relevance-discrimination is the gap, not knowledge.
+- [ ] **v25 — force SELECTION:** make the recognizer RANK categories, take a forced top-K
+      (sweep K=1,2,3). Decisive either way: if forced top-K → oracle, the model CAN
+      discriminate when compelled (selection-pressure was the missing ingredient); if it
+      still misses, the model genuinely can't rank task-relevance → pivot to the LLM as a
+      PROGRAM proposer (concrete op-sequences + verify, à la v18 policy) rather than a
+      category recognizer. This is the crux of "breadth is there; how to apply it."
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

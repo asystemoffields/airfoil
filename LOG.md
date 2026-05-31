@@ -511,6 +511,41 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   search, else blind). Does better recognition push combo from ~blind toward oracle
   (combo > blind = breadth finally adding over search)?
 
+## v24 — close the recognition gap: voting + fallback (the diagnosis)  (`induct_v24.py`)
+- v23 left combo ≈ blind (recognition captured only 42-73% of oracle). Tested whether
+  better recognition closes it: self-consistency MAJORITY-vote (≥2/3, precision) vs
+  UNION-vote (≥1/3, recall), each ± a blind-fallback (narrowed search; else full DSL).
+  Voted ONCE per task (K=3, T=0.7), all thresholds from the same samples. Same tasks/
+  seeds as v23 (blind matches exactly; oracle ±3% from set-order hash noise — see caveat).
+- **Result — voting did NOT close the gap.** Best vs-blind across every model×domain:
+  +0.7 to +2.0 — all within the ±3% noise. Fallback reliably recovers to blind (the
+  engineering works — never worse), but NO strategy exceeds blind.
+    ```
+    1.7B  lists  blind 27.3 | MAJ 25.3 (ops~25!) MAJ+FB 28.7 | UNI 27.3 (ops~27!) | oracle 67.3
+          strs   blind 57.3 | MAJ 56.7 (ops~21!) MAJ+FB 58.7 | UNI 57.3 (ops~21!) | oracle 75.3
+          nums   blind 29.3 | MAJ 31.3 (ops~20)  MAJ+FB 31.3 | UNI 31.3 (ops~20)  | oracle 52.0
+    360M  lists  blind 27.3 | MAJ  1.3 (ops~4)   MAJ+FB 27.3 | UNI  6.7 (ops~11)  | oracle 67.3
+    ```
+- **THE DIAGNOSIS (the real finding — read the op-set sizes):** the two models fail for
+  OPPOSITE reasons, same outcome. The **1.7B OVER-INCLUDES**: even a 2-of-3 majority names
+  ~20-25 of ~22-30 ops — nearly the WHOLE DSL — so "narrowing" doesn't narrow, the op-set
+  stays ≈ full, depth never grows, combo = blind. The **360M UNDER-INCLUDES** (majority
+  ops~3-4) → excludes the needed category → near-zero, only the fallback saves it. Voting
+  can't fix over-inclusion (the model consistently over-names) nor manufacture recall the
+  model never had.
+- **INTERPRETATION (lands on Alex's thesis).** The model HAS the breadth — it knows every
+  category — but cannot SELECT which are RELEVANT to a specific task. Asked "which apply?",
+  the 1.7B answers "most of them." The missing capability is **relevance-discrimination /
+  precise selection**, NOT knowledge. "Tremendous breadth in the data; the gap is getting
+  it to apply itself" = the model can't pick the RIGHT few concepts for THIS task. That is
+  precisely why the scaffold's uplift is search-driven: search does the selecting that the
+  model won't.
+- **Next (v25):** force SELECTION — make the recognizer RANK categories and take a forced
+  top-K (sweep K=1,2,3). Does forcing a small choice let the model discriminate relevance
+  and approach oracle (selection works when compelled), or does forced top-K still miss
+  (the model genuinely can't rank relevance)? Either way it's decisive — and points to
+  whether the LLM should instead propose concrete PROGRAMS (a proposer, not a recognizer).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
