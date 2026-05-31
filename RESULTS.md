@@ -243,6 +243,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v17.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v18.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*

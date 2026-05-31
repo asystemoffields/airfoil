@@ -333,6 +333,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   not resources.
 - **Next (v18):** a learned proposer in the loop; then a real EXTERNAL benchmark.
 
+## v18 — learned policy in the loop (branching × depth)  (`induct_v18.py`)
+- Put a learned bigram policy INSIDE the governed wake-sleep loop (on v17's
+  incompressible mod-P domain, so node counts are honest). WAKE = policy-guided
+  best-first search over the current library; SLEEP = govern library by MDL +
+  retrain the policy on all solved traces. Measured held-out median search NODES
+  {uniform-order, policy-order} over the SAME library, per round.
+- **Result:** round0 (no lib/policy) 48,858 both (1/5 solved); round1 (5 macros)
+  uniform 1,130 / policy 138 (**8.2×**, 4/5); rounds 2-4 uniform ~180-220 / policy
+  ~16-17 (**10-14×**, 5/5). Co-evolution is explicit: the library makes deep
+  held-out REACHABLE (depth↓: 48k→~200), the policy makes reaching it CHEAP
+  (branching↓: ~200→~16), and both improve across rounds.
+- **Read:** the two cheap peripherals MULTIPLY — library attacks depth, policy
+  attacks branching, on a frozen base. The "domesticated learner" (v6) finally in
+  its home, co-evolving with the abstraction it guides. This is the complete
+  amortization loop (propose → search → govern → reuse) from the design
+  conversation, working end-to-end.
+- **Next:** v18b (staged) — a frozen small GGUF as an OUTER-loop proposer (now
+  confirmed runnable, ~72 tok/s; module `gguf_proposer.py`): does the LLM prior,
+  called sparingly, beat the cheap inner policy enough to justify its latency? Then
+  v19: a real EXTERNAL benchmark (mini-ARC).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

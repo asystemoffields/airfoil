@@ -102,12 +102,16 @@ free lunch.
       300); depth-6 idioms NEVER within 100k (phrases from 3k). Idiom cost ~|V|^depth
       runs away exponentially; deeper abstraction is REQUIRED, not just cheaper.
       The airfoil thesis quantified. Resolves v16's confound.
-- [ ] **v18** a learned proposer in the loop, co-evolving with the governed library
-      (v6's bigram → context-conditioned policy). Inner loop = KB-sized policy
-      (~µs/call, attacks branching); a local small GGUF (confirmed runnable, ~72
-      tok/s) is available as an OUTER-loop proposer / for task & CoT generation.
-      Measure {uniform, library, library+proposer} search cost on held-out per round.
-- [ ] **v19+** a real EXTERNAL benchmark (mini-ARC), distribution not ours. Co-driven.
+- [x] **v18** learned policy in the loop (inner-loop, KB-sized bigram). Policy-order
+      vs uniform-order over the same governed library, on v17's incompressible domain:
+      held-out deep tasks solved in ~14× fewer nodes (220→16); the policy (branching↓)
+      and library (depth↓) co-evolve across rounds (round 0 identical → round 4 13.8×).
+      The complete amortization loop running end-to-end on a frozen base.
+- [~] **v18b** (staged) a frozen small GGUF as an OUTER-loop proposer — sparse
+      high-level suggestions (a few calls/task, latency-amortized), vs the cheap inner
+      policy. Module: `gguf_proposer.py` (loads SmolLM2-360M, ~72 tok/s). Measure
+      next: does the LLM prior beat the learned policy enough to justify its latency?
+- [ ] **v19** a real EXTERNAL benchmark (mini-ARC), distribution not ours.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
