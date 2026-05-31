@@ -1,4 +1,4 @@
-# Compression as Generalization — results (v0–v7)
+# Compression as Generalization — results (v0–v17)
 
 *A small, self-contained line of experiments testing one idea: that a system whose
 objective is the **shortest reusable description** of its data will **generalize**,
