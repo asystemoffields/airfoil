@@ -402,6 +402,29 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
 - **Status:** the thesis's questions are answered and its scope honestly mapped. The
   core arc is complete; consolidating (a closing synthesis in RESULTS.md).
 
+## v20 — the breadth half: recognition as architecture (falsified, then reframed)  (`induct_v20.py`)
+- Added the missing breadth half as a feature-based recognizer + a bigger DSL;
+  tested 3 ways on ARC (small / big-no-recog / big+recog), same depth-2 + recolor
+  engine, differing only in the op-set offered.
+- **Result:** small **5.8%**, big-no-recog **6.5%**, big+recog **6.0%**; overfit 1/1/1.
+- **PREDICTION FALSIFIED (straight):** (a) no overfit materialized — ARC's 3-5 train
+  pairs constrain enough that a bigger vocabulary doesn't spuriously fit, so
+  recognition's theorized "per-task Occam" benefit had nothing to regularize; (b) the
+  crude feature-recognizer slightly HURT (6.5→6.0) by excluding the op some tasks
+  needed; its only win was cheaper search (irrelevant at this scale). Real lever at
+  ARC's scale = raw DSL COVERAGE (5.8→6.5% just by adding ops).
+- **REFRAME (converges with Alex's "this is perfect for an LLM"):** a hand-coded
+  recognizer is too dumb to BE the breadth half. Genuine recognition — read a novel
+  task, infer which concepts it needs — is perception + world-knowledge, i.e. an
+  LLM's job, not a feature heuristic. v20 falsifies the cheap recognizer and sharpens
+  the spec: **the breadth organ is an LLM.** Honest constraint: a local 360M is far
+  too weak for ARC recognition; the architecture is right but recognizer-quality-gated
+  on 7GB hardware — the laptop's limit bites precisely on the BREADTH half (which wants
+  the big frozen model), while the depth half runs great cheap. ("Freeze the expensive
+  object" — its natural role is recognition/breadth.)
+- **Next (v21):** LLM-as-recognizer — test what a runnable local model can recognize,
+  and name the gap honestly.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

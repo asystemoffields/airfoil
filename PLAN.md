@@ -125,10 +125,20 @@ free lunch.
       train → held-out transfer ≈0 (solve 6→6/200, nodes 10→10), vs ~14× on synthetic
       deep tasks (v18). The airfoil loop is a DEPTH tool, not a BREADTH tool — ARC is
       breadth-hard. The external benchmark mapped the scope. Thesis questions answered.
-- [ ] **next (the other side of the boundary)** test the loop on a DEPTH-compositional
-      *realistic* benchmark (e.g. list-functions à la Rule), where it SHOULD help —
-      completing the boundary picture from both sides. (LLM-proposer/retrieval scaling
-      remain open.) But the core arc is complete + honestly scoped; consolidate first.
+- [x] **v20** the BREADTH half as architecture test (feature-recognizer + bigger DSL
+      on ARC, 3 conditions). PREDICTION FALSIFIED: small 5.8% / big-no-recog 6.5% /
+      big+recog 6.0%; overfit 1/1/1. No overfit materialized (ARC's 3-5 train pairs
+      constrain → nothing for recognition to regularize); the crude recognizer slightly
+      HURT (excluded needed ops). Real lever = raw DSL coverage. REFRAME (= Alex's "this
+      is perfect for an LLM"): a hand-coded recognizer is too dumb to BE the breadth
+      half — genuine recognition is perception+world-knowledge = an LLM's job.
+- [ ] **v21** LLM-as-recognizer: a model reads an ARC task → proposes relevant
+      concepts/ops → narrows the depth-engine. Honest constraint: local 360M far too
+      weak (clueless on grids); the laptop's RAM limit bites precisely on the BREADTH
+      organ (which wants the big frozen model) while the depth half runs cheap. Test
+      what a runnable local model (e.g. a 1-3B Q4) can recognize, and name the gap.
+- [ ] **(other side)** also: loop on a depth-compositional *realistic* benchmark
+      (list-functions), where it SHOULD help — the positive other-side case.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

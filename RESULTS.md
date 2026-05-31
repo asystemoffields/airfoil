@@ -1,4 +1,4 @@
-# Compression as Generalization — results (v0–v19)
+# Compression as Generalization — results (v0–v20)
 
 *A small, self-contained line of experiments testing one idea: that a system whose
 objective is the **shortest reusable description** of its data will **generalize**,
@@ -65,6 +65,7 @@ over short programs.
 | **v17** | the necessity window, **clean** | provably-incompressible tasks (each idiom doubles degree): idiom cost ~\|V\|^depth — d6 **unsolved** within 100k — vs phrases near-flat (161→2,108 nodes) | resolves v16: deeper abstraction is **required**, not just cheaper |
 | **v18** | learned **policy** in the loop | policy-order vs uniform-order over the same library: held-out deep tasks **~14× fewer nodes** (220→16); policy (branching↓) + library (depth↓) co-evolve | round 0 (no lib/policy) identical — gain is purely the learned ordering |
 | **v19** | the **external** benchmark (real ARC) | geometric→**5.0%**; +recolor+scale→**6.8%** (27/400). But the **cross-task loop added nothing** | **boundary mapped**: the loop attacks *depth* (v1–v18); ARC is *breadth*-hard — a different axis. Honest scope, not a win |
+| **v20** | the **breadth** half (recognition) | architecture test on ARC: small 5.8% / big-no-recog **6.5%** / big+recog 6.0%; overfit 1/1/1 | prediction **falsified** — recognition needs an LLM (perception), not a heuristic → v21 |
 
 ---
 
@@ -286,6 +287,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v19.py` (v19 needs the ARC clone at /data/arc). Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v20.py` (v19/v20 need the ARC clone at /data/arc). Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*
