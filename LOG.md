@@ -116,3 +116,21 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   search-efficiency gain (where a small model could play proposer); or (b) the
   jump to a higher-order tree DSL. Lean (a) first — smaller, and directly tests
   the "domesticated learner" idea from the design conversation.
+
+## v6 — the domesticated learner  (`induct_v6.py`)
+- Added a bigram proposer over the library symbols (fit on the training
+  solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
+  objective is unchanged (find a program that fits); only the *search order* is
+  guided by the learned model.
+- **Result:** RELATED uniform 1,207 → guided **95** nodes = **12.7×** further
+  speedup (on top of v3's 21× over base ≈ **270× cumulative**). CONTROL uniform
+  499 → guided 1,206 (**0.4× — SLOWER**: the learned prior mis-prioritizes,
+  confidently exploring motif-shaped branches when none apply).
+- **Read:** the learner, domesticated to guide the search, earns its keep exactly
+  where structure was learned and actively taxes where it wasn't — the same
+  double-edge as v2/v3, now at the proposer level. Confirms the design-conversation
+  framing: choosing compression as the objective doesn't banish the learner; it
+  leashes it to guiding the program search, which is where sample-efficiency lives.
+- **Next (v7):** the real leap — a higher-order TREE DSL (map/fold with sub-program
+  arguments) to test abstraction over trees, not linear pipelines (true
+  DreamCoder). Stretch: a context-conditioned proposer (small net / GGUF).

@@ -33,8 +33,10 @@ free lunch.
       drop, real semantics). Transfer 2.28×, controls flat, depth-gen flat 2.25× —
       identical to the toy DSL → thesis is domain-agnostic, not a toy artifact.
       (Still linear; true higher-order TREE abstraction = v6/v7.)
-- [ ] **v6** the domesticated learner: a learned search guide (features → which
-      symbol to try) vs uniform search. (A small GGUF could play proposer here.)
+- [x] **v6** the domesticated learner: a bigram proposer over the library guides
+      best-first search. Related 12.7× fewer nodes than uniform (~270× cumulative
+      over naive); control 0.4× (guidance actively mis-prioritizes where no
+      structure was learned). Objective unchanged — the learner just guides.
 - [ ] **v7** graduate toward an abstraction benchmark (mini-ARC subset).
 
 ## Constraints
