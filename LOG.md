@@ -78,3 +78,22 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   generalize-vs-memorize boundary: does minimizing description cost on TRAIN start
   *memorizing* whole training compositions instead of learning generic motifs?
   Find the abstraction level that maximizes *held-out* generalization.
+
+## v4 — depth generalization + memorize-vs-generalize  (`induct_v4.py`)
+- **A. Depth generalization:** trained on depth≤2; the motif library compresses
+  novel depth-3/4/5/6 compositions at a FLAT **2.25×** (2.25/2.25/2.25/2.26).
+  Constant per-motif ratio across depth = genuine compositional generalization
+  beyond the trained depth, not interpolation.
+- **B. Memorize vs generalize:** BPE naturally halts at the 4 generic motifs
+  (whole-pair adjacencies occur once → freq<2 → no merge). Force-memorizing the
+  10 seen training pairs as macros cuts TRAIN 24→14 symbols (1.71×) but leaves
+  novel held-out (descending-index, never-trained adjacencies) UNCHANGED at 16.
+  => compressing past the generic motifs is pure memorization.
+- **Read:** the thesis's two halves converge — the shortest *reusable* description
+  (generic motifs) is exactly what generalizes; pushing compression further just
+  overfits the training set. The objective's own stopping point = the
+  generalization optimum (the Occam result of v2, now tied to generalization).
+  "Shortness that generalizes stops where reuse stops."
+- **Next (v5):** richer DSL — lists with map/fold/filter + parameterized ops — to
+  test whether the story survives in a combinatorially larger, more realistic
+  program space (DreamCoder-style list functions). Where it gets real.

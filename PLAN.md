@@ -25,8 +25,10 @@ free lunch.
 - [x] **v3** search-cost transfer: learned library solves held-out RELATED tasks
       in 21× fewer search nodes (25,761→1,207); CONTROL ~3× slower (branching tax,
       no shortcut). Abstractions = search accelerators where structure matches.
-- [ ] **v4** depth generalisation: train on depth ≤k, test on depth >k. Real
-      compositional generalisation, not interpolation.
+- [x] **v4** depth generalisation: trained depth≤2 → flat 2.25× compression at
+      depths 3-6 (compositional, not interpolation). Memorize-vs-generalize:
+      forcing compression past generic motifs cuts TRAIN 1.71× but leaves novel
+      held-out unchanged → BPE's own stopping point = the generalization optimum.
 - [ ] **v5** richer DSL (lists: map/fold/filter, parameterised ops) → a proper
       DreamCoder-style "list functions" testbed.
 - [ ] **v6** the domesticated learner: a learned search guide (features → which
