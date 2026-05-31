@@ -354,6 +354,23 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   called sparingly, beat the cheap inner policy enough to justify its latency? Then
   v19: a real EXTERNAL benchmark (mini-ARC).
 
+## v19 (cycle 1) — the external benchmark: real ARC, honest baseline  (`induct_v19.py`)
+- Pointed the apparatus at ARC-AGI (fchollet/ARC, 400 public training tasks) — a
+  grid→grid distribution we did NOT design or tune. Cycle 1 = harness + baseline:
+  a parameter-free GEOMETRIC grid DSL (rotate/flip/transpose/crop-to-content/tile/
+  mirror, 11 ops) + depth-≤3 search that must map EVERY train pair, scored on the
+  held-out test grid (ARC's exact-match metric). No library/policy yet.
+- **Result:** **20/400 = 5.0%** solved (train-consistent AND test-correct — the
+  geometric programs generalize, no overfit). Solved tasks are exactly the
+  geometric slice (crop, mirror_h mirror_v, rot180, transpose, tile_h, …).
+- **Read:** honest floor. ARC's hard mass needs recoloring, objects, counting,
+  parameterized ops, and cross-task reusable abstraction — i.e. the airfoil loop.
+  5.0% is the number to beat. The real adversary the project was built to face;
+  a clean win is not expected, and that's the point.
+- **Next (v19 cycle 2+):** add color-map inference + parameterized/object ops; then
+  the loop ACROSS tasks (a library of reusable grid transforms + policy) — does
+  cross-task abstraction push past the geometric floor?
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

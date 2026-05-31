@@ -111,7 +111,13 @@ free lunch.
       high-level suggestions (a few calls/task, latency-amortized), vs the cheap inner
       policy. Module: `gguf_proposer.py` (loads SmolLM2-360M, ~72 tok/s). Measure
       next: does the LLM prior beat the learned policy enough to justify its latency?
-- [ ] **v19** a real EXTERNAL benchmark (mini-ARC), distribution not ours.
+- [~] **v19** EXTERNAL benchmark: real ARC (fchollet/ARC, 400 tasks), distribution
+      not ours. **Cycle 1 baseline:** parameter-free geometric DSL (11 ops) + depth-3
+      search solves **20/400 = 5.0%** (geometric slice; train-consistent programs also
+      pass held-out test — no overfit). The honest floor.
+- [ ] **v19 cycle 2+** add recolor (infer color map) / object / parameterized ops;
+      then the airfoil loop ACROSS tasks (library of reusable grid transforms +
+      policy) — does cross-task abstraction beat the 5% geometric floor?
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

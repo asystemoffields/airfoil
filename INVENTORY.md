@@ -16,6 +16,8 @@ Keep this honest so nothing is a mystery later. Format: what / where / size / wh
 - `/data/llm/models/smollm2-360m-q8.gguf` — SmolLM2-360M-Instruct Q8_0, 384 MB
   (bartowski/SmolLM2-360M-Instruct-GGUF). Verified generating on CPU at ~72 tok/s
   (Zen3). For LLM-as-proposer experiments.
+- `/data/arc/` — ARC-AGI dataset (git clone fchollet/ARC; 400 training + 400
+  evaluation tasks, JSON grids). The external benchmark for v19.
 
 ## Notes
 - Project lives at /data/Windows-files/Documents/airfoil (local git +
