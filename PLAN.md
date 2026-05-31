@@ -179,12 +179,18 @@ free lunch.
       names ~20-25 of ~22-30 ops → no narrowing → combo=blind); 360M UNDER-includes
       (~3-4 → misses). The model HAS the breadth but can't SELECT which concepts are
       RELEVANT to a task — relevance-discrimination is the gap, not knowledge.
-- [ ] **v25 — force SELECTION:** make the recognizer RANK categories, take a forced top-K
-      (sweep K=1,2,3). Decisive either way: if forced top-K → oracle, the model CAN
-      discriminate when compelled (selection-pressure was the missing ingredient); if it
-      still misses, the model genuinely can't rank task-relevance → pivot to the LLM as a
-      PROGRAM proposer (concrete op-sequences + verify, à la v18 policy) rather than a
-      category recognizer. This is the crux of "breadth is there; how to apply it."
+- [x] **v25 — force SELECTION. RESULT: decisive NO.** recall@2 at/below chance on 6-7-cat
+      vocabularies (1.7B lists 2%, strings 6%); only 1.7B numbers (4 cats) beats chance
+      (49%@2, 73%@3) but accuracy still ≈blind (precision↔depth squeeze). The model can't
+      rank task-relevance — category-naming forces it through OUR invented ontology, a
+      foreign interface. Knowledge present, selection absent.
+- [ ] **v26 — PIVOT: LLM as PROGRAM proposer (native code).** Code-from-examples is
+      in-distribution (pretraining), unlike our taxonomy. Model writes `def f(x): ...` →
+      SANDBOX-exec (whitelisted builtins, no imports, timeout) → verify on train pairs →
+      sample-K-and-keep. Compare vs model-alone AND blind DSL search. The unlock to test:
+      a one-line `sorted(set(x))[::-1]` is a compressed deep composition blind search can't
+      reach within budget → breadth (code knowledge) directly buys depth. If this beats
+      blind, the uplift flips from search-driven to MODEL-driven.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

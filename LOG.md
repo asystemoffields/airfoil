@@ -546,6 +546,35 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   (the model genuinely can't rank relevance)? Either way it's decisive — and points to
   whether the LLM should instead propose concrete PROGRAMS (a proposer, not a recognizer).
 
+## v25 — can the model SELECT? forced ranked top-K (decisive: NO)  (`induct_v25.py`)
+- Force a choice: model RANKS the categories, take forced top-K (K=1,2,3). recall@K =
+  fraction of tasks where the TRUE program's categories all fall in the top-K — a DIRECT,
+  search-free test of relevance-ranking. accuracy = top-K narrowed search ± blind-fallback.
+  Op-sets ordered by DSL index → deterministic (fixes v23/v24's ±3% set-order noise).
+- **recall@2 vs random:** lists(7 cats, rand ~5%): 360M 4 / 1.7B 2.  strings(6, ~7%):
+  2 / 6.  numbers(4, ~17%): 30 / 49.  → on the 6-7-category vocabularies BOTH models rank
+  at/below CHANCE; only the 1.7B on numbers (4 cats) beats chance (recall@2 49, @3 73).
+- **Accuracy never reaches oracle even when recall rises:** 1.7B numbers top3 raw 30.0
+  (= blind 29.3) — top-3 of 4 cats = ~¾ of the DSL = broad op-set → shallow depth; top-2 is
+  tight enough but recall@2 only 49% → misses half. The model is caught between "tight
+  enough for depth" and "right enough to include the needed ops." Best +FB just recovers
+  ≈ blind everywhere.
+- **READ (decisive):** the model CANNOT reliably rank task-relevance into a tight top-K.
+  Forcing selection doesn't unlock it. Confirms v24's diagnosis at the root: the task →
+  relevant-concepts mapping is essentially absent in these small models. (Honest bright
+  spot: 1.7B numbers recall climbs 8→49→73 with K — not zero signal, just far too weak/
+  uncalibrated to drive a tight narrowing, and only on the smallest vocabulary.)
+- **WHY (the deeper reason).** Category-ranking asks the model to classify a task into OUR
+  invented ontology (order / elementwise / scan / affix) — a foreign vocabulary nothing in
+  pretraining grounds. Wrong interface for a small model's knowledge. The model's breadth
+  is stored as CODE/language patterns, not as our labels.
+- **Next (v26): PIVOT — LLM as PROGRAM proposer in its NATIVE representation (Python).**
+  Code-from-examples is in-distribution (everywhere in pretraining), unlike our taxonomy.
+  Model writes `def f(x): ...` → sandbox-exec → verify on train pairs → sample-K-and-keep.
+  Mechanism that can finally beat blind: a one-line `sorted(set(x))[::-1]` is a COMPRESSED
+  deep composition the budgeted DSL search can't reach — breadth (code knowledge) directly
+  buys depth, rather than trying to prune our DSL.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
