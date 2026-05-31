@@ -64,7 +64,7 @@ over short programs.
 | **v16** | when is depth *necessary*? (budget sweep) | matched libs + budget sweep: necessity regime is **real** (depth-6 idioms cap 67% within 100k; phrases 100%) | *confounded*: some "deep" tasks collapse to short functions → inflates idiom baseline; clean isolation = v17 |
 | **v17** | the necessity window, **clean** | provably-incompressible tasks (each idiom doubles degree): idiom cost ~\|V\|^depth — d6 **unsolved** within 100k — vs phrases near-flat (161→2,108 nodes) | resolves v16: deeper abstraction is **required**, not just cheaper |
 | **v18** | learned **policy** in the loop | policy-order vs uniform-order over the same library: held-out deep tasks **~14× fewer nodes** (220→16); policy (branching↓) + library (depth↓) co-evolve | round 0 (no lib/policy) identical — gain is purely the learned ordering |
-| **v19** c1 | the **external** benchmark (real ARC) | parameter-free geometric DSL + search: **20/400 (5.0%)** of real ARC training, test-correct, no overfit | honest floor; ARC's hard mass needs recolor/objects/cross-task library — next cycles |
+| **v19** | the **external** benchmark (real ARC) | geometric→**5.0%**; +recolor+scale→**6.8%** (27/400). But the **cross-task loop added nothing** | **boundary mapped**: the loop attacks *depth* (v1–v18); ARC is *breadth*-hard — a different axis. Honest scope, not a win |
 
 ---
 
