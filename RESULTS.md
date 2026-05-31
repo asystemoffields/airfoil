@@ -53,6 +53,9 @@ over short programs.
 | **v5** | does it survive a real domain? | list-processing pipelines: related **2.28×**, depth-gen flat | controls **flat** — identical to the toy DSL |
 | **v6** | the domesticated learner | a learned proposer guides search **another 12.7×** (~**270×** cumulative) | control **0.4×** (guidance mis-prioritizes where no structure exists) |
 | **v7** | the tree leap (higher-order) | trees: related **2.03×**, depth-gen ~2.2× | disjoint control **flat (1.00×)**; same-leaf control 1.06× (see caveat) |
+| **v8** | the verifier (the load-bearing wall) | a 10% false-accept verifier *alone* → **4%** solved; redundancy rescues as `eps^M` (M=3→92%, M=5→100%) | — |
+| **v9** | repetition vs diversity | systematic-error verifier: repetition flat **~29%**; *diverse* verifiers (same budget) → **100%** | — |
+| **v10** | the loop closes (poisoning) | no gate: skills 29% → depth-3 compositions **10%** (reuse amplifies error); diverse gate → **99/99/99** | — |
 
 ---
 
@@ -97,6 +100,29 @@ distinct objection to the last:
    `map`/`filter` over sub-program lambdas — genuine trees — the story survives:
    recurring *subtrees* mined from shallow training shorten novel deeper trees.
 
+**Part II — the wall it all rests on (v8–v10).** Everything above assumes a
+verifier (run the program, check the examples — *free and perfect* in program
+synthesis, noisy and expensive everywhere real). Three results pin down how much
+that assumption matters:
+
+9. **A weak verifier is catastrophic *alone* (v8).** A 10% false-accept rate drops
+   solving to 4% — there are so many short *wrong* candidates that one fluke
+   acceptance ends the search on garbage. But redundancy rescues it *exponentially*
+   (`eps^M`): a few independent confirmations restore reliability. You don't need a
+   *reliable* verifier — a cheap one plus confirmation suffices.
+
+10. **…but only if the errors are independent (v9).** Real verifiers fail
+    *systematically*. Repeating one weak verifier stays flat (~29%); spending the
+    same budget on *diverse* verifiers climbs to 100%. The lever is **diversity, not
+    volume** — you must *manufacture* the independence v8 assumed for free.
+
+11. **In a reuse system, verification is load-bearing (v10).** A verifier error
+    doesn't cost one task — it poisons a *reusable* skill, and the error compounds
+    with composition depth (`~accuracy^depth`: 29% skills → 10% at depth 3). A
+    diverse-consensus gate at crystallization keeps the library clean (→99%), and
+    matters *more* than in one-shot solving because it protects every future reuse
+    at once.
+
 **The recurring signature across all of it:** abstractions are a *double-edged*
 tool — a large win where structure matches, a real cost where it doesn't. That the
 controls reliably *fail* to benefit (and sometimes pay a tax) is what makes the
@@ -124,22 +150,33 @@ These are clean **mechanism demonstrations**, not benchmark results. In particul
   control (no shared structure at all) is the clean test there, and it's exactly flat.
 - **v2 used a uniform codebook** for stability; a frequency code is "better" in
   principle but wobbles badly on a tiny corpus (this is exactly the v0 failure).
+- **The verifier results assume you *can* build diverse checkers.** v8–v10 show a
+  cheap+diverse verifier suffices — but *constructing* genuinely decorrelated
+  verifiers in a real domain (not a conveniently partitioned test suite) is itself
+  the hard, unsolved part.
 
 ## Where it goes next
 
-- **v8 — parameterized fragments earn their keep.** Antiunification (fragments with
+The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open threads:
+
+- **Parameterized fragments earn their keep (v11).** Antiunification (fragments with
   holes) is sketched and correct in v7 but doesn't pay on this tiny corpus. Build a
   corpus where a *holed schema* beats every ground fragment — the step from "reuse
-  exact subtrees" toward "reuse a *pattern*."
+  exact structure" to "reuse a *pattern*." This is where real generalization gets
+  its teeth (and where the field strains).
 - **A real benchmark.** Graduate to a mini-ARC subset or a held-out list-functions
   suite, where generalization is measured, not assumed — the regime where a 7 GB
   CPU and a 70 B GPU model are *both* weak, so a different kind of system can show
   a real edge.
+- **Constructing diverse verifiers in real domains.** v9–v10 prove diversity is the
+  lever; the open practical question is how to *manufacture* decorrelated verifiers
+  (different lenses/evidence/framings) when you can't just partition a test suite.
 - **The proposer as a small learned model.** v6's bigram guide could become a
-  context-conditioned net — the domesticated learner with more capacity.
+  context-conditioned net — or a frozen small LLM — the domesticated learner with
+  more capacity.
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v7.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v10.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*
