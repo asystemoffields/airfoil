@@ -22,8 +22,9 @@ free lunch.
 - [x] **v2** two-part MDL in bits (library cost + uniform codebook data cost).
       Train MDL 209→153 (1.37×, library pays for itself); related 1.70×; control
       RISES (bigger codebook taxes unrelated work — honest no-free-lunch).
-- [ ] **v3** search-cost transfer: does the library make *solving* new tasks faster
-      (fewer nodes enumerated), not just cheaper to describe?
+- [x] **v3** search-cost transfer: learned library solves held-out RELATED tasks
+      in 21× fewer search nodes (25,761→1,207); CONTROL ~3× slower (branching tax,
+      no shortcut). Abstractions = search accelerators where structure matches.
 - [ ] **v4** depth generalisation: train on depth ≤k, test on depth >k. Real
       compositional generalisation, not interpolation.
 - [ ] **v5** richer DSL (lists: map/fold/filter, parameterised ops) → a proper

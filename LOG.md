@@ -59,3 +59,22 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   tasks faster (fewer nodes enumerated)? (b) a train/test split where memorising
   whole training compositions ≠ generalising, to expose the overfit-vs-generalise
   boundary (the generalisation sweet spot, distinct from train-MDL).
+
+## v3 — search-cost transfer  (`induct_v3.py`)
+- New question: do abstractions make *solving* (search) new tasks cheaper, not
+  just describing them? Iterative-deepening enumeration over a vocabulary,
+  counting programs evaluated until one matches the examples. Base vocab (6 ops)
+  vs learned vocab (6 + the 5 motif macros).
+- **Result (clean, 0.37s):**
+    - RELATED held-out: base median 25,761 nodes → learned 1,207 = **21× faster**
+      (both 6/6 solved).
+    - CONTROL: base 154 → learned 499 nodes (~3× slower; both solved).
+- **Read:** abstractions are SEARCH ACCELERATORS where structure matches (21×) and
+  a TAX where it doesn't (extra symbols = bigger branching, no shortcut) — the same
+  double-edge as v2's bit cost. (Aside: the solver returns shortest *semantic*
+  equivalents, so control functions solve in few nodes via short equivalents — the
+  valid comparison is base-vs-learned *within* a set, which holds.)
+- **Next (v4):** depth generalization (train depth ≤k, test depth >k) + the
+  generalize-vs-memorize boundary: does minimizing description cost on TRAIN start
+  *memorizing* whole training compositions instead of learning generic motifs?
+  Find the abstraction level that maximizes *held-out* generalization.
