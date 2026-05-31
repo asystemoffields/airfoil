@@ -62,6 +62,7 @@ over short programs.
 | **v14** | the sleep must **suppress** | an MDL razor at the sleep holds held-out at **79%** with **6** macros | vs ungoverned: **24** macros, declines to 75% — suppression = stability + parsimony |
 | **v15** | governance that **climbs** | given recurring phrases, the governed loop discovers a *hierarchy* (idioms→phrases): held-out **25→100%**, deep-solve **~11× cheaper**, stays lean | scope: shows hierarchy *use*, not a clean phrases-vs-idioms isolation (→ v16) |
 | **v16** | when is depth *necessary*? (budget sweep) | matched libs + budget sweep: necessity regime is **real** (depth-6 idioms cap 67% within 100k; phrases 100%) | *confounded*: some "deep" tasks collapse to short functions → inflates idiom baseline; clean isolation = v17 |
+| **v17** | the necessity window, **clean** | provably-incompressible tasks (each idiom doubles degree): idiom cost ~\|V\|^depth — d6 **unsolved** within 100k — vs phrases near-flat (161→2,108 nodes) | resolves v16: deeper abstraction is **required**, not just cheaper |
 
 ---
 
@@ -175,6 +176,15 @@ that assumption matters:
     cheaply and inflate the baseline. Cleanly isolating necessity needs an
     incompressibility-controlled task set — the honest debt carried to v17.
 
+18. **The necessity window, cleanly (v17).** Make the tasks *provably*
+    incompressible — each idiom doubles polynomial degree, so a depth-K task needs
+    ≥K squarings and no shorter program exists. Now the sweep is unambiguous:
+    phrases solve at near-flat cost (161→2,108 nodes from depth-4 to depth-6) while
+    idiom-only search costs ~\|V\|^depth (depth-6 *unsolved* within 100k). The
+    budget at which flat search "catches up" explodes exponentially with depth, so
+    for anything deep relative to your compute, deeper abstraction is **required**,
+    not merely cheaper. The airfoil thesis, quantified: configuration, not resources.
+
 **The recurring signature across all of it:** abstractions are a *double-edged*
 tool — a large win where structure matches, a real cost where it doesn't. That the
 controls reliably *fail* to benefit (and sometimes pay a tax) is what makes the
@@ -233,6 +243,6 @@ The compression arc (v1–v7) and the verifier arc (v8–v10) are done. Open thr
 
 ---
 
-*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v16.py`. Each prints
+*Reproduce: `python3 induct.py` (v0), `induct_v1.py` … `induct_v17.py`. Each prints
 its own table and an honest verdict. Full chronological notes in `LOG.md`;
 roadmap in `PLAN.md`.*

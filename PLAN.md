@@ -95,10 +95,16 @@ free lunch.
       BUT confounded: some "deep" tasks COLLAPSE to short functions (shortest-
       equivalents at the task level), inflating the idiom baseline. Signal survives
       on incompressible tasks; clean isolation deferred to v17.
-- [ ] **v17** incompressibility-controlled task set: keep only compositions whose
-      shortest program ≈ their depth (no semantic collapse), so the budget-sweep
-      necessity window is clean. THEN: learned proposer in the loop; real EXTERNAL
-      benchmark (mini-ARC). Co-driven.
+- [x] **v17** the clean necessity window — incompressible tasks BY CONSTRUCTION
+      (each idiom has one sqr → depth-K task is degree-2^K → any program needs ≥K
+      squarings → none shorter exists; eval mod prime on random points). Matched-
+      library sweep, no collapse: depth-4 idioms catch up only at 10k (phrases from
+      300); depth-6 idioms NEVER within 100k (phrases from 3k). Idiom cost ~|V|^depth
+      runs away exponentially; deeper abstraction is REQUIRED, not just cheaper.
+      The airfoil thesis quantified. Resolves v16's confound.
+- [ ] **v18** a learned proposer in the loop (v6's bigram → context-conditioned /
+      small frozen LLM); then a real EXTERNAL benchmark (mini-ARC), distribution not
+      ours. Co-driven.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

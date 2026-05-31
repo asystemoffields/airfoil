@@ -313,6 +313,26 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   compositions).
 - **Next (v17):** incompressibility-controlled tasks for a clean necessity window.
 
+## v17 — the clean necessity window (provably-incompressible tasks)  (`induct_v17.py`)
+- Paid v16's debt BY CONSTRUCTION. Every op is a polynomial map; each idiom has
+  exactly one sqr (degree ×2), so a depth-K task is a degree-2^K polynomial → any
+  program computing it needs ≥K squarings → no program shorter than depth K exists.
+  Provably incompressible, no collapse possible. (Evaluated mod 2^31-1 on 12 random
+  points: bounded values + Schwartz-Zippel → exact function-equality.)
+- **Result (matched-library budget sweep):** depth-4 — idioms 0% until 10k then
+  100%; phrases 100% from 300. depth-6 — idioms 0% throughout (never within 100k);
+  phrases 100% from 3k. Mean nodes: idioms d4 **8,439** → d6 **>100k (unsolved)**;
+  phrases d4 **161** → d6 **2,108**.
+- **Read:** unambiguous necessity window — phrases solve at near-flat cost; idiom-
+  only cost ~|V|^depth, so the budget where idioms catch up runs away EXPONENTIALLY
+  with depth. depth-4 idioms catch up only at the high end; depth-6 idioms NEVER
+  within budget → deeper abstraction is REQUIRED, not merely cheaper. "Merely
+  cheaper" is the luxury of a budget that dwarfs the task; for anything deep
+  relative to compute (the weak-hardware regime) the right reusable abstraction is
+  the only way the search closes. The airfoil thesis, quantified: configuration,
+  not resources.
+- **Next (v18):** a learned proposer in the loop; then a real EXTERNAL benchmark.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
