@@ -102,14 +102,21 @@ free lunch.
       300); depth-6 idioms NEVER within 100k (phrases from 3k). Idiom cost ~|V|^depth
       runs away exponentially; deeper abstraction is REQUIRED, not just cheaper.
       The airfoil thesis quantified. Resolves v16's confound.
-- [ ] **v18** a learned proposer in the loop (v6's bigram → context-conditioned /
-      small frozen LLM); then a real EXTERNAL benchmark (mini-ARC), distribution not
-      ours. Co-driven.
+- [ ] **v18** a learned proposer in the loop, co-evolving with the governed library
+      (v6's bigram → context-conditioned policy). Inner loop = KB-sized policy
+      (~µs/call, attacks branching); a local small GGUF (confirmed runnable, ~72
+      tok/s) is available as an OUTER-loop proposer / for task & CoT generation.
+      Measure {uniform, library, library+proposer} search cost on held-out per round.
+- [ ] **v19+** a real EXTERNAL benchmark (mini-ARC), distribution not ours. Co-driven.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
-- GGUFs ARE pullable (network confirmed); SmolLM2-360M / PMRA-1.7B available.
-  But running them locally is blocked: `cmake` missing → can't build llama.cpp,
-  and the pip llama-cpp-python wheel is AVX-512 (crashes this Zen3). So the
-  symbolic core is the focus; LLM-as-proposer is deferred to when/if v6 needs it.
+- GGUFs RUN locally — VERIFIED 2026-05-31: `llama-cpp-python` installs from a
+  prebuilt CPU wheel (no cmake, no compile), and SmolLM2-360M-Q8 generates at
+  ~72 tok/s on this Zen3 (AVX2). (The earlier "blocked: no cmake / AVX-512 crash"
+  note was a STALE WINDOWS-ERA ASSUMPTION — corrected.) Real constraints: RAM
+  (~7GB → small models, ≤~3-4B Q4) and, for an INNER-loop proposer, per-call
+  LATENCY (a KB-sized learned policy is ~µs/call vs an LLM's tens-of-ms/token over
+  thousands of calls). So a learned policy stays the inner-loop proposer; a local
+  small GGUF is a real tool for outer-loop proposing, task/CoT generation, and ARC.
 - Everything logged in LOG.md; anything downloaded/installed tracked in INVENTORY.md.
