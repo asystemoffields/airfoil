@@ -36,3 +36,26 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   *charges* for the library itself, and show the library cost is amortised across
   tasks (net corpus bits fall). Then v3: does the library make *solving* new tasks
   faster, not just describing them?
+
+## v2 — two-part MDL in bits  (`induct_v2.py`)
+- L_total = L(library: each macro spelled out in base ops × log2|BASE|) +
+  L(data: uniform codebook, log2|vocab| bits per symbol).
+- First cut used a frequency code → unstable on the tiny corpus (train cost
+  wobbled UP before down, control drifted — v0's specialisation gremlin).
+  Caught it, swapped to a stable uniform codebook.
+- **Result (clean):**
+    - train MDL    209.4 → 153.0 bits  (1.37×) — monotonic; the library MORE THAN
+      pays for itself (net bits fall even counting its 28.4 bits). best_merge
+      halts at 5 macros = exactly the recurring motifs (freq≥2 exhausted) → it
+      stops abstracting when no reusable structure is left.
+    - held-out related 106.0 → 62.3 bits (1.70×).
+    - held-out control 93.1 → 124.5 bits — RISES.
+- **Read:** (1) abstractions pay for themselves on structured data AND transfer
+  (1.70× on unseen related). (2) Honest no-free-lunch: in a uniform-codebook bit
+  measure a bigger library slightly taxes UNRELATED work (control inflates);
+  v1's symbol-count lens hides this because it ignores codebook size. Both lenses
+  agree: abstractions help related, never help control.
+- **Next (v3):** (a) search-cost transfer — does the library make *solving* new
+  tasks faster (fewer nodes enumerated)? (b) a train/test split where memorising
+  whole training compositions ≠ generalising, to expose the overfit-vs-generalise
+  boundary (the generalisation sweet spot, distinct from train-MDL).

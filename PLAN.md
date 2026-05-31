@@ -19,8 +19,9 @@ free lunch.
 - [ ] **v1** clean metric = *expression length in learned symbols* (control stays
       flat by construction); depth-3 held-out compositions; two controls
       (disjoint-ops + same-ops-scrambled). Target: related ≥1.5× shorter, controls flat.
-- [ ] **v2** two-part MDL in bits, properly accounting for the library's own cost;
-      show the library is amortised across tasks (net corpus bits fall).
+- [x] **v2** two-part MDL in bits (library cost + uniform codebook data cost).
+      Train MDL 209→153 (1.37×, library pays for itself); related 1.70×; control
+      RISES (bigger codebook taxes unrelated work — honest no-free-lunch).
 - [ ] **v3** search-cost transfer: does the library make *solving* new tasks faster
       (fewer nodes enumerated), not just cheaper to describe?
 - [ ] **v4** depth generalisation: train on depth ≤k, test on depth >k. Real
