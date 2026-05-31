@@ -117,6 +117,36 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   jump to a higher-order tree DSL. Lean (a) first — smaller, and directly tests
   the "domesticated learner" idea from the design conversation.
 
+## v8 — verifier wind tunnel  (`induct_v8.py`)  [logged out of order; see v7 above]
+- The whole amortization loop rests on the verifier, which is free+perfect in
+  program synthesis and cheap+noisy everywhere real. Gave the verifier a
+  false-accept rate eps; measured oracle-checked solving accuracy vs eps and
+  redundancy M (a wrong program survives only if it passes M independent checks
+  → eps^M).
+- **Result:**  M=1 / M=3 / M=5 / M=8
+    - eps=0.00: 100 / 100 / 100 / 100
+    - eps=0.10:   4 /  92 / 100 / 100
+    - eps=0.20:   0 /  70 / 100 / 100
+    - eps=0.40:   0 /  12 /  56 /  96
+- **Findings:** (1) a 10% false-accept verifier ALONE collapses naive solving to
+  4% — asymmetry: hundreds of short WRONG candidates precede the right one, so a
+  rare fluke-accept ends the search wrong. (2) Redundancy rescues exponentially
+  (eps^M): eps=0.1 → M=3=92%, M=5=100%. Rule M ≳ ln(R)/ln(1/eps); scales with the
+  LOG of the search space, so it's cheap. (3) Floor: eps=0.4 needs M=8 for 96%;
+  below ~chance there's nothing to amplify.
+- **Read:** you don't need a RELIABLE verifier — a cheap UNRELIABLE one (err<~0.5)
+  + a few confirmations suffices. Redundancy converts weak→strong exponentially
+  (= self-consistency/B2, majority vote, biological consolidation needing
+  repetition). Architectural law for the loop: **wrap the verifier in consensus
+  before crystallizing anything** ("never consolidate a one-off," with a sizing
+  formula).
+- **HONEST CAVEAT (= the next experiment):** this assumes INDEPENDENT errors
+  (noise re-rolled per check). Real verifier errors are often CORRELATED /
+  systematic — the same wrong case fools the verifier identically every time, and
+  then naive repetition does NOTHING. The fix is DIVERSE verifiers (different
+  lenses), not repeated identical checks — the perspective-diverse-verification
+  idea. That's v9.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

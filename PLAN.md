@@ -45,9 +45,18 @@ free lunch.
       sharing a leaf op shares the tiny subtree `dbl(x)`, a partial-subtree leak
       with no linear analogue. Antiunification (holed fragments) sketched & correct
       but earns little on this tiny corpus → deferred to v8.
-- [ ] **v8** make parameterized (antiunification) fragments EARN their keep on a
-      corpus where a holed schema beats every ground fragment; OR graduate toward an
-      abstraction benchmark (mini-ARC subset).
+- [x] **v8** verifier wind tunnel: the load-bearing assumption stress-tested. A
+      10% false-accept verifier ALONE → 4% accuracy (many short wrong candidates →
+      a fluke accept ends search wrong). Redundancy rescues exponentially (eps^M):
+      eps=0.1 M=3→92%, M=5→100%. Rule M≳ln(R)/ln(1/eps). Reframe: you don't need a
+      reliable verifier, you need a cheap unreliable one (err<~0.5) + a few
+      confirmations. Caveat: assumes INDEPENDENT errors; correlated/systematic
+      errors defeat naive voting → need DIVERSE verifiers (v9).
+- [ ] **v9** correlated-error verifiers + diverse-verifier ensembles (perspective
+      diversity, not repetition); wire consensus-gated crystallization into the
+      library loop (does consensus prevent the noisy-verifier library poisoning?).
+- [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
+      graduate toward an abstraction benchmark (mini-ARC subset).
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
