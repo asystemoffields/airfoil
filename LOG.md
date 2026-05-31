@@ -147,6 +147,25 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   lenses), not repeated identical checks — the perspective-diverse-verification
   idea. That's v9.
 
+## v9 — repetition vs diversity  (`induct_v9.py`)
+- Modeled a SYSTEMATICALLY weak verifier as a partial test suite (covers 1 of 8
+  cases; deterministically blind elsewhere). Repetition = same suite M times
+  (identical verdict). Diversity = M *different* suites; a wrong program must fool
+  the UNION of their covered cases.
+- **Result (1-case verifiers, same budget M):**
+    - repetition: 34/35/27/29/29% — flat. Volume can't fix a systematic blind spot.
+    - diversity:  30/84/95/99/100% — climbs to certainty.
+- **Read:** redundancy only buys v8's eps^M when errors are INDEPENDENT. For
+  systematic errors you must MANUFACTURE independence — diverse lenses / evidence /
+  framings, not the same check louder. v8 (re-rolled noise) = optimistic limit;
+  v9 repetition = pessimistic limit (zero diversity); reality is between, and the
+  engineering job is decorrelating the verifiers. **Verifier diversity, not volume,
+  is the ballgame** — why biology cross-checks across senses, and Monte Carlo uses
+  decorrelated restarts.
+- **Next (v10):** wire a diverse-verifier consensus gate into the ACTUAL library
+  loop — does it prevent the noisy-verifier library *poisoning* (compressing wrong
+  solutions into garbage abstractions)? First true end-to-end loop test.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

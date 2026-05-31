@@ -52,9 +52,14 @@ free lunch.
       reliable verifier, you need a cheap unreliable one (err<~0.5) + a few
       confirmations. Caveat: assumes INDEPENDENT errors; correlated/systematic
       errors defeat naive voting → need DIVERSE verifiers (v9).
-- [ ] **v9** correlated-error verifiers + diverse-verifier ensembles (perspective
-      diversity, not repetition); wire consensus-gated crystallization into the
-      library loop (does consensus prevent the noisy-verifier library poisoning?).
+- [x] **v9** repetition vs diversity: a SYSTEMATICALLY weak verifier (partial test
+      suite). Repetition flat ~29% across M; diversity (different cases) climbs
+      30%→100% on the SAME budget. Redundancy only buys v8's eps^M when errors are
+      independent — for systematic errors you must MANUFACTURE independence. Verifier
+      diversity, not volume, is the lever.
+- [ ] **v10** wire a diverse-verifier consensus gate into the actual library loop:
+      does it prevent the noisy-verifier library POISONING (compressing wrong
+      solutions into garbage abstractions)? The first end-to-end loop test.
 - [ ] **v10** parameterized (antiunification) fragments EARN their keep; later,
       graduate toward an abstraction benchmark (mini-ARC subset).
 
