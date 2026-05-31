@@ -292,6 +292,27 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   tight-budget sweep (isolate when deeper abstraction is *necessary*, not just
   cheaper).
 
+## v16 — when is deeper abstraction necessary? (matched-library budget sweep)  (`induct_v16.py`)
+- The ablation v15 owed. Matched FIXED libraries (idioms-only vs idioms+phrases) +
+  a budget SWEEP (the sweep is the measurement — no tunable knob), on held-out deep
+  tasks, to find where only phrases solve (necessity) vs both (cheapness).
+- **Result (solve-rate vs budget):** depth-4 — idioms 33→100% (catch up only at
+  100k), phrases 100% by 1k. depth-6 — idioms CAP at 67% (never 100% within 100k),
+  phrases 100% by 10k.
+- **Confound CAUGHT (honest):** idiom mean cost on depth-6 = 203 nodes (!) — far
+  too cheap. Some "deep" compositions COLLAPSE to short functions (semantic
+  shortest-equivalents: rev∘rev, idempotent filters/sorts), so idioms crack those
+  trivially, inflating the idiom baseline. The shortest-equivalent gremlin, now at
+  the TASK level.
+- **Surviving signal:** on genuinely-incompressible tasks the necessity is real —
+  idioms cap below 100% on depth-6 (the non-collapsing task unsolved within 100k)
+  while phrases reach 100%; depth-4 idioms catch up only at the high-budget end.
+  The methodology (matched libs + sweep) is the right instrument.
+- **Verdict:** necessity regime is REAL but not cleanly isolated here — needs an
+  INCOMPRESSIBILITY-CONTROLLED task set (don't let "depth" be faked by collapsible
+  compositions).
+- **Next (v17):** incompressibility-controlled tasks for a clean necessity window.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

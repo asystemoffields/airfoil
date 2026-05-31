@@ -89,10 +89,16 @@ free lunch.
       hierarchy use, NOT a clean phrases-vs-idioms isolation (caught myself
       budget-fiddling to fake a gap, stopped) — the payoff is search cost + tight-
       budget reach.
-- [ ] **v16** the clean ablation v15 owes: matched-library idioms-vs-phrases +
-      tight-budget sweep (isolate when deeper abstraction is NECESSARY, not just
-      cheaper). Then: a learned proposer in the loop; a real EXTERNAL benchmark
-      (mini-ARC). Co-driven.
+- [~] **v16** matched-library idioms-vs-phrases + budget SWEEP (no tunable knob).
+      Right instrument; necessity regime is REAL (depth-6 idioms cap at 67% within
+      100k while phrases reach 100%; depth-4 idioms catch up only at the high end).
+      BUT confounded: some "deep" tasks COLLAPSE to short functions (shortest-
+      equivalents at the task level), inflating the idiom baseline. Signal survives
+      on incompressible tasks; clean isolation deferred to v17.
+- [ ] **v17** incompressibility-controlled task set: keep only compositions whose
+      shortest program ≈ their depth (no semantic collapse), so the budget-sweep
+      necessity window is clean. THEN: learned proposer in the loop; real EXTERNAL
+      benchmark (mini-ARC). Co-driven.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
