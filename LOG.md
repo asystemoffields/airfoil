@@ -388,6 +388,20 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   library transfer on ARC (expected ≈0) against the large transfer on synthetic deep
   tasks. Then consolidate; the genuine-findings plateau is near.
 
+## v19 (cycle 3) — the boundary as DATA  (`induct_v19c.py`)
+- Mined a cross-task library (BPE) from the geometric programs of 200 solved ARC
+  train tasks, then measured held-out transfer (same mechanism as v18's ~14×).
+- **Result:** 1 macro mined (`mirror_h mirror_v`). Held-out solve-rate base 6/200 →
+  +library 6/200 (**Δ +0**); median search nodes 10 → 10 (**Δ 0**). **≈0 transfer.**
+- **Read (boundary as data):** the macro just renames a 2-gram the depth-3 search
+  already covers — unlocks no new held-out task, because ARC tasks are DIVERSE
+  shallow concepts, not deep compositions over a shared vocabulary. Contrast
+  synthetic v18: the SAME mechanism gave ~14× and unlocked unreachable deep tasks.
+  **The airfoil loop pays off in DEPTH (compositional reuse), not BREADTH (concept
+  coverage). ARC is breadth-hard → ≈0 here.** The external benchmark mapped the scope.
+- **Status:** the thesis's questions are answered and its scope honestly mapped. The
+  core arc is complete; consolidating (a closing synthesis in RESULTS.md).
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The

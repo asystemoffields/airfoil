@@ -121,10 +121,14 @@ free lunch.
       thesis boundary: the loop attacks DEPTH (compositional reuse, shown on v1-v18);
       ARC is hard along BREADTH (many distinct concepts). A measured scope boundary,
       not a failure.
-- [ ] **v19 cycle 3** turn that boundary from assertion into DATA: run cross-task
-      library learning over solved ARC programs and measure its transfer to new ARC
-      tasks (expected ≈0, vs the large transfer on synthetic deep tasks). Then
-      consolidate — the project has reached an honest plateau of genuine findings.
+- [x] **v19 cycle 3** boundary measured: cross-task library mined from solved ARC
+      train → held-out transfer ≈0 (solve 6→6/200, nodes 10→10), vs ~14× on synthetic
+      deep tasks (v18). The airfoil loop is a DEPTH tool, not a BREADTH tool — ARC is
+      breadth-hard. The external benchmark mapped the scope. Thesis questions answered.
+- [ ] **next (the other side of the boundary)** test the loop on a DEPTH-compositional
+      *realistic* benchmark (e.g. list-functions à la Rule), where it SHOULD help —
+      completing the boundary picture from both sides. (LLM-proposer/retrieval scaling
+      remain open.) But the core arc is complete + honestly scoped; consolidate first.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.
