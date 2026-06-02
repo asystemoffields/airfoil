@@ -191,6 +191,37 @@ free lunch.
       a one-line `sorted(set(x))[::-1]` is a compressed deep composition blind search can't
       reach within budget → breadth (code knowledge) directly buys depth. If this beats
       blind, the uplift flips from search-driven to MODEL-driven.
+      **OUTCOME: CUT mid-run** (Alex pivoted). Partial: 360M code-propose 1-2% (can't write
+      valid programs for these compositions). Script kept; not a committed result.
+- [x] **v27 — can the scaffold TEACH a better standalone LLM? in-context proxy. RESULT:
+      NEGATIVE.** Scaffold-verified worked-examples fed in-context do NOT lift alone-accuracy
+      on held-out tasks — they HURT (1.7B numbers 16.7→3.3 as M 0→8; M=0 best everywhere).
+      Verified solutions of OTHER tasks don't teach THIS task's distinct rule (independent
+      functions, no shared transferable skill in input→output form) + long context dilutes
+      attention. Caveat: weak proxy for gradient distillation, but no positive signal and a
+      principled reason for skepticism on these tasks.
+
+## Next chapter — ARCHITECTURE, not scaffolding (Alex, 2026-05-31)
+v22-v27 exhaust the "bolt something around a frozen model" levers — recognition, selection,
+code-proposal, teaching-by-example all bounce off the model's INTRINSIC induction/general-
+ization ceiling. Plain search+verify (no LLM) keeps winning. So the next lever is to change
+what the model IS, trained in.
+- [ ] **The "subconscious / incubation" layer (the live design).** A trained, non-goal-
+      directed BACKGROUND recurrence (looped/latent) that recombines representations seeded
+      by the current context and SURFACES useful connections — the complement of serial
+      reasoning (which fixates), modeled on incubation / default-mode / sleep-replay. Key
+      properties from the design convo: (1) ADDITIVE, never suppresses the obvious; (2) trades
+      SIZE for TIME (extra cheap background steps ≈ horsepower a small model lacks — fits the
+      north star); (3) decoupled training — background loop learns associative STRUCTURE
+      (self-supervised), a SURFACING GATE learns WHEN to inject (task loss). CRUX = the gate's
+      trigger (resonance / uncertainty-reduction vs surprise — OPEN, Alex deciding).
+      FALSIFIABLE SIGNATURE: accuracy on remote-association tasks RISES with non-directed
+      background steps, DISSOCIABLE from (and beating) equal-compute serial reasoning.
+      MINIMAL TEST (CPU-feasible): tiny from-scratch transformer + background recurrence +
+      gate on a synthetic "remote-bridge" task; ablate vanilla vs +background vs +gate.
+      Also relates to: binding-vs-blending attention (multiplicative/tensor path), looped
+      transformers, latent reasoning (Coconut), Titans surprise-memory, v13 wake-sleep
+      brought INSIDE the model.
 
 ## Constraints
 - Free / CPU-only. No paid APIs. No `sudo` (needs Alex's password) → no apt installs.

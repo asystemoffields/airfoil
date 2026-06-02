@@ -575,6 +575,40 @@ Newest entries at the bottom. Each entry: what I tried, what happened, what next
   deep composition the budgeted DSL search can't reach — breadth (code knowledge) directly
   buys depth, rather than trying to prune our DSL.
 
+## v26 — LLM as program proposer (Python) — CUT mid-run on a pivot  (`induct_v26.py`)
+- Pivot from category-recognition to the model's NATIVE channel: write `def f(x):`, sandbox-
+  exec (whitelisted builtins, no imports, SIGALRM timeout — verified it blocks __import__),
+  verify on train, sample-K-keep. Partial before cut: 360M code-propose = 1-2% (train-
+  verified 1-2% — can't write valid programs for these compositions). 1.7B not completed.
+  Not committed as a result; script kept for reference. Cut because Alex redirected to the
+  "can this BE a better LLM?" question (v27) then to architecture (below).
+
+## v27 — can the scaffold TEACH a better standalone LLM? in-context proxy (NEGATIVE)  (`induct_v27.py`)
+- The "scaffold as data engine / teacher" idea: the scaffold produces verified-correct
+  solutions the model fails alone (free supervision). Does feeding them back lift the model
+  ALONE? Gradient-free proxy: harvest verified demos (DSL search+verify; 10 lists/35 strings/
+  25 numbers from a 60-pool), measure alone direct-output accuracy on 60 HELD-OUT tasks at
+  M={0,2,4,8} in-context demos. M=0 = the v23 alone baseline.
+- **RESULT: in-context demos do NOT help — they HURT.** 1.7B: lists 6.7→3.3→3.3→1.7;
+  strings 13.3→5.0→1.7→10.0; numbers 16.7→6.7→6.7→3.3. M=0 best/tied everywhere. 360M noisy,
+  no upward trend.
+- **READ (honest negative + scope):** verified solutions of OTHER tasks don't teach THIS
+  task's distinct rule, and the longer context dilutes attention on the actual examples →
+  flat-to-negative. Caveats: (a) weak proxy for GRADIENT distillation (context ≠ weights);
+  (b) more fundamentally these are INDEPENDENT functions — input→output demos share no
+  transferable skill, so even gradient-distill wouldn't generalize without teaching the
+  PROGRAM/reasoning, which needs the model to express programs (v26: weak) or a domain with
+  shared structure.
+- **THE BRIDGE:** v22-v27 keep hitting ONE wall — the model's INTRINSIC capacity to induce/
+  generalize. Recognition (v22-24), selection (v25), code (v26), teaching-by-example (v27)
+  all underperform plain search+verify. Every DATA/SCAFFOLD lever bounces off the same
+  ceiling → the next lever is ARCHITECTURAL, not more scaffolding/data.
+- **NEXT CHAPTER (Alex's direction): a trained "subconscious / incubation" layer** — a
+  non-goal-directed background recurrence (looped/latent) that recombines representations
+  seeded by context and SURFACES useful connections via a resonance/uncertainty-reduction
+  gate; complement to (not more of) serial reasoning; trades SIZE for TIME (fits small
+  models). Distinct from this session's scaffold work. See PLAN.
+
 ## v6 — the domesticated learner  (`induct_v6.py`)
 - Added a bigram proposer over the library symbols (fit on the training
   solutions) to ORDER a best-first search, vs v3's uniform enumeration. The
