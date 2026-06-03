@@ -468,3 +468,32 @@ FINDINGS:
    consistent but rho=1.0's 63 is within step-8's seed band (learned beam ~51-76); NEEDS MULTI-SEED to confirm.
 NEXT: multi-seed re-run of the frontier to settle (4) [pessimism-always-hurts and the threshold are already
 robust by mechanism]; then size-for-time (compute axis); then ground on a real CPU LLM (the rich-model end).
+
+## Result: frontier_multiseed.py — step 10b: NON-MONOTONIC frontier CONFIRMED (3 seeds) — intermediate fidelity beats full; the failure is EXPLOITATION not inaccuracy.
+Isolated rho in {0.66, 1.0} + perfect/full ref over seeds {1,2,3} to settle step-10's one unconfirmed claim.
+SUMMARY (held-out depth-3, reached% mean[min..max], B=4/8/12):
+  perfect/full beam (true sim) 47[43..50] / 67[65..69] / 78[78..79]
+  rho0.66 single               41[40..42] / 68[67..70] / 82[79..84]
+  rho0.66 ens-mean             52[51..53] / 78[77..79] / 88[87..91]
+  rho1.00 single               31[27..38] / 43[39..49] / 50[46..55]
+  rho1.00 ens-mean             42[27..51] / 54[40..62] / 63[52..70]
+
+CONFIRMED (ranges NON-OVERLAPPING): rho=0.66 (single 82, ens-mean 88) >> rho=1.0 (single 50, ens-mean 63).
+Intermediate fidelity ROBUSTLY beats full fidelity. Mechanism = OBSERVATION NOISE REGULARIZES MODEL
+EXPLOITATION: at rho=1.0 the deterministic learned model is sharply exploitable (deep beam locks onto
+over-optimistic branches -> single 50 vs true-sim 78, a robust ~28pt exploitation gap, = step-8 effect now
+pinned down); at rho=0.66 per-call obs noise makes predictions stochastic -> the beam can't commit to one
+delusional branch -> exploitation regularized away. Ensemble MEAN further denoises (rho1.0 ens-mean 63 >
+single 50; rho0.66 ens-mean 88 > single 82).
+
+HEADLINE: a moderate-fidelity, slightly-noisy, ENSEMBLED model (88) MATCHES/BEATS planning over the TRUE
+simulator (78). CAVEAT: "beats ground truth" is partly confounded (rho0.66 uses V_po not V_full, + stochastic-
+search diversity) -> the AIRTIGHT claim is the within-learned non-monotonicity (rho0.66 >> rho1.0, identical
+machinery, obs-fidelity the only diff). PRACTICAL MESSAGE (clean): you do NOT need a perfect world-model for
+creative transfer — the binding failure of plan-over-model is EXPLOITATION, not inaccuracy, and mild
+stochasticity + ensembling controls it. Directly ENCOURAGING for grounding on an imperfect LLM: the LLM need
+not be a perfect simulator; a moderately-good, appropriately-stochastic, ensembled model suffices. This also
+re-frames Alex's law: don't suppress uncertainty (pessimism, step10) — but a little INPUT stochasticity is a
+FREE regularizer against the over-optimism that deep search would otherwise exploit. NEXT: size-for-time
+frontier (compute axis: accuracy vs beam width/depth; small-net+search vs big-reactive); then ground on a
+real CPU LLM as the world-knowledge model (the rich, naturally-stochastic end of the fidelity axis).
