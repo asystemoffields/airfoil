@@ -657,3 +657,29 @@ we already get clean depth-3 + multi-seed + frontiers). My lean: (3) — the toy
 science; ARC grounding has delivered its verdict (non-LLM search proposer wins), and chasing depth in hand-DSL ARC
 is the heuristic treadmill. Bank the grounded proposer result; take depth+generalization+learned-value back to a
 controllable substrate. AWAIT Alex's steer on the fork.
+
+## Result: distill_proposer.py — step 12: CREATIVITY DOES NOT AMORTIZE. Distilling the search into a reactive net captures the KNOWN but FAILS (below random) on the NOVEL chain.
+Back in the controllable substrate (Alex banked ARC: it validated the non-LLM proposer; the toy is the better
+microscope for depth/generalization). Question: can value-guided SEARCH (solves held-out depth-3 ~65-90%) be
+AMORTIZED into a fast reactive net R(E(s),goal)->op, distilled ONLY from the search's solutions on the SUBSET
+axes {0,1,2,3}, and transfer ZERO-SHOT to the structurally-novel depth-3 axis 4? Collected 153,600 (state,goal,
+search-chosen-op) demos on subset axes; trained R (MLP) by cross-entropy; eval greedy (no search).
+reached% vs budget B=2/4/6/8/10:
+  HELD-OUT axis 4 (depth-3, NOVEL): random 7/17/27/36/45 ; R distilled 7/13/18/21/23 ; search 28/48/59/63/65
+  subset-ref axis 1 (depth-2, distilled): random 9/20/34/45/56 ; R distilled 49/65/66/66/66 ; search 70/99/100
+DECISIVE FINDING: **you can compress COMPETENCE, not CREATIVITY.**
+- KNOWN amortizes: on the distilled depth-2 axis R hits 49@B2 (vs random 9) -> a fast reactive net captured the
+  search's competence, NO search at inference (plateaus 66, lossy vs search 100 — greedy approx, but >>random).
+- NOVEL does NOT amortize: on the held-out depth-3 axis R is BELOW random (23 vs 45) while the search expert stays
+  high (65). Even trained on the SEARCH'S OWN solutions, the reactive net can't transfer to the novel structure —
+  worse than random because it deterministically applies its depth-2-structure policy (the step-9 confidently-
+  wrong pattern; random at least SAMPLES the depth-3 chain).
+=> the search's generality lives in the SEARCH PROCESS AT INFERENCE, not in any policy distillable into weights.
+This nails SIZE-FOR-TIME as IRREDUCIBLE for novelty (step11: params don't help; step12: distilling the search
+doesn't either) and JUSTIFIES the Hybrid-C architecture (step4b): the FAST path CAN be a distilled net (works on
+the known); the SLOW path MUST be search (the novel can't be distilled). DEPLOYMENT LAW (7GB target): amortize the
+routine, SEARCH the novel — "freeze the expensive object, train cheap peripherals" but the SEARCH is the
+irreducible expensive object for creativity. CAVEATS: 1 seed; search expert 65 here (seed-variable ~55-90 band,
+consistent w/ s6-7); R subset plateau 66 = lossy greedy distillation. NEXT (learned-not-heuristic, synthetic):
+LEARN the value (replace random-rollout V_togo with a trained structure-general value) and test if a better
+learned value lifts the search's novel-chain ceiling; + emergence-via-cycles [[incubation-emergence-via-cycles]].
