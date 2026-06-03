@@ -167,3 +167,24 @@ AIMING only becomes necessary once the latent is too big to cover wholesale with
 => Step 1 hinge CONFIRMED with nuance: coverage de-toys (volume-over-causal-latent). Robust AIMING is
 the open sub-problem, deferred to the attention-native controller (goal QUERY attends over self-
 generated rollouts to aim coverage at the goal-relevant directions) — which is also step 2 / the finale.
+
+## Result: continuous_aiming.py — step 1b: AIMING NAILED (goal-informed coverage matters at scale)
+Resolves the step-1 open problem. Big world (R^28, 30 ops incl. 24 goal-IRRELEVANT scratch-movers,
+latent H=48) so goal-AGNOSTIC volume coverage has many cheap dims to chase. e2 ORACLE 100%, random
+discovery 16.3%. Trained on TYPICAL (e1) only. reached% vs budget:
+- TYPICAL (e1):     directed 50->100 ; agnostic(full-latent vol) 80 flat ; aimed(goal-observ vol) 97->100.
+- REPURPOSING (e2): directed 0 FLAT (fixates) ; agnostic 0 FLAT (DILUTES — chases 24 scratch dims, never
+  opens the expensive locked e2 chain in budget) ; AIMED 98->100%.
+- e2 split: aimed = 98->100 on B-low (must APPLY P) AND 100 on B-pre-activated (must SKIP P) => ADAPTIVE,
+  no fixed order; directed & agnostic 0 on both.
+FINDING: AIMING is what makes coverage scale. When the latent has many goal-irrelevant movable
+directions, agnostic volume coverage dilutes to 0 on the locked axis; coverage of the TRUE GOAL
+OBSERVABLE (volume over the goal coordinate) ignores scratch and discovers the state-dependent multi-
+step repurposing chain at ~100%. This is exactly stage-(b) gcoverage (cover the goal register's values),
+now continuous + high-dim. The step-1 fragility was specifically a LEARNED reconstruction readout
+standing in for the observable (entanglement faked coverage); the observable is given by the task, so
+covering it is legitimate and robust. OPEN (carried to step 2): when the goal-relevant readout is NOT a
+given coordinate (e.g., a real LLM), aiming must come from a robust learned mechanism — the natural one
+is the attention-native controller's GOAL QUERY attending over self-generated rollouts (= the finale).
+STEP 1 COMPLETE: coverage de-toys (continuous volume over a frozen causal latent) AND aims (cover the
+goal observable) — learned, necessary, adaptive, no enumeration, high-dim. Next: step 2 attention-native.
