@@ -249,3 +249,25 @@ NET: first demonstration in this program that the mechanism deploys a NON-OBVIOU
 it was NEVER trained on, and that this REQUIRES imagination (reactive=0). Honest caveats: 65% not 100%
 (proposer-limited); toy world; costs on trained goals. NEXT: (a) better proposer -> raise the ceiling;
 (b) tune C's arbitration -> best-of-both; then size-for-time; then ground on a real CPU LLM.
+
+## Result: hybrids2.py — step 4b: BOTH LEVERS WORK -> a best-of-both creative controller.
+LEVER 1 (better coverage-proposer, +coverage-memory so it steers to UNCOVERED axes): the held-out-axis
+ceiling rose 65 -> 93% (Hybrid A: 3/19/55/78/93 over B=2..10). It WAS proposer-limited; better
+incubation -> higher ceiling. LEVER 2 (progress-gated C: fast by default, deliberate only when the
+target coordinate stops improving): C is now BEST-OF-BOTH. reached% vs budget:
+- HELD-OUT axis 4 (never trained): Arch2-alone 0 FLAT ; Hybrid A 3->93 ; Hybrid C 0->88.
+- trained-ref axis 1:              Arch2-alone 68->100 ; Hybrid A 1->30 (pays deliberation cost) ;
+                                    Hybrid C 67->95 (~matches reactive).
+- free axis 0:                     Arch2-alone 100 ; Hybrid A 81->100 ; Hybrid C 100 (=reactive).
+=> Hybrid C = a SINGLE trained controller that is reactive-FAST on known goals (95-100%) AND deploys a
+NEVER-TRAINED repurposing chain on a held-out problem (88%), where a pure reactive/generative policy
+gets 0. Fast on the obvious (line-of-sight), creative on the hidden (indirect fire) — chosen
+automatically by a progress gate ("deliberate only when the direct approach stalls"). This is the
+native, trained form of Airfoil's propose->verify: frozen causal world-model + coverage-proposer
+(incubation) + axis-general selector (aiming) + fast policy, arbitrated by progress.
+HONEST CAVEATS: 93/88 not 100 (residual proposer ceiling + small switch cost); 19-D toy; transfer is to
+a STRUCTURALLY IDENTICAL axis (same chain pattern, new dims) = "apply the learned routine to a new
+instance of the same kind" — real within-family creativity, not yet a structurally-different affordance.
+Attribution: A's 65->93 is proposer-memory + rollout-len L 4->6 together (isolating arm optional).
+NEXT: (a) structurally-DIFFERENT held-out affordance (harder transfer) ; (b) push ceiling 93->~100 ;
+then size-for-time frontier ; then ground on a real CPU LLM.
