@@ -39,3 +39,31 @@ Make the simulation **internal and trained** (an incubation channel) rather than
 search; ask whether **non-directed > directed** at deploying the affordance, measured as
 accuracy-vs-compute *frontiers* (3 outcomes: capability win / efficiency win / null). Staged:
 (a) single-op repurposing [done as prerequisite], (b) compositional depth (where size-for-time bites).
+
+## Architecture decision: Option A "but not like before"
+A = explicit simulated world-model + internal controller, but the KEY break from prior MBRL
+(Dyna→World Models→Dreamer[reconstruction]→MuZero[value-equivalence]→I2A→Diffuser): value-
+equivalent/reward-centric world-models DISCARD currently-useless structure, which is exactly what
+repurposing needs. So our world-model is TASK-AGNOSTIC, trained on INTERVENTIONS for FULL causal
+effects (KEEP the useless structure), queried by a LEARNED internal controller doing GOAL/OUTCOME-
+matching (not reward search), non-directed. Closest ancestor for the controller = I2A.
+
+## Result: incubation_controller.py — the crossover (proof-of-principle)
+Controller simulates ops through the frozen 100%-accurate world-model under a CAPPED budget B;
+directedness = the search ORDER. directed = the policy's learned usage-prior preference;
+non-directed = random or coverage (outcome-diversity) exploration. reached% vs B:
+- TYPICAL goals: directed 100% @B=1 (obvious is right) ; exploration slower.
+- REPURPOSING goals: directed 0% until B=5, 100% only @B=9 (prior ranks the repurposing op last
+  → wastes budget on typical ops that can't work — fixation WITH a perfect simulator);
+  non-dir(coverage) 88% @B=3, 100% @B=5.
+Three findings: (1) simulator NECESSARY-BUT-NOT-SUFFICIENT (directed+perfect-sim still 0% cheap);
+(2) CROSSOVER = the thesis (directed wins on obvious, loses on creative; non-direction is the
+mirror — and it COSTS on easy goals, honest); (3) non-trivial nugget COVERAGE≫RANDOM (88 vs 34
+@B=3) — explore by OUTCOME-DIVERSITY, not randomly ("imagine the pieces that do something
+different"). Caveats: non-directed orders are HEURISTIC not yet learned; directed-side crossover
+partly by-construction (prior built to down-rank repurposing op — the point). Proof-of-principle.
+
+## Next
+(1) LEARN the exploration policy end-to-end (trained incubation channel, not heuristic order);
+(2) stage (b) COMPOSITIONAL depth (repurposing op needed mid-composition → budget/size-for-time
+bites hardest); (3) eventually the attention-native version (attend over self-generated rollouts).
