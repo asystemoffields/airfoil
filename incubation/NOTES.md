@@ -699,3 +699,24 @@ for a CUSTOM value (Alex: "make our own kind of thingy"). NEXT (step 14): AIMED-
 reach-value with a coverage/novelty term that credits OPENING the goal-relevant locked dimension (the steps 1-5
 mechanism; already the step-8 'value+novelty' winner) -> setup states (post-P4: goal coord unchanged but dimension
 UNLOCKED) get dense credit a reachability value misses. Test if V_bellman+coverage > V_bellman (75) on depth-3.
+
+## Result: coverage_value.py — step 14: OUR-OWN aimed-coverage value (Bellman + dimension-opening credit) helps MODESTLY; mechanism confirmed; clean beta tradeoff.
+Alex: "make our own kind of thingy" for the value. Fused the Bellman reach-value with AIMED COVERAGE in the beam
+score: score = V_bellman(s,t) + 6*reach + BETA*coverage, coverage = latent novelty of a child vs the running mean
+of the real trajectory's latents (rewards OPENING new latent directions = unlocking goal-relevant locked dims; the
+steps 1-5 mechanism + the step-8 value+novelty winner). beta sweep, held-out depth-3 (same-run Bellman baseline):
+  B=2/4/6/8/10:  Bellman b0 26/46/56/60/61 ; +cov b1 27/50/60/63/64 ; +cov b3 28/54/60/62/63 ; +cov b8 31/47/49/49/49
+  subset depth-2: Bellman b0 46/88/97/99/100 ; +cov b3 53/97/99/99/99 ; +cov b8 77/96/96/96/96
+FINDING: aimed-coverage HELPS, most at LOW-MID budget (the efficiency regime): +8 @B4 (54 vs 46, b=3), +3-4 @B6-10
+(b=1: 64 vs 61). Strongest coverage weight gives the best EARLIEST number (b=8: 31 @B2) but WANDERS and hurts at
+higher budget (collapses to 49 @B10) — the predicted novelty tradeoff. Sweet spot beta~1-3. Mechanism CONFIRMED:
+crediting dimension-OPENING (not just goal-proximity) partly fixes the setup-credit gap a reachability value has,
+on exactly the depth-3 setup states (post-P4: goal coord unchanged, dimension unlocked). MODEST not dramatic — the
+SEARCH remains the irreducible engine; value-shaping is a few-point lever on top.
+VALUE-LEVER SUB-ARC COMPLETE (s6 MC V_togo baseline -> s13 Bellman +13 on ceiling -> s14 aimed-coverage +few at low
+budget, beta tradeoff). All modest individual gains; consistent with: creativity = SEARCH at inference (irreducible,
+s11/12), value is a tunable few-point lever. OPEN FRONTIERS (next sub-arcs): (i) emergence-via-cycles
+[[incubation-emergence-via-cycles]] (does held-out transfer EMERGE over training cycles?); (ii) scale depth (depth-4+
+chains, does the whole stack hold?); (iii) formalize aimed-coverage as a learned goal-conditioned coverage value
+(vs the trajectory-novelty proxy used here); (iv) the Hybrid-C deployment controller end-to-end (distilled fast
+path + search slow path, per s12's deployment law).
