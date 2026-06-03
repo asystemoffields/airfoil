@@ -720,3 +720,26 @@ s11/12), value is a tunable few-point lever. OPEN FRONTIERS (next sub-arcs): (i)
 chains, does the whole stack hold?); (iii) formalize aimed-coverage as a learned goal-conditioned coverage value
 (vs the trajectory-novelty proxy used here); (iv) the Hybrid-C deployment controller end-to-end (distilled fast
 path + search slow path, per s12's deployment law).
+
+## Result: emergence_cycles.py — step 15: NO emergence-via-cycles (the OPPOSITE) — cycles SPECIALIZE a reactive net AWAY from novel transfer; only SEARCH transfers. Thesis triangulated 3 ways.
+Tested Alex's hypothesis: does held-out (never-trained depth-3) transfer EMERGE in a reactive net after enough
+training cycles on subset axes? Tracked held-out vs cycles for (a) reactive R distilled from search, (b) search+
+bootstrapped value. held-out / subset reached% (B4/B8) vs cycles:
+  cycles  REACTIVE-R held-out(B8)  subset(B8)  |  SEARCH+VALUE held-out(B8)  subset(B8)
+   250        9            1       |     54           99
+   500       42            4       |     55          100
+  1000       31            3       |     56           99
+  2000       35           24       |     56           99
+  4000       32           35       |     57           98
+  8000       11           28       |     61           98
+FINDING: NO emergence — the OPPOSITE. Reactive held-out PEAKS early (42 @500 cycles) then DECLINES to 11 @8000,
+while reactive SUBSET RISES (1->35). The early 42 is NOT real transfer — at 500 cycles the net is barely trained
+(subset=4) so it acts ~random (floor ~45); as cycles accumulate it SPECIALIZES to the trained depth-2 structure
+and held-out COLLAPSES BELOW random (11 = confidently-wrong, the s9 pattern). It NEVER exceeds random on the novel
+chain at any cycle count. SEARCH+VALUE is stable-to-rising on held-out (54->61) — the only thing that transfers.
+=> emergence-via-cycles is FALSE for held-out structural transfer in a reactive net: cycles drive SPECIALIZATION
+(better known, worse novel), not emergence. THE SESSION THESIS IS NOW TRIANGULATED 3 INDEPENDENT WAYS — scaling
+PARAMETERS (s11: 0%), DISTILLING the search (s12: below random), and TRAINING CYCLES (s15: specializes away) ALL
+fail to put creativity into a reactive net. CREATIVITY = INFERENCE-TIME SEARCH; weights hold COMPETENCE not
+CREATIVITY. CAVEAT: 1 seed; search held-out 54-61 (consistent w/ ~55-75 band); reactive "42" is untrained-near-
+random not transfer. This closes the transfer/emergence sub-arc with a strong, clean negative confirming the core.
