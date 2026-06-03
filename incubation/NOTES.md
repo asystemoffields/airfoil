@@ -633,3 +633,27 @@ pivot to the LEARNED/COMPRESSION angle that both fights overfitting AND matches 
    the learned-not-heuristic endgame; depth regime grows alongside via a modest object-relational op batch only as
    needed. The grounded arc now mirrors the toy: search+value works; the open frontier is GENERALIZATION (MDL) +
    LEARNED proposal richness, not more hand-primitives.
+
+## Result: arc/ step 4 — MDL/compression test is UNDERPOWERED (honest null); meta-finding: the hand-DSL ARC arena is too THIN for the depth/generalization questions.
+Tested "compression predicts generalization" (airfoil thesis) on ARC: enumerate ALL train-consistent programs
+(length<=3, cap 4000) per task, compare test-generalization under selection rules shortest(MDL)/longest/first/
+random. Over 300 tasks: arena=21 consistent-solvable, only 3 AMBIGUOUS (a spurious AND a generalizing program
+both fit). TEST-GEN rate: shortest=longest=first=20/21 (95%) ; random=21/21 (100%); ambiguous-only all 2/3 except
+random 3/3. HONEST: NO measurable MDL effect — shortest==longest exactly, and random "winning" is a 1-task luck
+artifact at N=3. UNDERPOWERED, not a refutation (toy + airfoil v0-v12 already measured compression->generalization
+on held-out data); the arena simply lacks the competing-programs regime where MDL would bite.
+META-FINDING (the real lesson of the grounding push): a HAND-BUILT grid DSL over ARC at tractable program lengths
+yields a THIN, SHALLOW solvable arena (mostly length-1, ~21/300). That sufficed to PROVE THE PROPOSER MECHANISM
+(non-LLM feedback search >> blind LLM, >= enum — the toy's value-search, grounded) BUT is too thin to exercise
+DEPTH (only 2 length-3 tasks) or GENERALIZATION/MDL (only 3 ambiguous) — the very things the toy was about. The
+toy exercised depth+generalization BETTER than this ARC-via-hand-DSL grounding. So the grounding validated the
+mechanism but is the wrong substrate for the depth/generalization frontier.
+STRATEGIC FORK (for Alex): (1) push the DSL much richer + object-RELATIONAL ops + harder tasks to manufacture a
+deep/ambiguous regime (heuristic treadmill, exactly what Alex dislikes; and deep-ARC tasks are the hard ones);
+(2) pivot to a LEARNED value/recognition proposer — but it needs depth to matter, which this arena lacks; (3)
+accept the TOY as the depth+generalization result (it's cleaner there) and treat ARC only as the proposer-mechanism
+validation (DONE), moving the depth/MDL/learned-value work back into a richer SYNTHETIC substrate we control (where
+we already get clean depth-3 + multi-seed + frontiers). My lean: (3) — the toy is the better microscope for the
+science; ARC grounding has delivered its verdict (non-LLM search proposer wins), and chasing depth in hand-DSL ARC
+is the heuristic treadmill. Bank the grounded proposer result; take depth+generalization+learned-value back to a
+controllable substrate. AWAIT Alex's steer on the fork.
