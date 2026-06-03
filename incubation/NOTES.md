@@ -67,3 +67,17 @@ partly by-construction (prior built to down-rank repurposing op — the point). 
 (1) LEARN the exploration policy end-to-end (trained incubation channel, not heuristic order);
 (2) stage (b) COMPOSITIONAL depth (repurposing op needed mid-composition → budget/size-for-time
 bites hardest); (3) eventually the attention-native version (attend over self-generated rollouts).
+
+## Result: learned_controller.py — the dissociation, now LEARNED (no heuristics)
+Two explorers trained by REINFORCE, differing ONLY in reward (goal-success vs coverage);
+verifier (goal-check) is the only non-learned piece. reached% vs budget B:
+- TYPICAL:     directed(success) 58->100 by B=3 ; non-dir(coverage) 21->90.
+- REPURPOSING: directed(success) 0% at EVERY B (learned, target-blind, total fixation) ;
+               non-dir(coverage) 33->68%.
+=> non-directedness is EMERGENT from the objective (coverage), not a coded order; success-
+trained explorer fixates, coverage-trained explorer deploys the affordance. Crossover holds
+(non-direction costs on typical: 90 vs 100). Caveats: non-dir plateaus 68% (goal-AGNOSTIC,
+greedy coverage imperfect); directed 0%-flat is extreme (target-blind + greedy). Next:
+goal-INFORMED-but-coverage-trained explorer (focus coverage without the usage prior) to lift
+68->higher; then compositional/state-dependent world (where learned >> any fixed order);
+then attention-native (attend over self-generated rollouts).
