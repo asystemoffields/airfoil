@@ -388,3 +388,46 @@ registers) while the true dynamics + perfect planner use full s, so model error 
 not just a seed-3 tail) and matches WHY an LLM-as-world-model is imperfect (it doesn't see full env state);
 re-run the gate -> expect a steady learned<perfect gap + test whether a pessimism/ensemble penalty closes
 the model-exploitation gap. (b) size-for-time frontier explicitly. (c) ground on a real CPU LLM.
+
+## Result: partial_obs_gate.py — step 9: PARTIAL OBSERVABILITY — the realism gate that BITES (consistently, hard) + ensemble pessimism does NOT rescue it.
+Step 8 left the realism cost STOCHASTIC (full-obs MLP nails the mean -> gap only via seed-3 exploitation).
+To make model error CONSISTENT and PRINCIPLED — and to match WHY a real LLM-as-world-model is imperfect
+(it does not observe full env state) — the learned model gets a PARTIAL observation: obs(s) MASKS the
+internal registers s[5..9] (reg1,2,3,reg4a,reg4b) to 0, keeping goal angles s[0:5] + scratch. The learned
+transition AND the value both read this masked obs (a coherent partial-obs controller). True dynamics +
+the perfect/full reference planner use full s. Hardened world (noise + nonlinear) reused from step 8.
+
+fwd Δs MSE (FULL vs PARTIAL-OBS), 2 seeds: FULL overall 0.0002-0.0003 / C4 0.0007 ; PARTIAL overall
+0.019-0.021 / C4 0.086-0.089. => masking the registers the couplings depend on raised coupling-op error
+~130x. Model error is now STRUCTURAL and CONSISTENT (not a seed-3 fluke). Hardening confirmed.
+
+SUMMARY (held-out depth-3, reached% mean[min..max] over seeds {1,2}, budgets 4/8/12):
+  random oracle (floor)        21 / 43 / 61[60..62]
+  perfect/full beam (UPPER)    51 / 71 / 80[76..84]
+  learned PO beam (single)      0 /  0 /  0
+  ensemble-mean PO beam         0 /  0 /  0
+  ensemble + pessimism PO       0 /  0 /  0
+
+THE FINDING (stark, robust both seeds): a partial-obs model does not merely DEGRADE — it COLLAPSES to 0%
+on the novel chain, WORSE THAN RANDOM (61). Mechanism (exactly the prediction): blind to the register, the
+model learns the POPULATION-MEAN coupling effect; tanh of a ~zero-mean register averages to ~0, so it
+believes COUPLINGS DO NOTHING -> never plans toward them, and (value also blind) gets no setup credit ->
+deterministically avoids the chain. A CONFIDENTLY-WRONG model is WORSE than no model: random at least
+SAMPLES the chain; the biased planner systematically avoids it. (Note: every coupling — depth-2 axes too —
+is register-gated, so the PO planner can only do the free axis; it is blind to ALL compositional structure.)
+
+ENSEMBLE PESSIMISM does NOT rescue it (0->0): exactly as predicted, the error is shared BIAS from missing
+input — all 3 members are blind to the SAME register, so they AGREE on the wrong mean. Ensemble disagreement
+flags epistemic VARIANCE (OOD), not this. LESSON, sharp: a systematic OBSERVATION/KNOWLEDGE gap cannot be
+patched by an uncertainty penalty — it needs a model that actually KNOWS the latent structure. This is the
+cleanest argument yet for WHY the real LLM matters in this architecture: not as a bigger policy, but as the
+world-KNOWLEDGE organ whose rich (less-partial) model of the domain is what makes plan-over-model succeed on
+structurally-novel chains. The toy's frozen MLP is the maximally-impoverished model; the LLM is the rich one.
+
+CAVEAT / next refinement: full masking is BINARY (total collapse), less informative than a GRADED curve.
+NEXT: (a) a graded OBSERVATION-QUALITY knob (attenuate+noise the registers by a factor rho in [0,1]) to
+trace the REALISM FRONTIER — planning success vs model fidelity — and find the fidelity threshold where
+plan-over-model overtakes random, and whether ensemble-pessimism helps in the PARTIAL (rho>0) regime where
+some epistemic variance exists; (b) size-for-time frontier (compute axis); (c) ground on a real CPU LLM
+(the rich-model end of the fidelity axis). NET ARC: better-than-random settled (step 8); model fidelity is
+the binding constraint for novel-chain planning (step 9) -> the LLM earns its place as the knowledge model.
