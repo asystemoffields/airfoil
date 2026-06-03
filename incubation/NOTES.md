@@ -188,3 +188,32 @@ given coordinate (e.g., a real LLM), aiming must come from a robust learned mech
 is the attention-native controller's GOAL QUERY attending over self-generated rollouts (= the finale).
 STEP 1 COMPLETE: coverage de-toys (continuous volume over a frozen causal latent) AND aims (cover the
 goal observable) — learned, necessary, adaptive, no enumeration, high-dim. Next: step 2 attention-native.
+
+## Result: step2_attention.py — ATTENTION-NATIVE controller (2 archs x 2 regimes). REFRAMES the evidence bar.
+Two architectures for "attend over self-generated rollouts": Arch1 SELECT-AMONG-FINISHED (imagine K=16
+random rollouts len 5 via WM, frozen-latent keys, learned goal-query attention selects one, MPC exec
+first op) ; Arch2 ATTEND-DURING-GENERATION (transformer; goal token attends over its own growing latent
+trajectory -> next op). Regimes: train-ALL goals vs train-TYPICAL(e1)-only. Baselines: reactive FF;
+Arch1 imagine-ORACLE (pick the verifier-winning rollout = imagination ceiling). reached% vs budget:
+- TYPICAL(e1): reactive 100 ; Arch1-oracle 40->88 ; Arch1-select(all) 46->91, (typ) 47->92 ; Arch2 100/100.
+- REPURPOSING(e2): reactive(train-all) 63->100 ; Arch1-oracle 9->40 ; Arch1-select(all) 8->47, (typ) 1->4 ;
+  Arch2-gen(all) 11->72->100 ; Arch2-gen(typ) 0 FLAT.
+THREE FINDINGS:
+(1) **TRAIN-ALL IS NOT A CREATIVITY TEST.** Reactive FF, trained on e2, solves e2 at 100% — a goal-
+   conditioned policy with the goal signal just learns the chain reactively. So train-all shows only
+   LEARNABILITY for every arch; the creativity claim REQUIRES the generalization (held-out) regime.
+   (The stage-a/b "reactive fixates" result was specifically under USAGE-SKEW, not when trained on the goal.)
+(2) **ARCH FORK RESOLVED: attend-during-generation (Arch2) >> select-among-finished (Arch1).** Arch1 is
+   bottlenecked by RANDOM imagination — the oracle ceiling is only 40% on e2 because random length-5
+   rollouts rarely CONTAIN the rare chain (K=16 not enough); learned select (47%) even beats naive
+   terminal-oracle (it picks by first-op value) but is capped by what imagination generates. Splitting
+   incubation(random)+aiming(select) FAILS when the creative chain is rare under random proposal -> a
+   learned/goal-aware PROPOSER would be needed. Arch2 has no such bottleneck (it GENERATES the chain).
+(3) **ZERO-SHOT generalization (train-typical) FAILS for both (Arch1 4%, Arch2 0%).** BUT per Alex's
+   emergence-via-cycles point [[incubation-emergence-via-cycles]], train-on-never-saw-it-at-all is the
+   HARSHEST regime, not the verdict — the general imagine+aim routine may only emerge after cycles on a
+   VARIETY of goals, then transfer to HELD-OUT ones.
+NEXT (the real creativity test): enrich the goal space with MULTIPLE locked axes (each needing its own
+repurposing chain), train Arch2 (winner) to deploy repurposing on a SUBSET of locked axes, then test
+transfer to a HELD-OUT locked axis never trained — "learned the general repurposing ROUTINE, applies to
+a novel instance" = emergent creativity. Then size-for-time; then ground onto a real CPU LLM.
