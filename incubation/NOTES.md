@@ -217,3 +217,35 @@ NEXT (the real creativity test): enrich the goal space with MULTIPLE locked axes
 repurposing chain), train Arch2 (winner) to deploy repurposing on a SUBSET of locked axes, then test
 transfer to a HELD-OUT locked axis never trained — "learned the general repurposing ROUTINE, applies to
 a novel instance" = emergent creativity. Then size-for-time; then ground onto a real CPU LLM.
+
+## Result: hybrids.py — step 4: HELD-OUT-AXIS TRANSFER, three hybrids. THE indirect-fire result.
+Shared learned pieces trained ONCE (frozen E ; coverage-proposer [goal-agnostic volume coverage ->
+learns every axis's chain incl. held-out] ; selector V(effect,target) trained on SUBSET axes {0,1,2,3}
+only ; fast Arch-2). Three hybrids = search strategies over them. Trained on subset, ZERO-SHOT on
+HELD-OUT locked axis 4 (never a training goal). reached% vs budget:
+- HELD-OUT axis 4 (the test): Arch2-alone 0 FLAT ; Hybrid A (deep imagine+select) 10->65 ; Hybrid B
+  (1-ply lookahead) 1->5 ; Hybrid C (fast+deliberate) 10->66.
+- trained-ref axis 1: Arch2-alone 72->100 ; A 5->51 ; B 6->46 ; C 4->52.
+- free axis 0: Arch2-alone 100 ; A 21->86 ; B 56->79 ; C 20->85.
+FOUR FINDINGS (big):
+(1) **TRANSFER TO A NEVER-TRAINED PROBLEM: SUCCESS via imagination, IMPOSSIBLE without it.** Arch2-alone
+   (reactive/generative) = 0 on the held-out axis — it cannot EMIT a chain it never learned. Hybrid A/C
+   (imagine + axis-general select) = 65/66% on an axis they were NEVER trained on. Creativity-as-transfer
+   REQUIRES the imagine/search loop. (Alex's artillery image: direct fire can't hit defilade; indirect
+   fire — compute the arc via the world-model — lands on a ridge it never shelled. The fire-control
+   computer = the world-model+selector; it generalizes to new coordinates.)
+(2) **The crossover holds, now in TRANSFER form.** Hybrids WIN on the novel axis (65 vs 0) but LOSE on
+   trained/free axes (51/86 vs 100). Incubation COSTS on the obvious (line-of-sight), is ESSENTIAL on the
+   novel (defilade). Same crossover as stage a/b, now across train/test.
+(3) **DEPTH matters: 1-ply lookahead (B) FAILS transfer (5%)** — the chain's first move (P_4 activates the
+   register) yields NO immediate goal-progress, so a myopic value can't credit it. Only deep rollouts
+   (A/C) contain+credit the full chain. "Attend over self-generated rollouts" needs enough DEPTH.
+(4) **A ~ C ~ the imagination CEILING (~65%, cf. oracle 59%).** The selector aims as well as the verifier-
+   oracle; the ceiling is set by what the (near-random) proposer GENERATES. To push past 65 -> a better
+   coverage/learned PROPOSER (more reliably generates the chain). And Hybrid C did NOT realize best-of-both
+   (52 on trained, should be ~100): its V-threshold arbitration over-deliberated -> tune the confidence
+   gate so C = fast on known, deliberate on novel. Both are clear, named next levers.
+NET: first demonstration in this program that the mechanism deploys a NON-OBVIOUS affordance on a problem
+it was NEVER trained on, and that this REQUIRES imagination (reactive=0). Honest caveats: 65% not 100%
+(proposer-limited); toy world; costs on trained goals. NEXT: (a) better proposer -> raise the ceiling;
+(b) tune C's arbitration -> best-of-both; then size-for-time; then ground on a real CPU LLM.
