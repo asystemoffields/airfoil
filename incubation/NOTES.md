@@ -529,3 +529,21 @@ NEXT: GROUND on a real CPU LLM as the world-knowledge / proposer model (the rich
 the fidelity axis) — the toy has now established: better-than-random (s8), fidelity threshold + exploitation>
 inaccuracy + pessimism-always-hurts + intermediate-fidelity-best (s9/10/10b), and size-for-time (s11). The
 remaining question is whether a real LLM's rich model carries this from the toy to a real symbol domain.
+
+## GROUNDING PHASE kickoff (2026-06-03) — ARC grids, LLM-as-PROPOSER. Env de-risked.
+Toy arc closed (s8-s11). Grounding the propose->aim->verify spine on a REAL domain. Alex chose DOMAIN=ARC
+(the stated breadth benchmark); LLM-role left to me -> chose LLM-as-PROPOSER (the toy's step-5 bottleneck was
+proposer structure-boundness; ARC verification is EXACT so no learned world-model needed for ground truth;
+step-11 showed model fidelity can be moderate anyway). Plan: LLM proposes candidate DSL programs; a grid DSL
++ exact train-pair verification do aiming/verify. The science re-test: does LLM-biased proposal solve more
+held-out tasks than RANDOM/ENUMERATIVE proposal under a fixed verify budget (= "rich proposer beats coverage",
+grounded). Key reframe: proposer need NOT be correct — verify is free+exact, so even a weak model helps if its
+proposals beat uniform over the DSL (BREADTH from LLM, correctness from search+verify).
+ENV (all local, CPU-only, ~7GB RAM / 4.3GB free): llama_cpp_python 0.3.23; GGUFs on disk (Qwen2.5-0.5B-Instruct
+Q3/4/5, qwen3-1.7b, DeepSeek-R1-Distill-1.5B-Q4, SmolLM2-135M/360M); FULL ARC-AGI corpus at /data/arc/data
+(400 training + 400 evaluation, standard {train,test} json) + testing UI. SMOKE (arc/llm_smoke.py, Qwen2.5-0.5B
+-Q4): load 0.7s, gen 31 tok/s on CPU -> ~2.5s per 80-tok proposal -> few-proposals/task search is feasible.
+(0.5B got a trivial recolor WRONG = said 'flip' -> use >=1.5B for better proposal bias, but runtime proven.)
+NEXT: build grid DSL (~12-20 pure primitives) + exact verifier + task loader; LLM proposer (prompt train pairs
++ primitive list -> parse programs); search loop; baselines random/enumerative; run on a curated simple-task
+set to establish LLM-proposer >= baselines under fixed budget.
