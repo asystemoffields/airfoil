@@ -81,3 +81,19 @@ greedy coverage imperfect); directed 0%-flat is extreme (target-blind + greedy).
 goal-INFORMED-but-coverage-trained explorer (focus coverage without the usage prior) to lift
 68->higher; then compositional/state-dependent world (where learned >> any fixed order);
 then attention-native (attend over self-generated rollouts).
+
+## Refinement: goal-INFORMED coverage = clean 100% (the concept sharpened)
+Added a 3rd learned explorer: reward = coverage of distinct effects ON THE GOAL REGISTER
+(goal-informed, but coverage-trained NOT success-trained). reached% vs B:
+- TYPICAL:     directed 100%@B3 ; op-coverage(agnostic) ->89 ; r-coverage 100%@B3.
+- REPURPOSING: directed 0% everywhere ; op-coverage ->67 ; r-coverage 33->67->100%@B5.
+=> goal-informed coverage hits 100% on BOTH (incl. repurposing) vs directed's flat 0%.
+CONCEPTUAL SHARPENING: "non-directed" is NOT goal-blind — it means exploration driven by
+EFFECT-COVERAGE, not by success/the prior. The winner is goal-AWARE but coverage-DRIVEN:
+use the goal to pick WHICH dimension to explore effects on, then cover that effect-space
+instead of beelining the prior-preferred op. Because the repurposing op is the only source
+of the odd register-r effect, "cover the effects you can cause on what you care about"
+FORCES its discovery; success-on-skewed-goals never does. Incubation, precisely: direct
+attention at the goal, but search the space of EFFECTS, not the space of known solutions.
+Stage (a) is now clean + learned. Next: compositional/state-dependent world (coverage stops
+being trivial — learning earns its keep), then attention-native.

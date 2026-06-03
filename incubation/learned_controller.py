@@ -61,24 +61,28 @@ class Explorer(nn.Module):
         return self.net(self.feat(counts, t, r))
 
 
-def train(explorer, directed, steps=4000):
+def train(explorer, mode, steps=4000):
+    """mode: 'success' (directed) | 'coverage' (op-coverage, goal-agnostic) |
+             'rcoverage' (coverage of distinct effects ON THE GOAL REGISTER, goal-informed)."""
     opt = torch.optim.Adam(explorer.parameters(), lr=3e-3)
     for _ in range(steps):
         n = 256
         s, r, tgt = sample_goals(n, repurpose=False)        # train on TYPICAL goals only (usage skew)
         counts = torch.zeros(n, NOP)
-        logps = torch.zeros(n)
-        solved = torch.zeros(n, dtype=torch.bool)
-        distinct_reward = torch.zeros(n)
+        seen_rval = torch.zeros(n, M)                        # distinct register-r outcomes seen
+        logps = torch.zeros(n); solved = torch.zeros(n, dtype=torch.bool)
+        cov = torch.zeros(n); rcov = torch.zeros(n)
         for t in range(B_TRAIN):
             logits = explorer(counts, t, r)
             d = torch.distributions.Categorical(logits=logits)
             op = d.sample(); logps = logps + d.log_prob(op)
-            new = counts[torch.arange(n), op] == 0
-            distinct_reward += new.float()
+            cov += (counts[torch.arange(n), op] == 0).float()
             counts[torch.arange(n), op] += 1
+            rval = W.apply_op(s, op)[torch.arange(n), r]
+            rcov += (seen_rval[torch.arange(n), rval] == 0).float()
+            seen_rval[torch.arange(n), rval] = 1
             solved |= solves(s, r, tgt, op)
-        reward = solved.float() if directed else distinct_reward / B_TRAIN   # objective differs ONLY here
+        reward = {"success": solved.float(), "coverage": cov / B_TRAIN, "rcoverage": rcov / B_TRAIN}[mode]
         adv = reward - reward.mean()
         loss = -(logps * adv.detach()).mean()
         opt.zero_grad(); loss.backward(); opt.step()
@@ -108,14 +112,16 @@ def main():
     f("=" * 80)
     f("Incubation — LEARNED explorer (REINFORCE): directed (goal-success) vs non-directed (coverage)")
     f("=" * 80)
-    directed = train(Explorer(use_goal=True), directed=True)
-    nondir = train(Explorer(use_goal=False), directed=False)
+    directed = train(Explorer(use_goal=True), "success")
+    nondir = train(Explorer(use_goal=False), "coverage")
+    nondir_r = train(Explorer(use_goal=True), "rcoverage")    # goal-informed but coverage-trained
     Bs = (1, 2, 3, 5, 7, 9)
     for repurpose, label in [(False, "TYPICAL goals"), (True, "REPURPOSING goals")]:
         f(f"\n  --- {label} ---")
-        f("    budget B:            " + "  ".join(f"{b:>4d}" for b in Bs))
-        f("    directed(success)   " + "  ".join(f"{v*100:4.0f}" for v in evaluate(directed, repurpose, Bs)))
-        f("    non-dir(coverage)   " + "  ".join(f"{v*100:4.0f}" for v in evaluate(nondir, repurpose, Bs)))
+        f("    budget B:               " + "  ".join(f"{b:>4d}" for b in Bs))
+        f("    directed(success)      " + "  ".join(f"{v*100:4.0f}" for v in evaluate(directed, repurpose, Bs)))
+        f("    non-dir(op-coverage)   " + "  ".join(f"{v*100:4.0f}" for v in evaluate(nondir, repurpose, Bs)))
+        f("    non-dir(r-coverage)    " + "  ".join(f"{v*100:4.0f}" for v in evaluate(nondir_r, repurpose, Bs)))
     f("\n" + "=" * 80)
     f("READ: both explorers are LEARNED (REINFORCE) — they differ ONLY in the training objective.")
     f("If the success-trained one fixates on REPURPOSING goals while the coverage-trained one")
