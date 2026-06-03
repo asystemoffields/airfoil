@@ -342,3 +342,49 @@ NET: search-over-learned-model = search-over-perfect-model ONLY because the mode
 (a) HARDEN dynamics (nonlinear coupling / observation noise / partial obs) so fwd MSE > 0, THEN re-run the
 realism gate — the real test; (b) multi-seed to quantify the structurally-novel transfer variance honestly;
 (c) size-for-time frontier; (d) ground on a real CPU LLM (where the model is genuinely imperfect).
+
+## Result: hardened_search.py — step 8: HARDENED dynamics + better-than-random PANEL (multi-seed). Realism gate now BITES (via model-exploitation), variance quantified, value+novelty wins.
+Closed two holes from step 7. World HARDENED: process noise (N(0,0.12) on full state each op) + nonlinear
+couplings (C_i: s[i]+=ALPHA*tanh(reg); T4: s9+=s8*(1+0.3*tanh(s8)); C4: s4+=ALPHA*tanh(s9); ALPHA bumped to
+2.2 so chains still reach). Panel of structure-general "better than random" planners, all PLAN over the
+learned model + ACT in the true noisy world (MPC), raced on the held-out DEPTH-3 axis, over seeds {1,2,3}.
+
+fwd Δs MSE (vs noiseless MEAN): overall 0.0002-0.0003, C4 up to 0.0009 -> STILL ~0. KEY REALIZATION: a
+FULL-OBSERVATION MLP learns the mean dynamics + smooth tanh near-perfectly; process noise only adds
+variance to targets that averages out. So one-step model error is NOT the lever in a fully-observed toy.
+
+SUMMARY (held-out depth-3, reached% mean[min..max] over 3 seeds, budgets 4/8/12):
+  random oracle (floor)    21 / 42 / 59
+  value k6 beam W10        44[28..54] / 59 / 68[51..76]   <- champion
+  value k6 greedy W1       35 / 43 / 48                   <- worst value method (width matters)
+  value k1 beam W10        40 / 65 / 76[70..86]           <- short-horizon; catches up at high B
+  value+novelty k6 W10     50[32..62] / 64 / 70           <- BEST low-budget; keep-dims-open helps
+  novelty+reach (goal-blind) 43 / 62 / 64                 <- beats random but PLATEAUS (value needed)
+  value k6 beam PERFECT    52 / 69 / 79[75..81]           <- upper ref (true simulator)
+champion on ref axes (last seed): axis1 depth-2 71/86/90 ; axis0 free 68/88/93.
+
+THREE HONEST FINDINGS:
+(1) **The realism gate is NOT vacuous after all — it bites via MODEL EXPLOITATION, not one-step error.**
+   On seed 3 the LEARNED-model beam collapsed (28/42/51) while the PERFECT-model beam, using the IDENTICAL
+   value net, held (54/73/81). Only `trans` differs => the ~26-30pt gap is entirely the forward model,
+   and it opened despite ~0 one-step MSE. This is the classic MBRL delusion: a 5-deep beam preferentially
+   selects imagined branches where the model is over-optimistic, amplifying sub-0.001 errors on the rare
+   depth-3 chain. ACCURATE != SAFE-TO-PLAN-DEEPLY. Seeds 1-2 had no gap (tied); the cost is seed-stochastic.
+(2) **Variance honestly quantified.** Champion value-k6-beam = 44[28..54]/59/68[51..76]. The big swing is
+   driven almost entirely by seed-3 model-exploitation, NOT method instability — on seeds 1-2 it is steady
+   (54/50 @B4). The step-7 "55 vs 90" wobble was the greedy/short-horizon variants, not the beam champion.
+(3) **Which better-than-random idea wins:** BEAM WIDTH is essential (greedy W1 worst, 48@B12). value+NOVELTY
+   (V_togo + latent-novelty / keep-dims-open) is the strongest LOW-BUDGET proposer (50 vs plain 44 @B4),
+   repeatable on seeds 1-2 -> vindicates "keep the useless structure / open new dims" for finding the novel
+   chain FAST. Pure novelty (goal-blind) beats random but plateaus -> the value signal is load-bearing for
+   the last leg. Setup-credit (k6>k1) helps early; k1 catches up by B12 (horizon matters less than width).
+All value-guided methods clear the random floor, with the margin LARGEST at low budget (search = sample-
+efficiency): @B4 value+novelty 50 vs random 21 (>2x); they converge toward random only at high budget.
+
+NET: better-than-random is settled (beam + value + novelty bonus, NO LLM); variance is honest (seed-driven,
+not method); and the realism cost is real but shows as model-EXPLOITATION under deep search, not one-step
+error. NEXT: (a) PARTIAL OBSERVABILITY — give the learned model a lossy obs o(s) (drop/corrupt the chain
+registers) while the true dynamics + perfect planner use full s, so model error is CONSISTENT (reducible,
+not just a seed-3 tail) and matches WHY an LLM-as-world-model is imperfect (it doesn't see full env state);
+re-run the gate -> expect a steady learned<perfect gap + test whether a pessimism/ensemble penalty closes
+the model-exploitation gap. (b) size-for-time frontier explicitly. (c) ground on a real CPU LLM.
