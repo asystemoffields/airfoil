@@ -743,3 +743,19 @@ PARAMETERS (s11: 0%), DISTILLING the search (s12: below random), and TRAINING CY
 fail to put creativity into a reactive net. CREATIVITY = INFERENCE-TIME SEARCH; weights hold COMPETENCE not
 CREATIVITY. CAVEAT: 1 seed; search held-out 54-61 (consistent w/ ~55-75 band); reactive "42" is untrained-near-
 random not transfer. This closes the transfer/emergence sub-arc with a strong, clean negative confirming the core.
+
+## Result: multiaxis_deep.py — step 16: the search+value stack SCALES to DEPTH-4 (graceful degradation, no cliff).
+New world (D=20, NOP=23): goal axes of growing depth — 0 free; 1,2,3 depth-2; 4 depth-3; 5 DEPTH-4 (P5->T5a->T5b
+->C5). tanh couplings (ALPHA=2.2) keep reach well-defined at any depth. Bellman value trained ONLY on subset
+depth<=2; eval search (W=12,L=6) zero-shot on held-out depth-3 AND depth-4. reached% B=2..12:
+  DEPTH-4 (axis5, held-out): random 8/18/28/38/46/55 ; search 28/51/60/65/67/68
+  depth-3 (axis4, held-out): random 9/20/28/38/47/56 ; search 34/56/64/68/70/71
+  depth-2 (axis1, trained):  random 9/20/32/44/54/63 ; search 22/54/85/97/100/100
+FINDING: the stack HOLDS — GRACEFUL degradation, NO cliff. Held-out ceiling depth-3 71 -> depth-4 68 (barely
+lower), both clearing the (strong K=24) random oracle by a consistent +13-15; trained depth-2 saturates 100. The
+Bellman value trained on depth<=2 transfers to BOTH deeper held-out depths with minimal falloff (71->68) -> its
+structure-generality doesn't crumble as the novel chain deepens. vs the triangulated reactive baseline = 0 at both
+depths. ROBUSTNESS CHECK PASSED: search+value creativity scales to depth-4. CAVEATS: random oracle floor is high
+(it is itself K=24 search) so the MARGIN (+13-15) is solid not dramatic; 1 seed. NET: the session thesis (creativity
+= inference search + value, irreducible to reactive weights) holds at greater depth. Remaining frontiers: learned
+goal-conditioned coverage value; Hybrid-C end-to-end (distilled fast + search slow).
