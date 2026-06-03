@@ -497,3 +497,35 @@ re-frames Alex's law: don't suppress uncertainty (pessimism, step10) — but a l
 FREE regularizer against the over-optimism that deep search would otherwise exploit. NEXT: size-for-time
 frontier (compute axis: accuracy vs beam width/depth; small-net+search vs big-reactive); then ground on a
 real CPU LLM as the world-knowledge model (the rich, naturally-stochastic end of the fidelity axis).
+
+## Result: size_for_time.py — step 11: the SIZE-FOR-TIME frontier (program headline) — search COMPUTE buys creative transfer; PARAMETERS do not.
+Held-out depth-3 axis, hardened world, seed 1. Two sweeps.
+A. REACTIVE sweep (grow params, same train regime), reached% B=4/8/12 — held-out | trained axis1:
+   tiny  dm16 L1 (  6965p):  0/0/0  | 96/100/100
+   small dm32 L1 ( 15829p):  0/0/0  | 95/100/100
+   med   dm64 L2 ( 73173p):  0/0/0  | 100/100/100
+   big   dm128 L3(311189p):  0/0/1  | 99/100/100
+   => across a 45x param range the reactive policy is PINNED AT ~0 on the never-trained chain-shape while
+   SATURATED on the trained axis. SIZE does not buy creative transfer (a reactive net can't emit a chain it
+   never trained on, no matter how many params). Robust w/ prior multi-seed reactive=0 on held-out.
+B. SEARCH sweep (FIXED small value net ~14k params + frozen world-model; grow beam WIDTH = test-time compute):
+   random oracle floor (=width-16 random search): 21/42/60
+   W=1 (~105 calls): 35/44/51 ; W=2: 31/43/49 ; W=4: 32/47/55 ; W=8(~840): 40/62/75 ; W=16(~1680): 65/85/92 ;
+   W=32(~3360): 68/86/91.
+   => the SAME small fixed controller, given more beam WIDTH, climbs the held-out chain 51->92 (B=12),
+   saturating ~W=16. Low width (W<=4) loses to the random oracle (itself width-16 search); beam needs width
+   to pass it, then clears reactive(0) and floor(60) decisively.
+
+HEADLINE (SIZE-FOR-TIME): on a structurally-novel affordance, TEST-TIME SEARCH COMPUTE reaches 92% where
+REACTIVE PARAMETER SCALING (45x) reaches 0%. The creative-transfer lever is INFERENCE COMPUTE (beam width
+over a world-model + value), NOT model size/training. A net COMPARABLE in size to the smallest reactive,
+plus search, beats the 45x-bigger reactive by 92 vs 0 -> it is the SEARCH, not the parameters. This closes
+the toy arc: propose(search the frozen WM) -> aim(structure-general V_togo) -> verify(act, MPC), a small
+controller that is reactive-fast on the known AND deploys never-trained chains by spending search compute.
+CAVEAT: uses the perfect simulator for the search sweep to isolate the COMPUTE axis (step 10/10b already
+characterized the model-FIDELITY axis: rho>=0.66 noisy-ensemble matches/beats perfect, so a moderately-good
+model would give a similar curve). Single seed for the frontier shape (endpoints robust by prior multi-seed).
+NEXT: GROUND on a real CPU LLM as the world-knowledge / proposer model (the rich, naturally-stochastic end of
+the fidelity axis) — the toy has now established: better-than-random (s8), fidelity threshold + exploitation>
+inaccuracy + pessimism-always-hurts + intermediate-fidelity-best (s9/10/10b), and size-for-time (s11). The
+remaining question is whether a real LLM's rich model carries this from the toy to a real symbol domain.
