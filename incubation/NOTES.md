@@ -683,3 +683,19 @@ irreducible expensive object for creativity. CAVEATS: 1 seed; search expert 65 h
 consistent w/ s6-7); R subset plateau 66 = lossy greedy distillation. NEXT (learned-not-heuristic, synthetic):
 LEARN the value (replace random-rollout V_togo with a trained structure-general value) and test if a better
 learned value lifts the search's novel-chain ceiling; + emergence-via-cycles [[incubation-emergence-via-cycles]].
+
+## Result: learned_value.py — step 13: a better LEARNED value (bootstrapped Bellman) lifts the novel-chain ceiling 62->75, no extra inference cost.
+Since novelty needs SEARCH (s11/12), the lever on the creative engine is the VALUE. Replaced the 1-shot Monte-Carlo
+V_togo with a BOOTSTRAPPED Bellman value (value iteration over the frozen perfect model, subset axes, per-example
+axis: V(s)<-reached?1:gamma*max_op[reached(child)?1:V(child)]) -> propagates reachability backward, credits deep
+setups. reached% @B=2/4/6/8/10:
+  HELD-OUT depth-3: random 7/17/27/37/46 ; search+V_togo 28/46/55/60/62 ; search+V_bellman 29/51/67/73/75
+  subset depth-2:   random 9/.. ; search+V_togo 66/97/99/100/100 ; search+V_bellman 40/83/96/99/100
+FINDING: V_bellman > V_togo on the NOVEL chain (75 vs 62 @B10) -> a better LEARNED value RAISES the creative ceiling
+at NO extra inference cost = the value is the tunable lever on the irreducible search engine. (Trade: V_bellman is
+slightly worse early on the shallow trained axis, 40 vs 66 @B2 — bootstrap spreads credit, less peaked on shallow
+chains, much better on deep novel ones.) BUT it stalls at 75 (not ~90+) and is STILL a reachability value -> headroom
+for a CUSTOM value (Alex: "make our own kind of thingy"). NEXT (step 14): AIMED-COVERAGE value = fuse the Bellman
+reach-value with a coverage/novelty term that credits OPENING the goal-relevant locked dimension (the steps 1-5
+mechanism; already the step-8 'value+novelty' winner) -> setup states (post-P4: goal coord unchanged but dimension
+UNLOCKED) get dense credit a reachability value misses. Test if V_bellman+coverage > V_bellman (75) on depth-3.
