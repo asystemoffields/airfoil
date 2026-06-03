@@ -296,3 +296,26 @@ Hybrid C stays best-of-both (novel 37 ~ A, trained 99 ~ reactive 100, free 100).
 GENERAL / richer proposer (or curriculum over structures) to lift novel-structure transfer above random;
 (b) the obvious one: ground the imaginer in a real CPU LLM (rich proposer) + this selector/gate; (c)
 size-for-time frontier.
+
+## Result: value_search.py — step 6: VALUE-GUIDED SEARCH lifts structurally-novel transfer 42%->90% (NO LLM).
+Fixes step 5's bottleneck (structure-bound incubation) by replacing random imagination with SEARCH over
+the frozen world-model guided by a structure-general VALUE-TO-GO. Key correction: the old selector was a
+GOAL-CLASSIFIER (no credit for setup moves -> 1-ply failed); V_togo(s,t) = P(random k-rollout from s
+reaches target), trained on SUBSET axes only, credits the chain's setup move. Search over the (perfect)
+world-model + reach-bonus + V_togo heuristic = one step of policy improvement, structure-agnostic.
+reached% vs budget on the held-out DEPTH-3 (structurally different) axis:
+- random oracle (floor): 8->45 ; greedy V_togo (W=1): 17->59 (already beats random) ; beam V_togo (W=10):
+  22->53->75->87->90.  trained axis1(depth-2): greedy 80->99, beam 33->100. free axis0: greedy 100, beam 76->100.
+=> VALUE-GUIDED SEARCH (frozen WM + structure-general V_togo) deploys a DEPTH-3 chain it NEVER trained on
+at 90% — DOUBLING the random floor (45) — using ONLY the two pieces we trust, NO LLM. This is exactly
+Alex's call ("we can do better than random without an LLM, for sure"). The structure-general imaginer =
+SEARCH (searches the model; doesn't depend on a learned proposer's family-bound richness); the structure-
+general aimer = V_togo. Together: a small controller that is reactive-fast on the known AND deploys novel,
+structurally-different affordances at ~90% by spending test-time SEARCH compute (= the size-for-time
+trade in action: beam width/depth buys novel-transfer accuracy).
+CAVEATS: search uses the PERFECT world-model (apply_op) as simulator (isolates the search/value question;
+learned-imperfect-model search is the next check — error compounding). 19-D toy. Greedy(W=1) is more
+budget-efficient than beam at tiny B on EASY goals (myopic-best first op); beam dominates at higher B and
+on the hard novel axis. NEXT: (a) search over the LEARNED (imperfect) world-model wl.fwd, not true apply_op
+-> realism check; (b) size-for-time frontier explicitly (accuracy vs beam compute, small-net vs big-reactive);
+(c) then ground on a real CPU LLM. STATE: structure-general creative deployment achieved in the toy.
