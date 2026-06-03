@@ -431,3 +431,40 @@ plan-over-model overtakes random, and whether ensemble-pessimism helps in the PA
 some epistemic variance exists; (b) size-for-time frontier (compute axis); (c) ground on a real CPU LLM
 (the rich-model end of the fidelity axis). NET ARC: better-than-random settled (step 8); model fidelity is
 the binding constraint for novel-chain planning (step 9) -> the LLM earns its place as the knowledge model.
+
+## Result: realism_frontier.py — step 10: the REALISM FRONTIER (planning success vs model fidelity) + Alex's law: PESSIMISM / novel-chain suppression ALWAYS HURTS.
+Graded observation-quality knob rho in [0,1] on the registers: obs_rho(s)[reg]=rho*s[reg]+(1-rho)*OBS_NOISE*randn
+(rho=1 full obs, rho=0 pure noise ~ step-9 mask). Per-member resampled noise -> in the partial regime
+(0<rho<1) ensemble members get DIFFERENT noisy views -> genuine epistemic variance for pessimism to act on
+(unlike rho=0's pure shared bias). Held-out depth-3 axis, plan-over-model / act-in-true-world (MPC), 1 seed.
+
+FRONTIER (reached% B=4/8/12). refs: random oracle 21/43/60 ; perfect/full beam (true sim) 44/68/81.
+  rho=0.00 (C4 MSE .092): single 4/7/12   ; ens-mean 2/4/9   ; +pessimism 3/4/10
+  rho=0.33 (C4 MSE .096): single 24/52/71 ; ens-mean 22/53/72; +pessimism 11/32/51
+  rho=0.66 (C4 MSE .046): single 45/74/86 ; ens-mean 53/78/90; +pessimism 42/67/79
+  rho=1.00 (C4 MSE .000): single 38/55/63 ; ens-mean 37/57/72; +pessimism 39/55/66
+
+FINDINGS:
+(1) REALISM THRESHOLD between rho 0 and 0.33: below it a partial model is WORSE than random (12<60);
+   at 0.33 it OVERTAKES (71); by 0.66 it MATCHES/BEATS the perfect planner (86-90). Fidelity->payoff is sharp.
+(2) **ALEX'S LAW (predicted, CONFIRMED across the whole sweep): pessimism / novel-chain suppression ALWAYS
+   HURTS.** ensemble+PESSIMISM is the WORST variant at EVERY rho>0 — useless at rho=0 (shared bias, nothing
+   to penalize) and actively HARMFUL at rho=0.33/0.66 (it penalizes ensemble DISAGREEMENT, but the rare
+   depth-3 chain is exactly where members disagree most -> it suppresses the very target it should pursue).
+   STRUCTURAL, not empirical: in a creativity-seeking planner NOVELTY == model-UNCERTAINTY, so any
+   uncertainty-averse penalty points the wrong way. A scalar disagreement signal cannot separate "uncertain
+   because hallucinating" (avoid) from "uncertain because genuinely novel-but-reachable" (pursue) -> no lambda
+   fixes it. RESOLUTION is not a different SIGN (optimism just re-invites step-8 delusion) but VERIFY-BY-ACTING:
+   the MPC loop already proposes the uncertain novel chain and lets the REAL world (one cheap step + re-plan)
+   verify/refute it. Pessimism tries to be safe INSIDE imagination where there's no ground truth -> can only
+   "stay near the known" = death of creativity. Ensemble MEAN (variance reduction = a better model) helps;
+   ensemble PESSIMISM (a more conservative target) structurally cannot. => don't penalize model uncertainty, GROUND it.
+(3) MSE is a POOR fidelity proxy here (noise-dominated: rho 0 and 0.33 have ~equal C4 MSE ~.09 but 12 vs 71
+   reached) — the real axis is rho = mutual information between obs and the register, not one-step MSE.
+(4) **HYPOTHESIS, UNCONFIRMED (1 seed): NON-MONOTONIC frontier — rho=0.66 (86/90) BEATS rho=1.0 (63), and
+   rho=1.0 sits BELOW the perfect ref (81).** rho=1.0's dip = the step-8 model-EXPLOITATION gap (learned
+   model, MSE~0, still exploited by deep beam). Conjecture: a little OBSERVATION NOISE at rho=0.66 REGULARIZES
+   that exploitation (blurs over-optimistic branches) -> intermediate fidelity > full fidelity. Mechanistically
+   consistent but rho=1.0's 63 is within step-8's seed band (learned beam ~51-76); NEEDS MULTI-SEED to confirm.
+NEXT: multi-seed re-run of the frontier to settle (4) [pessimism-always-hurts and the threshold are already
+robust by mechanism]; then size-for-time (compute axis); then ground on a real CPU LLM (the rich-model end).
