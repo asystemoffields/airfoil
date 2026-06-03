@@ -109,3 +109,29 @@ adaptive (conditions on what it's already covered) — can't be a fixed order. S
 repurposing is now: learned, necessary, and scales. NEXT (the real frontier): SEQUENTIAL /
 state-dependent compositional world (non-commutative ops, plan evolves state) where adaptivity
 matters within a plan and the size-for-time payoff is largest; then attention-native.
+
+## Result: learned_sequential.py — stage (b): SEQUENTIAL, STATE-DEPENDENT repurposing (learned >> any fixed order)
+World: 3 regs mod 8, 15 ops, NO P_c. Reaching an opposite-parity target on c is impossible by home
+adds (parity-preserving) and impossible directly (no P_c) — you must TRANSFER from an odd source,
+which needs a parity op first => mid-plan repurpose. And `c+=b` flips c only when b is ODD => apply
+P_b iff b is even => the optimal plan is STATE-DEPENDENT (a fixed order cannot meet it). reached% vs B:
+- TYPICAL:     directed(success) 50->100@B4 ; coverage(agnostic) 26 FLAT ; gcoverage 25->100@B8.
+- REPURPOSING: directed 0% EVERYWHERE (total fixation) ; coverage(agnostic) 0% FLAT ; gcoverage 24->100@B8.
+- REPURPOSING split by initial b-parity (the state-dependence test):
+    b EVEN (must APPLY P_b): gcoverage 25/37/50/62/74/100   (directed & agnostic 0 flat)
+    b ODD  (must SKIP  P_b): gcoverage 24/36/49/62/75/100   (directed & agnostic 0 flat)
+  => gcoverage is ADAPTIVE: near-identical curves for both parities — it applies P_b when needed and
+  skips it when not. No fixed order can do both; "always P_b" fails b-odd, "never P_b" fails b-even.
+THREE findings: (1) directed success-training FIXATES even harder when the affordance is sequential
+(0% flat, not just slow). (2) goal-AGNOSTIC novelty FAILS entirely (26/0 flat) — pure exploration
+doesn't aim; "non-directed" must mean goal-AIMED effect-coverage, not goal-blind (sharpens stage a).
+(3) goal-informed effect-coverage DISCOVERS the multi-step P_b->transfer->tune chain and deploys it
+ADAPTIVELY to state — learned, and necessary (no fixed order qualifies). Honest caveats: gcoverage
+"solves" by SWEEPING c's reachable values (incubation-by-coverage) so the verifier picks the hit — it
+pays a coverage COST on easy goals (100@B8 vs directed 100@B4), the crossover holds; world still
+abstract/low-dim (coverage = distinct discrete values, enumerable — the next scaling problem).
+Stage (b) DONE: sequential + state-dependent repurposing is learned and necessary.
+NEXT (scaling): coverage must move from distinct-discrete-values to DIVERSITY IN A LEARNED EFFECT-
+EMBEDDING (so it works when the effect space is huge/continuous); then attention-native controller
+(attend over self-generated rollouts); then the size-for-time frontier (small+incubation == big+
+reactive on accuracy-vs-compute = the headline); then ground onto a real CPU LLM (PMRA).
