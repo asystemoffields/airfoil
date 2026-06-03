@@ -606,3 +606,30 @@ object-centric primitives (per-object recolor/move/count, symmetrize, connect-do
 so solving REQUIRES length-3+ -> then search pulls decisively away from enum (the grounded depth-3 result).
 (C) fix search recall (looser beam). (D) later: LEARN the value/recognition model (replace the grid-distance
 heuristic + bias the search) = the learned-not-heuristic endgame.
+
+## Result: arc/ step 3 — richer DSL (33 ops) exposes a depth regime; search>=enum confirmed; + an OVERFITTING finding that points to the airfoil/MDL thesis.
+Grew dsl.py to ~33 ops (object-centric + geometry: shifts, gravity 4-dir, sym_lr/ud, keep_smallest, downscale2,
+trim_border, bbox_fill, outline, keep/remove/swap_color). Fixed search recall (beam W=8->25). Re-ran discovery+
+comparison over 300 training tasks.
+arena = 21 length<=3 solvable, NOW with depth: {len1:15, len2:4, len3:2}. SOLVE RATE (train/test) vs EXEC budget:
+   B=50/300/2000/6000:  random 2/11/17/18 ; enum 15/16/19/20 ; search 15/19/20/21  (LLM-0.5B: 3/4/4)
+FINDINGS:
+(1) SEARCH >= ENUM at every budget; gap WIDENS where depth lives (B=300: search 19 vs enum 16 on the length-2
+   tasks — feedback finds them before enum exhausts the ~29k-program length-2 space). Search uniquely closes the
+   full arena (21) vs enum 20 / random 18 / LLM 3-4. Recall fix worked (search no longer under-finds). The
+   NON-LLM feedback-search proposer is validated and BEST across the board = toy's value-search, grounded, no LLM.
+(2) Depth regime still THIN (15/21 length-1). Growing the DSL mostly added new LENGTH-1 solutions, not forced
+   depth, because genuine deep ARC needs object-RELATIONAL ops (relations BETWEEN objects: align-to, copy-to-each,
+   count-and-map) which object-CENTRIC ops don't capture. Diminishing returns on hand-DSL = the heuristic
+   treadmill Alex wants to avoid -> argues for the LEARNED direction.
+(3) **OVERFITTING (new, points at the airfoil thesis):** at B=6000 search finds 21 TRAIN-consistent but only 18
+   TEST-generalizing -> 3 SPURIOUS programs (match train pairs by coincidence, fail the held-out pair). Richer DSL
+   -> more spurious train-consistent programs. FIX = an MDL/SIMPLICITY prior (prefer the SHORTEST program that
+   fits) = Alex's COMPRESSION-AS-GENERALIZATION line, surfacing UNBIDDEN in the grounded setting. [[airfoil-project]]
+RECOMMENDATION (reshaped): STOP hand-growing the DSL toward object-relational ops (heuristic treadmill). Instead
+pivot to the LEARNED/COMPRESSION angle that both fights overfitting AND matches the program's preference:
+(A) add an MDL/length prior to program selection (cheap, high-value, ties to airfoil) -> measure test-generalization
+   lift; (B) LEARN the value/recognition model (replace grid-distance heuristic; bias search; structure-general),
+   the learned-not-heuristic endgame; depth regime grows alongside via a modest object-relational op batch only as
+   needed. The grounded arc now mirrors the toy: search+value works; the open frontier is GENERALIZATION (MDL) +
+   LEARNED proposal richness, not more hand-primitives.

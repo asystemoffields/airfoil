@@ -17,9 +17,9 @@ from proposer_eval import instantiate          # reuse palette-instantiation
 
 f = lambda *a: print(*a, flush=True)
 ARC = "/data/Windows-files/Documents/airfoil/incubation/arc"
-NTASK = 250
-DISCOVER_CAP = 5000
-BUDGETS = (50, 200, 1000, 5000)
+NTASK = 300
+DISCOVER_CAP = 6000
+BUDGETS = (50, 300, 2000, 6000)
 
 
 def gdist(a, b):
@@ -40,7 +40,7 @@ def apply_all(outs, name, args):
     return res
 
 
-def search_solve(train, B, W=8, max_len=3):
+def search_solve(train, B, W=25, max_len=3):
     """best-first by avg grid-distance; returns (solved_prog|None, n_exec)."""
     insts = instantiate(dsl.palette(train))
     ins = [gi for gi, _ in train]; tgt = [go for _, go in train]
