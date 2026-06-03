@@ -271,3 +271,28 @@ instance of the same kind" — real within-family creativity, not yet a structur
 Attribution: A's 65->93 is proposer-memory + rollout-len L 4->6 together (isolating arm optional).
 NEXT: (a) structurally-DIFFERENT held-out affordance (harder transfer) ; (b) push ceiling 93->~100 ;
 then size-for-time frontier ; then ground on a real CPU LLM.
+
+## Result: multiaxis_struct.py — step 5: STRUCTURALLY-DIFFERENT held-out affordance. Localizes the gap.
+Trained locked axes 1,2,3 = DEPTH-2 (P_i->C_i). Held-out axis 4 = STRUCTURALLY DIFFERENT: DEPTH-3
+two-register cascade P4->T4(register-transfer, an op type no trained chain uses)->C4. Train on {0,1,2,3},
+ZERO-SHOT on axis 4. Imagine-ORACLE (random) ceiling: axis4(depth-3) 8->42% @B10 ; axis1(depth-2) 8->55.
+reached% vs budget:
+- HELD-OUT axis 4 (depth-3): Arch2-alone 0 FLAT ; Hybrid A 2->36 ; Hybrid C 0->37.
+- trained-ref axis 1 (depth-2): Arch2-alone 57->100 ; A 26->98 ; C 58->99.
+- free axis 0: Arch2-alone 100 ; A 44->100 ; C 100.
+THE FINDING (a clean decomposition): the routine DOES fire on a plan SHAPE it never saw (37% vs reactive
+0) -> NOT family-bound. BUT it is capped at the RANDOM-oracle ceiling (~42%), unlike the within-family
+depth-2 case where the coverage-proposer BEAT random (93 vs 59). So:
+  * AIMING (selector) is STRUCTURE-GENERAL — it picks out depth-3 chains it never trained on (hence 37,
+    not 0; it aims over whatever depth-3 rollouts exist).
+  * INCUBATION (coverage-proposer) is STRUCTURE-BOUND — its learned richness only covers the trained
+    families; for the NOVEL structure it falls back to ~random quality, so the ceiling drops 93->~37.
+=> The bottleneck for structurally-novel creativity is the PROPOSER/imagination RICHNESS, not the aiming.
+This is exactly why Alex's point matters: "in a trained model the imagination can be very rich." Our tiny
+coverage-MLP proposer is family-bound; a RICH, BROAD imaginer (= a real LLM's own generation across
+structures) is what would lift the structurally-novel ceiling above the random floor. STRONG motivation
+for grounding on a real model: the LLM IS the structure-general rich proposer this toy lacks.
+Hybrid C stays best-of-both (novel 37 ~ A, trained 99 ~ reactive 100, free 100). NEXT: (a) a STRUCTURE-
+GENERAL / richer proposer (or curriculum over structures) to lift novel-structure transfer above random;
+(b) the obvious one: ground the imaginer in a real CPU LLM (rich proposer) + this selector/gate; (c)
+size-for-time frontier.
