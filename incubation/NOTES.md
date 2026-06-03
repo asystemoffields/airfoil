@@ -97,3 +97,15 @@ FORCES its discovery; success-on-skewed-goals never does. Incubation, precisely:
 attention at the goal, but search the space of EFFECTS, not the space of known solutions.
 Stage (a) is now clean + learned. Next: compositional/state-dependent world (coverage stops
 being trivial — learning earns its keep), then attention-native.
+
+## Result: learned_scaled.py — learned exploration is NECESSARY at scale (30 ops, budget 8)
+When coverage isn't cheap (can't try all 30 ops in 8 sims), the three-way separation is clean:
+- REPURPOSING goals: directed(success) 0% (fixates) ; op-coverage 33% FLAT (blind exploration
+  fails — can't find the 1-in-30 op in budget) ; r-coverage 0->66->100% (learned goal-focused).
+- TYPICAL goals: directed 100%@B4 ; op-coverage ->79 ; r-coverage 100%@B4.
+=> The deploying ingredient is LEARNED exploration of the GOAL-RELEVANT effect-space — not
+success-maximization (fixates) and not blind coverage (doesn't scale). r-coverage is genuinely
+adaptive (conditions on what it's already covered) — can't be a fixed order. Stage-(a) single-op
+repurposing is now: learned, necessary, and scales. NEXT (the real frontier): SEQUENTIAL /
+state-dependent compositional world (non-commutative ops, plan evolves state) where adaptivity
+matters within a plan and the size-for-time payoff is largest; then attention-native.
