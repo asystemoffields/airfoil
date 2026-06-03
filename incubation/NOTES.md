@@ -319,3 +319,26 @@ budget-efficient than beam at tiny B on EASY goals (myopic-best first op); beam 
 on the hard novel axis. NEXT: (a) search over the LEARNED (imperfect) world-model wl.fwd, not true apply_op
 -> realism check; (b) size-for-time frontier explicitly (accuracy vs beam compute, small-net vs big-reactive);
 (c) then ground on a real CPU LLM. STATE: structure-general creative deployment achieved in the toy.
+
+## Result: value_search_learned.py — step 7: learned-model search — realism gate PASSES but VACUOUSLY + a variance catch.
+Plan over the LEARNED forward model (s'=s+wl.fwd(E(s),op)), act in the true world (apply_op), MPC re-plan.
+forward-model Δs MSE: overall 0.000 | chain ops P4 0.000 T4 0.000 C4 0.000  <-- the learned model is
+NEAR-PERFECT, because the toy dynamics are trivially learnable (additive constants + linear couplings).
+reached% vs budget:
+- HELD-OUT axis 4 (depth-3): beam PERFECT 21/41/48/53/55 ; beam LEARNED 28/46/51/53/54 ; greedy LEARNED 21->24.
+- trained axis1: beam PERFECT 63->98 ; beam LEARNED 64->99 ; greedy LEARNED 79->98.
+- free axis0: beam PERFECT 77->100 ; beam LEARNED 76->99 ; greedy LEARNED 100.
+TWO HONEST FINDINGS:
+(1) **Learned-model beam ~ perfect-model beam everywhere (54 vs 55 on depth-3)** => value-guided search
+   survives the learned model — BUT VACUOUSLY: fwd MSE is ~0, so there is essentially NO model error to
+   compound. The toy's affine/linear dynamics are too easy; this does NOT yet test error-compounding. A
+   real realism gate needs HARDER-to-learn dynamics (nonlinear/stochastic/higher-dim) where wl.fwd has
+   genuine error.
+(2) **Variance catch:** perfect-model beam on the depth-3 axis is 55 here (seed 3) vs 90 in step 6
+   (seed 2) — same code path. So step-6's 90 was partly seed-favorable; the ROBUST claim is "value-guided
+   search beats random(~45)+reactive(0) on the structurally-novel axis, but the margin is SEED-VARIABLE
+   (~55-90)." Greedy is the unreliable one (24 here vs 59 step6); beam is needed. Report the range, not 90.
+NET: search-over-learned-model = search-over-perfect-model ONLY because the model is ~perfect here. NEXT:
+(a) HARDEN dynamics (nonlinear coupling / observation noise / partial obs) so fwd MSE > 0, THEN re-run the
+realism gate — the real test; (b) multi-seed to quantify the structurally-novel transfer variance honestly;
+(c) size-for-time frontier; (d) ground on a real CPU LLM (where the model is genuinely imperfect).
