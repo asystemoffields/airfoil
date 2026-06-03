@@ -576,3 +576,33 @@ arena has no such depth (length-1 enum trivially strong), so breadth can't separ
     smoke recolor wrong). (B) HARDER ARENA: bigger DSL + LENGTH-3 programs; select tasks solvable only at
     depth>=3 where enumeration is infeasible (space ~|insts|^3) -> the regime where LLM breadth should win,
     mirroring the toy's structurally-novel depth-3 result. Run A+B together: the real grounded test.
+
+## Result: arc/ step 2 — NON-LLM feedback-guided SEARCH proposer (Alex's idea) BEATS the LLM; bottleneck moves to DSL richness.
+Alex: "more success building our own non-LLM proposer?" -> YES. Built arc/search_proposer.py: best-first search
+over the DSL guided by avg grid-DISTANCE-to-target (the toy's value-guided search, now with a PERFECT
+world-model = the DSL interpreter). The LLM proposes BLIND (names ops, never executes); search EXECUTES and
+measures. Fair budget = EXECUTIONS (programs run on the full train set); SOLVED = some program reproduces ALL
+train outputs (then check test generalization).
+Discovered length<=3 arena over first 250 training tasks: only 13 solvable (10 length-1, 3 length-2, ZERO
+length-3) -> the 16-op DSL is too THIN to express deep ARC compositions (tasks are length-1 or out of reach).
+SOLVE RATE (13-task arena, train/test) vs EXECUTION budget B=50/200/1000/5000:
+   random  3/9/11/13 ; enum 10/11/13/13 ; search 11/12/13/13   (LLM-0.5B earlier: 3/4/4 at 5/15/40)
+FINDINGS:
+(1) **Non-LLM SEARCH WINS — Alex's instinct validated.** At tight budget search solves 11 vs LLM-0.5B's 3-4:
+   far more sample-efficient + capable, because it EXPLOITS the exact world-model (execute->measure->beam)
+   that the blind LLM ignores. search >= enum (11 vs 10) >> random (3) >> nothing. The perfect WM + a dense
+   grid-distance value IS the proposer = the toy's value-guided-search result, GROUNDED on ARC, NO LLM.
+(2) BUT the margin over ENUM is small and there are NO length-3 tasks -> the DSL is too thin to create a DEPTH
+   regime. With 16 ops, ARC tasks are length-1-solvable or unreachable; enum front-loads length-1 cheaply, so
+   search's depth advantage has nothing to bite on. The toy's dramatic depth-3 separation needs solving to
+   REQUIRE depth. BINDING CONSTRAINT moved: DSL RICHNESS, not the proposer.
+(3) search impl has a RECALL gap (beam pruning + non-admissible heuristic discovered 13 vs the ~14 enum-length<=2
+   would find over 250) -> looser/wider frontier needed so it never under-finds vs enum.
+WHEN does the LLM earn its place? Only when the primitive store is TOO LARGE TO SEARCH (breadth at scale).
+Small DSL -> non-LLM feedback search dominates. Large DSL -> need a LEARNED recognition proposer (DreamCoder
+wake-sleep; structure-general; matches [[incubation-learned-not-heuristic]]), LLM at most a bootstrap.
+NEXT (principled): (A) keep feedback-search as the engine; SHELVE the blind LLM. (B) GROW the DSL with
+object-centric primitives (per-object recolor/move/count, symmetrize, connect-dots, gridlines, flood-by-region)
+so solving REQUIRES length-3+ -> then search pulls decisively away from enum (the grounded depth-3 result).
+(C) fix search recall (looser beam). (D) later: LEARN the value/recognition model (replace the grid-distance
+heuristic + bias the search) = the learned-not-heuristic endgame.
