@@ -135,3 +135,35 @@ NEXT (scaling): coverage must move from distinct-discrete-values to DIVERSITY IN
 EMBEDDING (so it works when the effect space is huge/continuous); then attention-native controller
 (attend over self-generated rollouts); then the size-for-time frontier (small+incubation == big+
 reactive on accuracy-vs-compute = the headline); then ground onto a real CPU LLM (PMRA).
+
+## Result: continuous_coverage.py — SCALING step 1: de-toy the COVERAGE mechanism (continuous, no enumeration)
+Goal: show goal-informed effect-coverage survives when the effect space is continuous/high-dim so it
+CANNOT be enumerated (the discrete bitmask is dead). World: R^12 — s[0]=e1 (free goal angle), s[1]=e2
+(LOCKED goal angle), s[2:4]=B (hidden register), s[4:12]=scratch (8-d, high-variance, goal-irrelevant).
+Goal-space PERIODIC (torus) = continuous analog of "mod 8" — ceiling on the easy axis. Home ops move e1
+(coarse) + scratch but NEVER e2 or B; coupling (s[1]+=alpha*s[2]) is the ONLY e2-mover; P (s[2]+=1.5)
+the ONLY B-mover. Reaching an e2 goal => P (activate B) -> coupling (inject e2): mid-plan repurpose,
+state-dependent (skip P if B already active). Coverage measured in a FROZEN intervention-trained causal
+latent E (can't be gamed — frozen). reached% vs budget (trained on TYPICAL/e1 only):
+DIAGNOSTIC: e2 ORACLE 100% (world solvable), RANDOM-policy discovery 24.5% (chain is findable, not a
+needle) — so any 0% is the OBJECTIVE's fault, not the world's.
+Iteration that mattered (honest debugging, all logged):
+- non-periodic e1 (unbounded) => coverage trivially maxed by sliding e1 => e2 never pressured. FIX: torus.
+- episodic min-distance spread => coarse e1 jumps stay "novel" forever, never saturates => still no e2
+  pressure. FIX: VOLUME (log-det of Gram) coverage — saturates per-subspace, so raising it REQUIRES
+  variance in a NEW dimension (the locked axis). This is the principled scalable coverage objective.
+RESULT (volume coverage, broad-intervention pretrain):
+- TYPICAL (e1): directed 79->100 ; full-latent-coverage 100 ; readout-coverage 100.
+- REPURPOSING (e2): directed(success) FIXATES (0->15%) ; FULL-LATENT volume coverage 0->89%
+  (B-low/needs-P 0->95%, B-pre-activated 0->30%) ; readout("gcoverage") 0% (failed).
+TWO FINDINGS: (1) The coverage mechanism SCALES off the bitmask: continuous volume coverage over a
+frozen causal latent discovers state-dependent multi-step repurposing, adaptively, no enumeration —
+and it works BECAUSE the task-agnostic latent KEEPS the locked structure (volume feels the stuck dims).
+That is the keep-everything causal world-model thesis, vindicated in continuous form. (2) NEGATIVE/OPEN:
+a naive learned reconstruction READOUT for goal-AIMED coverage is fragile — spurious entanglement leaks
+variance into the readout so e1 motion fakes e2 coverage => never aims => 0%. Note the reversal from
+stage a/b (there AIMED won, agnostic diluted): at THIS latent size agnostic doesn't dilute, so it wins;
+AIMING only becomes necessary once the latent is too big to cover wholesale within budget (real scale).
+=> Step 1 hinge CONFIRMED with nuance: coverage de-toys (volume-over-causal-latent). Robust AIMING is
+the open sub-problem, deferred to the attention-native controller (goal QUERY attends over self-
+generated rollouts to aim coverage at the goal-relevant directions) — which is also step 2 / the finale.
