@@ -217,6 +217,13 @@ what the model IS, trained in.
       trigger (resonance / uncertainty-reduction vs surprise — OPEN, Alex deciding).
       FALSIFIABLE SIGNATURE: accuracy on remote-association tasks RISES with non-directed
       background steps, DISSOCIABLE from (and beating) equal-compute serial reasoning.
+      MEASURE THE CURVE, NOT A POINT (Alex refinement 2026-05-31): sweep N for BOTH modes on
+      BOTH task types; compare accuracy-vs-compute FRONTIERS. Three outcomes: (1) curves
+      separate on remote, coincide on local = remote-association capability (headline);
+      (2) non-directed Pareto-dominates everywhere (same acc, less compute) = EFFICIENCY win
+      — KEEP, don't discard as "generic compute" (candidate cause: premature commitment is a
+      compute tax directed-mode pays and non-directed doesn't); (3) frontiers coincide
+      everywhere = the true null/kill. "Wins on local too" is NOT a kill by itself.
       MINIMAL TEST (CPU-feasible): tiny from-scratch transformer + background recurrence +
       gate on a synthetic "remote-bridge" task; ablate vanilla vs +background vs +gate.
       Also relates to: binding-vs-blending attention (multiplicative/tensor path), looped
