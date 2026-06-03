@@ -547,3 +547,32 @@ Q3/4/5, qwen3-1.7b, DeepSeek-R1-Distill-1.5B-Q4, SmolLM2-135M/360M); FULL ARC-AG
 NEXT: build grid DSL (~12-20 pure primitives) + exact verifier + task loader; LLM proposer (prompt train pairs
 + primitive list -> parse programs); search loop; baselines random/enumerative; run on a curated simple-task
 set to establish LLM-proposer >= baselines under fixed budget.
+
+## Result: arc/ step 1 — LLM-proposer vs random/enum on the DSL-solvable ARC arena. Pipeline WORKS; honest first result; two clear levers.
+Built the full grounded loop: grid DSL (arc/dsl.py, 16 pure primitives + color-parametric recolor/fill_holes,
+exact train-pair verifier), survey (arc/survey.py: enumerate length<=2 -> SOLVED 23/400 training tasks in 25s,
+saved solvable.json), and the science test (arc/proposer_eval.py): each proposer emits an ordered <=B candidate
+list, verify in order, solved if any reproduces ALL train outputs (then check test generalization). Proposers:
+random (uniform over instantiated space), enum (fixed length-1-then-length-2 order), LLM (Qwen2.5-0.5B-Instruct
+-Q4, parse program lines). CPU: arena eval 94s.
+SOLVE RATE (23-task arena; train-consistent == test-generalizing for ALL, validating exact verify):
+   method     B=5   B=15   B=40
+   random      0      6      8
+   enum        5     12     15
+   llm         3      4      4
+HONEST READ:
+(1) Pipeline works end-to-end on real ARC (DSL+verify+LLM proposer+baselines). Exact verification is clean:
+   every train-consistent program also generalized to the held-out test pair (0 false solves).
+(2) BREADTH SIGNAL IS REAL BUT WEAK: at the TIGHTEST budget B=5, LLM (3) > random (0) -> the 0.5B's named ops
+   are already better-than-uniform. The mechanism is present.
+(3) The toy's full "rich proposer beats coverage" is NOT yet reproduced, for two DIAGNOSABLE reasons:
+   (a) the 0.5B proposer is too WEAK -> plateaus at 4 (few correct/diverse programs; more budget doesn't help;
+       random overtakes it by B=40); (b) the arena is too EASY for enumeration -> length-1-dominated, so the
+   exhaustive enum baseline front-loads the tiny length-1 space and is very strong (15/23 @B40).
+KEY INSIGHT (the toy's lesson resurfacing): the LLM-proposer advantage only matters when the search space is
+TOO LARGE TO ENUMERATE — the ARC analog of the depth-3 chain where random/enum hit a ceiling. The current
+arena has no such depth (length-1 enum trivially strong), so breadth can't separate. NEXT LEVERS (principled):
+(A) STRONGER PROPOSER: 0.5B -> 1.5B/1.7B (DeepSeek-R1-Distill-1.5B or qwen3-1.7b on disk; 0.5B got even the
+    smoke recolor wrong). (B) HARDER ARENA: bigger DSL + LENGTH-3 programs; select tasks solvable only at
+    depth>=3 where enumeration is infeasible (space ~|insts|^3) -> the regime where LLM breadth should win,
+    mirroring the toy's structurally-novel depth-3 result. Run A+B together: the real grounded test.
