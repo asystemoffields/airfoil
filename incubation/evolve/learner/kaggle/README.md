@@ -3,6 +3,12 @@
 The box (CPU) validated every organ of the factored proposer (see `../LEARNER.md`). This is the first GPU spend:
 one ≤8h T4×2 expert-iteration round, **GO to KAGGLE-2 iff held-out-family `beyond_gen6` ≥ 3**.
 
+**Two lanes — no need to wait for the Kaggle quota:**
+- **Colab (now):** open `colab_run.ipynb`, set a GitHub read token, Run all. Phase A is CPU-bound (runs on any
+  runtime); use a T4 runtime for Phase B. Final weights (`learner_v2h.pt`, `learner_v3_geo.pt`) are committed so the
+  clone is self-contained.
+- **Kaggle (quota ~Jun 7-8):** the script kernel below, for longer headless T4×2 sessions.
+
 ## One-time setup
 1. Set `USERNAME` in `kernel-metadata.json` (id + dataset_sources) and in `kaggle_run.py` (SRC path is fine as-is).
 2. Package the source as a Kaggle dataset `USERNAME/airfoil-learner-src` (mounted at `/kaggle/input/...`):
