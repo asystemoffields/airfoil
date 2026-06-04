@@ -590,3 +590,22 @@ HANDICAP AUDIT (Alex's other Q): no bug/rigging (train-induce/test-verify honest
 (fixed), exact-match no-adaptation (the messy-task gap -> analogical layer wr36mpy4u), bg=0 in fill, + LOW POWER
 (symmetry/fill rare in the 400-eval -> 0 conflated "narrow earner" with "few targets"; ConceptARC at /data/conceptarc
 is the fairer enriched testbed). NEXT: confirm ground_vine_evolve; then analogical adaptation for the messy tasks.
+
+### PROTECTING THE CONCEPT — the anti-treadmill guard (Alex: "protect the concept of the fix")
+
+The treadmill kept creeping back (I hand-coded earners TWICE) because nothing STRUCTURALLY stopped it. Fix = make the
+no-treadmill principle a RUNNABLE FALSIFIER (Vine's own ethos applied to its development):
+- **SELF_EVOLVING_CHARTER.md** = the binding law. Effects are EARNED from a generative substrate; the ONLY extension
+  point is GENERATORS (basis primitives whose CLOSURE the loop searches); per-family EARNER functions are FORBIDDEN
+  (the treadmill). Smell test: "am I adding a GENERATOR (closure grows) or an EARNER (one effect's recipe)?"
+- **cell_evolve.generative_maps()** = the earn searches the CLOSURE of generators (isometry group + translations +
+  glides = isometry o translation), GENERATED from the generator set -> a new generator yields new effects for free.
+- **test_generativity.py (GREEN)**: POSITIVE = the SAME earn_cell_effect earns 5 HELD-OUT effects (rot180/diagonal/
+  antidiagonal/rot90 + glide-reflection-from-closure) 8/8 with ZERO new code = generative across the whole isometry
+  group + closure; NEGATIVE (treadmill detector) = one earn entry, searches the closure, production solver routes
+  through it. The guard caught TWO of its OWN test bugs en route (occluding orbit-pairs + fixed points) = rigorous.
+SECONDARY (note, not blocking): the self-evolving solver got 3 real-ARC cell solves but 0 beyond_gen6 (different tasks
+than the hand-coded cell2's 2 beyond_gen6) -- the principled loop's generator/occluder logic caught invariance tasks
+but missed cell2's periodic ones. Per the charter the fix is a GENERATOR/search improvement (2D periods, occluder-
+following), NOT hand-coding earn_periodic back. NEXT: the analogical-adaptation layer (workflow wr36mpy4u synthesis
+landed -- reuses lgg.py as the schema engine) for the messy 'looks-like-but-not-exact' tasks.

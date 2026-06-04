@@ -40,6 +40,19 @@ def trans_maps(maxp=8):
     return m
 
 
+def generative_maps():
+    """the searchable CLOSURE = generators + their COMPOSITIONS (glide-reflections = isometry o translation),
+    GENERATED from the generator set. Adding a generator widens the closure -> new effects earned for free. This is
+    the anti-treadmill structure: the ONLY extension point is generators; the earn loop never grows per-family code."""
+    isos, trans = iso_maps(), trans_maps()
+    maps = {**isos, **trans}
+    for ni, fi in isos.items():
+        if ni in ("mirror_h", "mirror_v", "rot180"):       # glides: reflection/rotation composed with a translation
+            for nt, ft in trans.items():
+                maps[f"{ni}o{nt}"] = lambda r, c, H, W, fi=fi, ft=ft: ft(*fi(r, c, H, W), H, W)
+    return maps
+
+
 def _follow(gi, mapfn, N, r, c, H, W):
     """duality: from an occluder-N cell, follow the map until a non-N source cell (k=1 for isometries; k>=1 for translates)."""
     cr, cc = r, c
@@ -84,8 +97,8 @@ def _apply_fill(gi, N, fill):
 def earn_cell_effect(train, test):
     """ONE earn loop over the GENERATIVE substrate -> returns whatever effect it earns (symmetry / periodic / fill),
     induced on TRAIN, verified on TEST. No per-family code; new basis elements => new earnable effects for free."""
-    INV = {**iso_maps(), **trans_maps()}
-    for name, mapfn in INV.items():                       # INVARIANCE family (isometries + translations)
+    INV = generative_maps()                               # the generator CLOSURE (isometries + translations + glides)
+    for name, mapfn in INV.items():                       # INVARIANCE family -- earned, never per-family hand-coded
         for N in range(10):
             ok = True
             for gi, go in train:
