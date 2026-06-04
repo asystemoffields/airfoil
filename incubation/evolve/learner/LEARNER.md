@@ -554,3 +554,19 @@ against eye-computed output shape); assemble cell-eye into ground_vine_live -> r
 fill coverage rise beyond recolor-only 4? + BARC); then Kaggle scale + the parked RL loop (now genuinely too-big).
 HONEST RISKS still open: ignition on REAL ARC (box used shaped synthetic); innate index-map set is a (small) design
 choice = treadmill pushed down a level not eliminated; duality false for bespoke-layout construction.
+
+### CELL-SUBSTRATE IGNITION on REAL ARC — NO-GO (0/400): the box GO did NOT transfer -> the case for analogy
+
+ground_vine_cell.py: cell earners (symmetry-completion generalized to ANY occluder color, induce-train/verify-test;
+enclosed-hole fill) wired into vine_solve, run on ARC-1 eval(400). **CELL solves = 0/400** (total still 4, all
+grammar). The box GO (SHAPED synthetic) did NOT transfer to real ARC. Two-layer diagnosis: (1) PERCEPTION too thin
+-- only mirror_h/v/transpose; real ARC symmetry needs the COMPLETE grid ISOMETRY GROUP (dihedral: +rot90/180/270
++anti-diagonal) + TRANSLATION/periodicity; fill needs flood-fill of multi-cell regions, not 1x1. This is PRINCIPLED
+to complete (the grid's symmetry group is finite + complete, NOT a treadmill). (2) Real tasks are MESSY ("THINGY-
+but-not-exactly": symmetry+occluder-patch, symmetry-then-recolor) -> exact-match earners fire ~0. THE FIX (two
+layers): (a) complete the PERCEPTION = full isometry group + periodicity + flood-fill; (b) ANALOGICAL ADAPTATION
+(Alex's framing) generalizes the EARNING across the mess -- retrieve nearest schema + STUFF-modded (re-induce
+params) + THINGY-modded (structural edits). The 0/400 is the empirical case for (b). BOOTSTRAP problem: real-ARC
+earning is ~0, so the schema library must be SEEDED from synthetic families / BARC / curriculum (clean THINGYs) ->
+adapted to messy real. NEXT: (a) build the dihedral+periodic+flood-fill perception-completion + re-run ignition;
+(b) design workflow on analogical adaptation (schema rep + retrieval + mod operators + bootstrap + box falsifier).
