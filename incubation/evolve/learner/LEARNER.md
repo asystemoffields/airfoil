@@ -364,5 +364,25 @@ the hardened, evidence-aware core.
 
 NET ARCHITECTURE: ONE hardened, evidence-aware consistency core, fed by TWO feature sources (object-features +
 relational faculty) and ROUTED by V2, with V3-GEO as the structural router. The recognizer routes features AND
-relations; the POLICY (next) only needs to learn the COMPOSITIONS. NEXT: the generative suffix policy (recognizer-
-guided composition search) + leave-one-family-out + invention_gate → KAGGLE-1 (quota ~Jun 7-8).
+relations; the POLICY only needs to learn the COMPOSITIONS.
+
+### POLICY + INVENTION GATE (`policy_eval.py`) — the last box pieces, GREEN
+
+RECOGNIZER-GUIDED POLICY: V2 ranks all base predicates (regular + relational faculty); the policy tries top-K
+singles, then composes recognizer-ranked OUTER × library INNER. INVENTION GATE (the honest creativity bar): a
+solve is INVENTED iff the GRAMMAR can't express it (winning_relations==0) AND the policy solves it with a
+RELATIONAL predicate that GENERALIZES to held-out test. Across a DIVERSE family suite, NO per-family training:
+- containment: 20/20 solved, **20/20 invented**, policy cost **1** vs blind 17
+- adjacency: 20/20 solved, 15/20 invented (5 were also grammar-expressible), cost **1** vs 19
+- contained-in-largest (composed): 20/20 solved, **20/20 invented**, cost 44 vs 66
+
+The fixed faculty + recognizer + composition GENERALIZE across families by construction. Singles: recognizer cost
+1 (18× vs blind). Compositions: recognizer-guided on the OUTER, library-searched on the INNER (the inner is a
+property of the OTHER object, which V2 can't surface from the target objects — the gap the LEARNED suffix policy
+closes at scale). **EVERYTHING BOX-VALIDATABLE IS DONE** — the factored proposer (recognizer routes features+
+relations, policy composes earned predicates, invention gate certifies invented-not-retrieved across families) is
+proven piece-by-piece, all CPU, all committed.
+
+KAGGLE HANDOFF (quota ~Jun 7-8): build the LEARNED suffix policy (autoregressive over the DSL, cold-started from
+the box's recognizer-guided solves) + verifier-as-reward expert iteration over BARC-stream/RE-ARC/ConceptARC;
+strict leave-one-FAMILY-out; GO if held-out-family beyond_gen6 ≥ 3 on one ≤8h T4×2 session. Free-compute only.
