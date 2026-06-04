@@ -95,6 +95,41 @@ the inputs, and run the SAME consistency-recognizer on the (transformed) demos �
 → exact-verify. The learner navigates the expensive feature×effect×decomp factor; pre-ops are cheap enumeration.
 
 **Next (the value test):** ground the composed solver on ARC, measure `beyond_base`, and compare
-recognizer-top-K vs blind composed-enumeration under a fixed verify budget. In parallel, an exploration workflow
-(`explore-creative-crossshape`) is researching Disco103-style cross-shape generalization + creativity mechanisms
-to fold into the grammar/recognizer.
+recognizer-top-K vs blind composed-enumeration under a fixed verify budget.
+
+## Exploration synthesis (2026-06-04) — creativity + cross-shape roadmap
+
+**Disco103** = DeepMind's DiscoRL meta-learned RL *update rule* (Nature 2025; "103" = meta-training
+environments Atari57+ProcGen+DMLab-30), NOT an ARC method — Alex's own analogy (he has `disco-torch`,
+github.com/asystemoffields/disco-torch). Transferable stance: meta-learn the MECHANISM across a *distribution*
+of task families so one learned object fires on held-out, surface-different families; it emits PROPOSALS, a
+fixed outer procedure (for us: induce + exact-verify) supplies precision.
+
+**Headline insight:** cross-shape generalization is mostly an EXPRESSIVENESS problem, not a selection one
+(echoes the gen-5 diagnostic) — *widen what a relation can SAY before training how to PICK it.* Prioritized,
+mostly CPU-box-feasible, verifier-gated throughout:
+
+1. **[med] Relational object-PAIR/SET features** — lift consistency from single objects to *relations* between
+   objects (containment, adjacency, alignment, relative-size, unique-extreme). ZERO new architecture (the v2
+   scorer reads the same 5-dim pairwise stats per feature; a relational key is still a hashable table value).
+   Highest value-per-CPU-hour; attacks multi-object / cross-shape tasks.
+2. **[med] Output-shape / keep / tile / scale as a LEARNED-then-VERIFIED effect** — output grid shape/tiling as
+   a per-task quantity determined by a feature (counting→build). Attacks the biggest miss-family
+   (counting/construction 86); systematizes gen-6's hand-fit `output-shape = f(count)` wins.
+3. **[small] Coverage/openness objective** — swap v2's top-1 cross-entropy for a top-K coverage loss
+   (P(true ∈ top-K) + diversity). The prerequisite that makes 1–2 pay (recall-first proposer + reckless
+   verify-filter = the openness principle, concretely). Hours, no new params.
+4. **[small] Frame/canvas normalization at the FEATURE level (VARC trick, training-free)** — canonicalize to a
+   scale/offset-invariant frame so "very different shapes" become same-shape for the recognizer.
+5. **[med] Anti-unification (least-general-generalization)** — LGG of two verified relations → a NEW relation
+   neither parent contained = the path from NAVIGATE to GENERATE relations (the genuine creative leap), CPU-
+   trivial, verifier-gated.
+6. **[med] STITCH library growth (DreamCoder wake-sleep)** — automate the minting at corpus scale
+   (`pip install stitch_core`).
+7. **[med] Leave-one-FAMILY-out meta-training (the faithful Disco103 graft)** — Reptile over a distribution of
+   relation families, families held out at meta-test — the literal "discover a rule that generalizes" stance.
+8. **[large] Verifier-as-reward expert iteration → disco-torch meta-RL** — the campaign endgame (Kaggle scale).
+
+**Build order I'm taking:** 3 (coverage loss) → 1 (relational features) + 2 (shape effects) + 4 (frame-norm)
+→ ARC value-test (`beyond_base` on the cross-shape families) → 5 (anti-unification, first GENERATED relations)
+→ then Kaggle for 7–8.
