@@ -710,3 +710,22 @@ expressiveness wall (workflow-measured: derive ~2/114 RE-ARC) is the SEPARATE af
 compounds where the proposer SOLVES; making derive solve real ARC is the next frontier. GEN-2 candidates: (a) RE-ARC
 same-relation compounding (does it hold on procedurally-varied real relations?); (b) recognizer-pruned search (V2H
 best-first) so the full closure is searchable by BLIND too (raising the floor); (c) the expressiveness question.
+
+### LEARNING LOOP gate 2 (gen-2): NO-GO on real data -- the PROPOSER is the wall, precisely localized
+
+gate2.py on RE-ARC (real-distribution procedural relations): (1) EXPRESSIVENESS FLOOR = derive solves **0/120**
+relations. NOT a bug (derive solves a trivial recolor at n=1; engine works; it genuinely searches ~3800 calls and
+fails). Two STRUCTURAL causes, measured: **32% of relations are SIZE-CHANGING** (output shape != input) and derive's
+productions are paint-ON-THE-INPUT-GRID = SAME-SHAPE-ONLY -> structurally impossible (can't even make the right
+canvas); the other **68% (same-shape) ALSO fail** because the selector/value bases (all/enclosed/color/diff@map x
+const/table/img) cover only symmetry/fill/recolor = a tiny slice (the rest need object-movement/drawing/connecting/
+counting). DECISIVE: the LEARNING LOOP works (gen-1 GO: compounds cost+coverage on synthetic) but has NOTHING to chew
+on real data because the PROPOSER solves ~0. The bottleneck is the proposer's EXPRESSIVENESS (production basis), NOT
+the loop / routing / search. This VALIDATES Alex's plan-gate (gate 2 BEFORE off-box): step 3 (off-box scale) is
+confirmed pointless -- the library would come back EMPTY (warm/cold redux at Colab cost). Loop back to step 1.
+GEN-3 (the real frontier, expressiveness now PRECISELY localized to the proposer): broaden the GENERATIVE production
+bases -- (A) SIZE-CHANGING productions = eye-computed OUTPUT CANVAS (tile-by-k, scale, crop-to-bbox, extract) + paint
+onto it (unlocks the 32% structural class); (B) richer SELECTOR/VALUE bases (object-level selectors; object-property/
+count/position values; move/draw/connect as paint-derivations) for the same-shape 68%. ALL generated from thin
+irreducible bases per SELF_EVOLVING_CHARTER.md, lint-guarded -- NOT hand-coded effects. The loop is ready and waiting;
+it compounds the moment the proposer can solve.
