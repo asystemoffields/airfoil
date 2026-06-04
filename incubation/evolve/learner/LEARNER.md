@@ -259,3 +259,25 @@ uncontrolled-seed baseline + noisy/UNconverged training (loss ~2.5) -> a LOWER b
 push further.) COMPLETE ANSWER (how far navigation pushes on the box): it SCALES (16-37×, space-invariant top-K),
 with TWO proven composable levers (evidence/demos + an evidence-aware recognizer) and the ceiling NOT yet found —
 a robustly scalable, still-improving component. Navigation is neither the bottleneck nor fragile.
+
+## LAST BOX GATE — recognizer transfer is DISTRIBUTION-ROBUST (`ground_arc_transfer.py` + `ground_conceptarc.py`)
+
+Sim-to-real on grammar-solvable tasks across distributions (recognizer trained on synthetic blobs ONLY):
+- arc1-train (19): eff-top1 0.84, feat-top3 1.00, pipeline 1.00
+- arc1-eval (5):  feat-top3 1.00, pipeline 0.80
+- **arc2-train (25, HARDER): feat-top3 0.96, pipeline 0.92**
+- **ConceptARC (5, human-designed MORE-DIVERSE): feat-top3 1.00, pipeline 1.00**
+
+Aggregate over 54 grammar-solvable real tasks spanning 3 distributions: **feat-top3 ≈ 0.98, pipeline ≈ 0.94.**
+The synthetic-trained recognizer transfers to harder ARC-2 + human-designed ConceptARC as well as to ARC-1 — the
+consistency inductive bias is DISTRIBUTION-ROBUST (strong scaling signature). NOTE: arc2-eval = 0/120 grammar-
+solvable (no substrate) → the per-split-averaged "0.48" is an ARTIFACT of a 0-substrate split, NOT a transfer
+drop; it's an EXPRESSIVENESS limit (ARC-2-eval is entirely inexpressible in the recolor/select grammar) = a stark
+RE-CONFIRMATION that expressiveness, not transfer/navigation, is THE bottleneck.
+
+VERDICT: **last box gate GREEN.** Every architecture component is now validated AND distribution-robust —
+recognizer transfer ✓, navigation scales ✓, composition ✓, anti-unification mechanism ✓; the sole gap is
+expressiveness/coverage, which needs SCALE. **THE BOX IS DONE.** Cross over to the scale phase: a generative
+proposer (geometry head + relation head + schema-minting) over a RICH relation distribution + verifier-as-reward
+expert iteration, on Kaggle (free-compute; quota ~Jun 7-8). The bet: at scale the proposer GENERATES relations
+beyond the fixed grammar — the one lever that lifts coverage.
