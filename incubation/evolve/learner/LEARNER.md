@@ -677,3 +677,20 @@ search)/verify/abstract(anti-unify->library DAG)/reuse(schemas-first, compoundin
 if it earns its place]. The premise: primitives are COMPLETE (paint), so the limit is SEARCH+GENERALIZATION; the cure
 is learned abstractions that make the generalizing program SHORT; the target is OPEN-ENDED EXTENSIBILITY not "solve
 everything". Design workflow w66z1atqf running. Per Alex: WORK ON THE LOOP before testing on more ARC.
+
+### LEARNING LOOP generation-0 compounding falsifier (learn_loop.py) -- mechanism COMPOUNDS (cost), metric NO-GO
+
+The loop: PROPOSE(derive) -> VERIFY -> ABSTRACT(anti-unify two same-skeleton verified programs -> hole-schema) ->
+REUSE(schemas-first refill). On a 70-task synthetic stream (5 families: invariance{mirror_h,mirror_v,rot180} +
+symcolor{mirror_h,mirror_v}): ARM-0 blind 92512 induce-calls; ARM-1 accumulate 2239 (**0.02x = 41x cheaper**),
+library = 1 schema. The ONE minted schema [paint(diff@?MAP,img), paint(all,table)] = "complete-symmetry-then-recolor"
+generalizes ACROSS invariance AND symcolor (the table re-induces; pure invariance is the identity special case --
+anti-union UNIFIED two families). Thresholds NO-GO but it's a METRIC ARTIFACT: (A) quartile cost-halving 1.00x FALSE
+because minting is INSTANT (schema after ~3 tasks -> cost ~2 immediately, median 2 even in Q1, no gradient); (B)
+coverage-transfer +0 because synthetic families are ALL blind-reachable (blind solves held-out 12/12) -> the win is
+COST not coverage. HONEST READ: the core mechanism COMPOUNDS strongly (41x via a generalizing abstraction = learns-
+as-it-goes). GENERATION-1 (genetic-algo, seeded by this): metric = total-cost-ratio (caught the 0.02x) + slower-fill/
+diverse-skeleton stream; REGIME = too-big-to-search (full glide-closure / deeper compositions) where blind FAILS and
+the schema UNLOCKS coverage (collapses an exponential closure to one hole) -> compounding becomes COVERAGE not cost.
+HONEST CEILING (workflow-measured, separate): derive solves ~2/114 RE-ARC = expressiveness wall; the loop compounds
+where derive SOLVES (synthetic), not yet on breadth-distinct real ARC. That's the after-the-loop question.
