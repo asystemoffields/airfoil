@@ -434,5 +434,15 @@ SELF-EVOLVING HAND (`effect_faculty.py`, box-gate GREEN): `earn_effect` now sear
 (erase?+place) — from the SAME eye-grounded search it earns **`move`** on a move task and **`copy`** on a copy task
 (grammar=0 both; the gesture is EARNED, not hand-picked). BOTH faculties now self-evolving + validated. The only
 INNATE thing is object-decomposition + raw object descriptions; senses, predicates, gestures, compositions are ALL
-earned. NEXT: wire substrate-channels + the complete motor basis into the unified loop/policy (recognizer routes
-the earned senses+gestures); re-measure real-data coverage off the recolor-only 8%; scale on Colab.
+earned. ### OPEN-ENDED LOOP (`open_loop.py`) — recognizer routes earned senses + gestures; substrate eye PAYS on real data
+
+V2 fed the full open sense vocabulary (regular features + fixed relational + 80 SUBSTRATE channels). Synthetic:
+all 4 faculties routed correctly (containment via fixed-channel recolor 10/10, share-height via SUBSTRATE-sense
+recolor 10/10, align via MOVE 10/10, copy via COPY 10/10). BARC re-measure (295 tasks): recolor/compose **27 —
+of which 10 via a SUBSTRATE sense** (new expressiveness the fixed vocabulary couldn't say) — gestures **0**. So the
+self-evolving EYE ADDS real-data coverage (10 BARC solves the fixed channels missed); the HAND's gestures (still
+align-only) add 0 → the gesture/displacement VOCABULARY needs broadening (measure-then-grow). IMPORTANT: this is
+COLD — no persistent library, frozen recognizer, each task solved from scratch → it UNDERSTATES the
+persistent-experience ceiling. NEXT (Alex flagged): (a) PERSIST the library + thread it through every solve so
+experience accumulates; (b) EXPERT ITERATION — recognizer/policy LEARNS from its verified solves (the
+openness-to-experience endgame; makes scale pay); (c) broaden the displacement/gesture vocabulary; scale on Colab.
