@@ -164,3 +164,24 @@ loop rests at a consolidated milestone with that fork clearly stated.
 | gen-3 | (≤34) | 0 vs gen2_base | generative mechanism-inventor (composition) |
 | gen-4 | 38 combined | 4 | first beyond-retrieval (fitted relations) |
 | **gen-5** | **45 combined (11.25%)** | **11** | **systematic relation-induction** |
+| **gen-6 (consolidated)** | **48 single-solver (12%)** | **14** | **relation-induction sweep + merge** |
+
+## gen-6 — hard-family sweep, and the consolidated solver (48/400, 14 beyond-retrieval)
+
+Swept the two biggest untouched miss-families + an object-movement retry, same standardized gate:
+
+| inducer | eval_beyond_base | new distinct held-out |
+|---|---|---|
+| counting-construction | 2 | 3194b014, e872b94a (output-shape = f(count) — a new expressive class) |
+| line-draw-connect | 1 | 0 (re-derived d282b262) |
+| object-movement | 1 | 0 (re-derived d282b262) |
+
+**Diminishing returns confirm the ceiling of hand-authored relation families.** counting/construction added a genuinely new class (output shape as a function of a count); line/draw and object-movement re-derived existing wins but added 0 new on held-out. The line/draw agent's verdict is decisive: of 400 eval tasks only ~1 train-verifies under any fixed draw template — **each held-out line/draw task needs a *differently*-fitted relation**, which an agent authoring a fixed menu can't provide.
+
+**Consolidated deployable solver `cand/gen6_base.py`, verified as ONE solver** (gen2_base backstop + all relation-induction families, 2-attempt, standardized ablation = gen2_base): **arc1-eval 48/400 (12%), 14 beyond-base, 0 regressions, 0 errors** — all 13 of the union PLUS a 14th (84db8fc4) that only the combined solver reaches. **Campaign headline: a single non-LLM solver at 12% held-out ARC-AGI-1 with 14 certified beyond-strong-retrieval relation-induction solves, from a 0.5% seed.**
+
+## Where the loop rests — and the fork
+
+Relation-induction is the campaign's real creativity: 14 generalizing solves a strong retrieval baseline provably cannot reach. It is now at the **ceiling of hand-authored relation families** — each new family adds fewer new beyond-base, and the hard families need a *different* relation per held-out task.
+
+**The genuine next leap = the system GENERATING its own relations per task** — the learned-generator / RL-expert-iteration phase: verifier-as-reward, openness curriculum (coverage-trained, unpruned), repurposing credited, reward = success + coverage + out-of-home (never success-alone, per the s15 specialization result). That needs gradient training (CPU-bound on the 7GB box; Kaggle is the free-compute path) — **a scale decision to weigh with Alex, not to spend unilaterally.** The autonomous loop rests here: consolidated, verified, fully journaled, with the fork clearly stated and the evidence for it on the record.
