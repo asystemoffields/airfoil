@@ -1,0 +1,48 @@
+[eval] processing 366 gen2_base-missed tasks (depth<=3, budget=40000, tl=15.0s)
+  [10/366] has_comp=0 comp_generalizes=0 (80s)
+  [20/366] has_comp=0 comp_generalizes=0 (126s)
+  [30/366] has_comp=0 comp_generalizes=0 (184s)
+  [40/366] has_comp=0 comp_generalizes=0 (246s)
+  [50/366] has_comp=0 comp_generalizes=0 (291s)
+  [60/366] has_comp=0 comp_generalizes=0 (351s)
+  [70/366] has_comp=0 comp_generalizes=0 (395s)
+  [80/366] has_comp=0 comp_generalizes=0 (451s)
+  [90/366] has_comp=0 comp_generalizes=0 (517s)
+  [100/366] has_comp=0 comp_generalizes=0 (577s)
+  [110/366] has_comp=0 comp_generalizes=0 (634s)
+  [120/366] has_comp=0 comp_generalizes=0 (703s)
+  [130/366] has_comp=0 comp_generalizes=0 (773s)
+  [140/366] has_comp=0 comp_generalizes=0 (804s)
+  [150/366] has_comp=0 comp_generalizes=0 (849s)
+  [160/366] has_comp=0 comp_generalizes=0 (890s)
+  [170/366] has_comp=0 comp_generalizes=0 (947s)
+  [180/366] has_comp=0 comp_generalizes=0 (1025s)
+  [190/366] has_comp=0 comp_generalizes=0 (1085s)
+  [200/366] has_comp=0 comp_generalizes=0 (1125s)
+  [210/366] has_comp=0 comp_generalizes=0 (1205s)
+  [220/366] has_comp=0 comp_generalizes=0 (1273s)
+  [230/366] has_comp=0 comp_generalizes=0 (1354s)
+  [240/366] has_comp=0 comp_generalizes=0 (1417s)
+  [250/366] has_comp=0 comp_generalizes=0 (1472s)
+  [260/366] has_comp=0 comp_generalizes=0 (1541s)
+  [270/366] has_comp=0 comp_generalizes=0 (1598s)
+  [280/366] has_comp=0 comp_generalizes=0 (1644s)
+  [290/366] has_comp=0 comp_generalizes=0 (1663s)
+  [300/366] has_comp=0 comp_generalizes=0 (1704s)
+  [310/366] has_comp=0 comp_generalizes=0 (1778s)
+  [320/366] has_comp=0 comp_generalizes=0 (1830s)
+  [330/366] has_comp=0 comp_generalizes=0 (1884s)
+  [340/366] has_comp=0 comp_generalizes=0 (1939s)
+  [350/366] has_comp=0 comp_generalizes=0 (1990s)
+  [360/366] has_comp=0 comp_generalizes=0 (2050s)
+WROTE runs/_diag_composition_eval_full.json
+
+===== SUMMARY [eval] =====
+missed tasks processed     : 366 (errors: 0)
+PROBE SET (depth>=2 train-consistent composition EXISTS): 0
+  truncated searches in probe set: 0 (ceiling may undercount)
+SELECTION-FIXABLE (>=1 generalizing composition): 0
+ABSENT (zero generalizing compositions)         : 0
+  of SELECTION-FIXABLE: distinguishable_shortest_bucket=0 distinguishable_topk=0 unique_shortest=0
+(context) tasks where a depth-1 single concept generalizes: 0
+SELECTION-FIXABLE task ids: []

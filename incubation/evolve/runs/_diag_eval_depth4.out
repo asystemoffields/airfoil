@@ -1,0 +1,16 @@
+[eval] processing 40 gen2_base-missed tasks (depth<=4, budget=120000, tl=40.0s)
+  [10/40] has_comp=0 comp_generalizes=0 (181s)
+  [20/40] has_comp=0 comp_generalizes=0 (275s)
+  [30/40] has_comp=0 comp_generalizes=0 (426s)
+  [40/40] has_comp=0 comp_generalizes=0 (599s)
+WROTE runs/_diag_composition_eval_depth4_spot.json
+
+===== SUMMARY [eval] =====
+missed tasks processed     : 40 (errors: 0)
+PROBE SET (depth>=2 train-consistent composition EXISTS): 0
+  truncated searches in probe set: 0 (ceiling may undercount)
+SELECTION-FIXABLE (>=1 generalizing composition): 0
+ABSENT (zero generalizing compositions)         : 0
+  of SELECTION-FIXABLE: distinguishable_shortest_bucket=0 distinguishable_topk=0 unique_shortest=0
+(context) tasks where a depth-1 single concept generalizes: 0
+SELECTION-FIXABLE task ids: []

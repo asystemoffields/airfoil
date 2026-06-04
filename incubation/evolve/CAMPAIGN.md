@@ -102,3 +102,28 @@ invention becomes *findable and transferable*: trained for COVERAGE not precisio
 precision), library unpruned, repurposing credited. gen-5 tests this **cheaply and decisively first** — does a
 small CPU-trained proposer make even one composition family generalize beyond base? — before any heavy
 training; scale to Kaggle only if it earns the spend.
+
+## gen-5 DIAGNOSTIC — composition's non-transfer is EXPRESSIVENESS, not selection (decisive)
+
+Before building the learned proposer, ran the gating diagnostic: SELECTION (a prior could fix) vs
+EXPRESSIVENESS (it can't)? **Answer: EXPRESSIVENESS, high confidence.** Of the 366 held-out eval tasks
+gen2_base misses, the number with even ONE train-consistent program at ANY depth — exhaustive at depth 1–2,
+3× budget (120k execs) depth-4 spot-check — in gen4_01's relational alphabet = **0**. The atomic verbs don't
+*engage* these tasks; there is nothing to compose, so nothing for a prior to select. A learned proposer over
+compositions is aimed at a bottleneck that does not exist here.
+
+**This CORRECTS the gen-4 read.** On *train*, composition is the OPPOSITE of overfit — 3 of gen4_01's 4
+composed solves generalize, and where train-consistent compositions exist they generalize **100%** (tight
+geometry equivalence classes like `transpose→ray_diag→transpose`). Composition isn't unreliable; it just
+almost never *fits* the held-out families. **Every** real eval-beyond-base win came from per-task **fitted
+cause→effect relations** (region_recolor by hole-count/border/aspect, …), never from verb composition. So on
+real ARC's frontier the "compose a fixed alphabet + search + verify" depth-engine **doesn't engage** — ARC's
+mechanisms are rich per-task RELATIONS, not compositions of these verbs.
+
+**Pivoted gen-5 (the genuine, evidence-backed lever): LEARN THE RELATIONAL INDUCERS, don't compose verbs.**
+A curriculum-trained model that, from a task's train pairs, INDUCES a cause→effect relation *beyond* the
+hand-coded families — structure (decompose → induce → verify) kept as architecture, the relation CONTENT
+learned/generated. This is "make the inducers learn without robbing them," now the evidence-backed frontier.
+Standardized gate unchanged (beyond gen2_base, held-out). If a small CPU model can't make generated relations
+generalize, that is the decisive case for the RL/expert-iteration phase (which can invent primitives) — a
+scale decision (Kaggle/gradient training) to weigh with Alex on his return.
