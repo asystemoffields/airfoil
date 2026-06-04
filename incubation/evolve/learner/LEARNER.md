@@ -228,3 +228,24 @@ v19 wall (≈0 transfer). The ONLY untested expressiveness lever is SCALE (a lea
 rich relation distribution + expert iteration). **Ready-to-scale gates 1+2 DECISIVELY green** (mechanisms proven;
 remaining gains expressiveness/scale-bound, not architecture-bound). The box has come as far as it can on the
 current grammar — the scale decision (compute-spend) is the fork.
+
+## NAVIGATION-EFFICIENCY STRESS (`ground_nav_scaling.py` + `ground_nav_demos.py`) — it SCALES (cash-out was an artifact)
+
+Alex's catch: the composed cash-out didn't TEST navigation — only 5 tasks were expressible and all found in 2-4
+calls, so the navigator was never under load ("library = blind" meant "neither was stressed"). Proper test:
+synthetic recolor tasks (always solvable -> no expressiveness bottleneck) + inject N distractor features (the v2
+head scores each feature INDEPENDENTLY -> handles arbitrary NF, no retrain) -> true-feature find-cost as the
+space explodes.
+- SCALING (4 demos): find-cost 1.6→158 as features 14→5014, BUT blind 7→2507 -> **speedup GROWS 4×→16×**; top-5
+  recall ~FLAT 0.7-0.8 across **350× space growth**. The recognizer keeps the true feature top-ranked space-size-
+  INVARIANTLY; navigation's relative advantage grows with the space.
+- LIMIT = spurious-consistency tail (mean rank climbs as more random features are chance-consistent on few
+  demos), CONTROLLED BY EVIDENCE. At 1514 features, find-cost vs #demos = {2:92, 4:58, 6:21, 10:23}; top-5
+  {2:0.24, 4:0.63, 6:0.83, 10:0.90}. **At 6 demos: 37× speedup (rank 21 vs blind 757), 0.83 top-5.**
+
+VERDICT: the cash-out's "navigation redundant" was a REGIME ARTIFACT, not a property. Under genuine load
+navigation efficiency is a real, SCALABLE component — good scaling signature (increasing speedup, space-invariant
+top-K) + a cheap lever (demos; + an untested one: a distractor-HARDENED recognizer). This STRENGTHENS the scale
+bet: at scale the space is huge (navigation needed), expressiveness is rich (coverage to win), AND we control the
+curriculum's demo count (navigation pays). Orthogonal to the coverage finding — expressiveness bottlenecks
+COVERAGE, navigation scales SEARCH; both now validated for the scale regime.
