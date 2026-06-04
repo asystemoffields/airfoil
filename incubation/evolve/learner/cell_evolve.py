@@ -94,20 +94,44 @@ def _apply_fill(gi, N, fill):
     return out
 
 
+def detect_periods(grid, N):
+    """EYE-DETECTED period: the smallest axis-aligned offset under which the non-occluder cells are invariant. The
+    translation generator's offset is a PERCEIVED quantity (per the design), not a blind 1..8 enumeration -> any
+    period, including >8 and the ones the fixed set missed. Still a GENERATOR (a parameterized map), not an earner."""
+    grid = np.asarray(grid, int); H, W = grid.shape; out = []
+    for pc in range(1, W):
+        if all(grid[r, c] == N or grid[r, c+pc] == N or grid[r, c] == grid[r, c+pc]
+               for r in range(H) for c in range(W-pc)):
+            out.append(("W", pc)); break
+    for pr in range(1, H):
+        if all(grid[r, c] == N or grid[r+pr, c] == N or grid[r, c] == grid[r+pr, c]
+               for c in range(W) for r in range(H-pr)):
+            out.append(("H", pr)); break
+    return out
+
+
+def _earns_inv(train, test, name, mapfn, N):
+    for gi, go in list(train) + list(test):
+        out = _apply_invariance(gi, name, mapfn, N)
+        if out is None or not np.array_equal(out, np.asarray(go, int)):
+            return False
+    return True
+
+
 def earn_cell_effect(train, test):
     """ONE earn loop over the GENERATIVE substrate -> returns whatever effect it earns (symmetry / periodic / fill),
     induced on TRAIN, verified on TEST. No per-family code; new basis elements => new earnable effects for free."""
-    INV = generative_maps()                               # the generator CLOSURE (isometries + translations + glides)
-    for name, mapfn in INV.items():                       # INVARIANCE family -- earned, never per-family hand-coded
+    g0 = train[0][0]
+    for name, mapfn in generative_maps().items():         # fixed generator CLOSURE (isometries + translations + glides)
         for N in range(10):
-            ok = True
-            for gi, go in train:
-                out = _apply_invariance(gi, name, mapfn, N)
-                if out is None or not np.array_equal(out, np.asarray(go, int)):
-                    ok = False; break
-            if ok and all(_apply_invariance(gi, name, mapfn, N) is not None and
-                          np.array_equal(_apply_invariance(gi, name, mapfn, N), np.asarray(go, int)) for gi, go in test):
+            if _earns_inv(train, test, name, mapfn, N):
                 return f"invariance({name},occluder={N})"
+    for N in range(10):                                   # EYE-DETECTED period generators (perceived offset, both dirs)
+        for (axis, P) in detect_periods(g0, N):
+            for s in (P, -P):
+                mfn = (lambda r, c, H, W, s=s: (r, c+s)) if axis == "W" else (lambda r, c, H, W, s=s: (r+s, c))
+                if _earns_inv(train, test, f"period{axis}{s}", mfn, N):
+                    return f"invariance(eye-period{axis}{P},occluder={N})"
     for N in range(10):                                   # LOCALITY family (enclosed-cell fill)
         fill = None; consistent = True
         for gi, go in train:

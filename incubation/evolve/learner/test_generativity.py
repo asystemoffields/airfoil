@@ -71,7 +71,7 @@ def negative():
     earn_fns = [n for n, _ in inspect.getmembers(cell_evolve, inspect.isfunction) if n.startswith("earn_")]
     forbidden = [n for n in earn_fns if n != "earn_cell_effect"]
     src = inspect.getsource(cell_evolve)
-    closure = "INV = generative_maps()" in src
+    closure = "generative_maps()" in inspect.getsource(cell_evolve.earn_cell_effect)
     try:
         solver_ok = "earn_cell_effect" in inspect.getsource(__import__("ground_vine_evolve"))
     except Exception:

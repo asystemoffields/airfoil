@@ -609,3 +609,21 @@ than the hand-coded cell2's 2 beyond_gen6) -- the principled loop's generator/oc
 but missed cell2's periodic ones. Per the charter the fix is a GENERATOR/search improvement (2D periods, occluder-
 following), NOT hand-coding earn_periodic back. NEXT: the analogical-adaptation layer (workflow wr36mpy4u synthesis
 landed -- reuses lgg.py as the schema engine) for the messy 'looks-like-but-not-exact' tasks.
+
+### STEP 1 (periodic gap, principled) + ANALOGICAL LAYER stages 1-2 (Alex: gap -> analogical -> test)
+
+STEP 1 -- eye-detected period (cell_evolve.detect_periods): the PRINCIPLED gap fix per the charter (NOT hand-coded
+earn_periodic) -- the translation generator's offset is now a PERCEIVED quantity (any period, incl >8). Generativity
+guard stays GREEN (fixed a brittle string-check in the negative test). BUT on real ARC the self-evolving loop still
+gets 3 invariance / 0 beyond_gen6 -- the eye-period did NOT recover cell2's 2 beyond_gen6 periodic tasks (4f537728,
+ea959feb); those are MESSIER (likely 2D/composed), not a single bigger period.
+ANALOGICAL LAYER (schema_adapt.py, built on lgg.py's Hole/antiunify/instantiate per wr36mpy4u):
+- STAGE 1 (STUFF-mod): antiunify Invariance(mirror_h)+Invariance(mirror_v) -> Invariance(.MAP, occluder=9) ->
+  re-instantiate rot180+diag (UNSEEN axes) 10/10, ~10x cheaper than blind. The schema/retrieve/refill engine works
+  on Vine's EARNED cell solutions (the new MAP sort).
+- STAGE 2 (THINGY-mod COMPOSE, make-or-break): near-miss symmetry o colormap (pure invariance fires 0/12). ADAPT
+  (compose) 12/12 @ 1 induce-call; BLIND 12/12 @ 10; BLIND-at-adapt-budget 0/12 -> **GO**. Compose ADDS expressiveness
+  (solves composed near-misses the pure earner can't) AND adapt ~10x cheaper. "Bend a known schema to fit" works.
+CONNECTION: the beyond_gen6 tasks step-1 missed are likely "THINGY-but-not-exactly" (periodic + a twist) = exactly
+what COMPOSE targets. NEXT (step 3, TEST IT): wire compose-adaptation into the real-ARC solver -> does it recover
+beyond_gen6 solves the pure cell loop misses?
