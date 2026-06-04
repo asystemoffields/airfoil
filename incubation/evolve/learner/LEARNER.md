@@ -80,3 +80,21 @@ decomps/features/effects + COMPOSED relations) — which is also when it reaches
 **Next:** widen the grammar (compose relations + more features/effects) → retrain the recognizer → ground on
 ARC measuring `beyond_base`, comparing recognizer-top-K vs blind-enumeration *under a fixed verify budget*
 (the regime where the learner is necessary, not just tidy). Then fold in HF data + go to Kaggle.
+
+## COMPOSITION (`grammar_comp.py`) — composed relations, reaching the cross-shape family
+
+A composed relation = `(structural pre-op, base feature-relation)`: apply geometry / content-crop, THEN a
+`(decomp, feature, effect)` relation. **8 object-preserving pre-ops × 80 base relations = 640 composed types**
+(deeper composition → too big to enumerate = the regime the learner is for). Curriculum yield **326/500 (65%)**
+after fixing a table-accumulation consistency bug (each recolor table must accumulate across demos, not reset);
+**220/500 are SIZE-CHANGING** — `crop→recolor` turns an input into a smaller output, so composition naturally
+reaches the cross-shape/reshaping tasks the same-shape recognizer was weak on.
+
+ELEGANT: the v2 recognizer needs **no retraining**. At solve time, enumerate the ~8 cheap pre-ops, transform
+the inputs, and run the SAME consistency-recognizer on the (transformed) demos → top-K feature → induce_composed
+→ exact-verify. The learner navigates the expensive feature×effect×decomp factor; pre-ops are cheap enumeration.
+
+**Next (the value test):** ground the composed solver on ARC, measure `beyond_base`, and compare
+recognizer-top-K vs blind composed-enumeration under a fixed verify budget. In parallel, an exploration workflow
+(`explore-creative-crossshape`) is researching Disco103-style cross-shape generalization + creativity mechanisms
+to fold into the grammar/recognizer.
