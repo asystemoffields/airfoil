@@ -627,3 +627,19 @@ ANALOGICAL LAYER (schema_adapt.py, built on lgg.py's Hole/antiunify/instantiate 
 CONNECTION: the beyond_gen6 tasks step-1 missed are likely "THINGY-but-not-exactly" (periodic + a twist) = exactly
 what COMPOSE targets. NEXT (step 3, TEST IT): wire compose-adaptation into the real-ARC solver -> does it recover
 beyond_gen6 solves the pure cell loop misses?
+
+### STRUCTURAL OPERATORS GENERATED, NOT HAND-CODED (Alex: "why can't it generate new structural operators?")
+
+The hand-coded operator menu (compose/add-step/swap) was a META-TREADMILL. PRINCIPLED REBUILD (derive_grammar.py):
+a solution is a DERIVATION in a production grammar; a structural mod = re-deriving a subtree via the productions.
+ONE engine (`derive`, forward program search) GENERATES every operator from a PRODUCTION REGISTRY (FORWARD:
+invariance; CLOSE: identity/colormap/fill). compose = a 2-step derivation, add-step = longer, sibling-swap = a
+different production choice. Box: ONE engine derives pure-invariance 8/8, mirror_h o colormap 8/8, HELD-OUT
+rot180 o colormap 7/8 + diag o colormap 8/8 with ZERO new operator code (a new production composes with every other
+for free); treadmill detector PASS (no compose/add_step/swap functions). The anti-treadmill charter now covers
+OPERATORS too: the only extension point is a new PRODUCTION (grammar node type), never a new operator. Honest
+boundary (same as the cell substrate): the DSL grammar is the IRREDUCIBLE innate basis -- there's always SOME innate
+language; "generate everything" = all its DERIVATIONS, recognizer-prunable + verifier-gated.
+REAL-ARC compose (hand-coded data point, ground_vine_adapt.py): 8 solved (was 7), 1 compose solve (ca8f78db =
+periodicH2 o colormap), 0 beyond_gen6 -- composition reaches real ARC modestly, not yet beyond-gen6 ground. NEXT:
+wire `derive` (the unified cell+structural engine -- it subsumes the pure cell loop AND compose) into the solver.
