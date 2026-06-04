@@ -1,0 +1,8 @@
+gen2_base eval solved: 34
+gen5_01_object-relational  eval_solved=39 beyond_base=5 ['0a2355a6', '358ba94e', '37d3e8b2', '9a4bb226', 'cd3c21df']
+gen5_02_cell-region        eval_solved=38 beyond_base=4 ['37d3e8b2', 'aa18de87', 'cd3c21df', 'e0fb7511']
+gen5_03_two-part-relational eval_solved=37 beyond_base=3 ['281123b4', '6a11f6da', 'aa18de87']
+
+gen-4 beyond-base: ['0a2355a6', '21f83797', '37d3e8b2', 'd282b262']
+UNION beyond-base (gen4 + gen5): 11 ['0a2355a6', '21f83797', '281123b4', '358ba94e', '37d3e8b2', '6a11f6da', '9a4bb226', 'aa18de87', 'cd3c21df', 'd282b262', 'e0fb7511']
+COMBINED CEILING (gen2_base 34 + union beyond): 45 of 400 = 11.25 %

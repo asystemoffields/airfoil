@@ -127,3 +127,40 @@ learned/generated. This is "make the inducers learn without robbing them," now t
 Standardized gate unchanged (beyond gen2_base, held-out). If a small CPU model can't make generated relations
 generalize, that is the decisive case for the RL/expert-iteration phase (which can invent primitives) — a
 scale decision (Kaggle/gradient training) to weigh with Alex on his return.
+
+## gen-5 — relation-induction WORKS: 11 certified beyond-retrieval (combined), 45/400 held-out
+
+The diagnostic-corrected lever — systematic rich per-task RELATION induction (decompose → rich feature vector
+per part → induce feature→effect invariant across all train pairs → exact-verify), standardized gate (beyond
+gen2_base) — pays off across all three granularities:
+
+| inducer | eval_solved | **eval_beyond_base** | notable new held-out wins |
+|---|---|---|---|
+| object-relational  | 39 | **5** | 358ba94e, 9a4bb226, cd3c21df (select-extreme over a uniqueness feature) |
+| cell-region        | 38 | **4** | aa18de87, e0fb7511 |
+| two-part-relational| 37 | **3** | 281123b4, 6a11f6da |
+
+**Combined, independently verified: 11 DISTINCT beyond-base held-out tasks** (gen-4's 4 ∪ gen-5's) →
+**45/400 eval = 11.25%**, all 11 certified beyond strong retrieval (seed was 2/400 = 0.5%). Relation-induction
+is the campaign's real engine: it adds *genuine creativity* (beyond-retrieval), not coverage, and every
+granularity contributes. The new `select_extreme`-over-uniqueness effect is a clean example — a cause→effect
+relation gen2_base's size-only menu can't express, and it generalizes.
+
+**Honest framing.** The wins still come from *hand-authored relation families* (richer ones — hole-count,
+uniqueness/extremeness, connect-with-fitted-fill — fitted per task). The direction has clear headroom: the two
+biggest miss-families, **counting/construction (86)** and **line/draw-connect (77)** — roughly half the misses
+— are still largely untouched. So enriching it is genuine beyond-retrieval progress, not coverage-padding. But
+the leap to the *system itself generating* novel relation families (rather than agents authoring them) remains
+the learned-generator / RL phase — the scale decision for Alex. gen-6 sweeps the two biggest families; then the
+loop rests at a consolidated milestone with that fork clearly stated.
+
+### Campaign arc at a glance (ARC-AGI-1 held-out eval, 400)
+
+| gen | held-out solved | beyond strong retrieval | lever |
+|---|---|---|---|
+| seed | 2 (0.5%) | — | DSL search |
+| gen-1 | 28 (7%) | 0 | parametric concept-fitting |
+| gen-2 | 37 (9.25%) | 0 | consolidated retrieval + linking/transfer |
+| gen-3 | (≤34) | 0 vs gen2_base | generative mechanism-inventor (composition) |
+| gen-4 | 38 combined | 4 | first beyond-retrieval (fitted relations) |
+| **gen-5** | **45 combined (11.25%)** | **11** | **systematic relation-induction** |
