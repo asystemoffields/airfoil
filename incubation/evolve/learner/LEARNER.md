@@ -400,3 +400,17 @@ KAGGLE HANDOFF (quota ~Jun 7-8): scale `kaggle_loop.py` N over BARC-stream/RE-AR
 leaves + the LEARNED suffix policy (autoregressive over the DSL, cold-started from the box's recognizer-guided
 solves) + verifier-as-reward expert iteration; strict leave-one-FAMILY-out; GO if held-out-family beyond_gen6 ≥ 3
 on one ≤8h T4×2 session. Free-compute only. Push via the kaggle headless workflow (kernel scaffold under `kaggle/`).
+
+### EFFECT FACULTY (`effect_faculty.py`) — the motor hand, EYE-GROUNDED (Alex's option 2)
+
+Mirror of the relational eye, opening the effect frontier (the 0/30). The hand has THREE atomic motor primitives —
+paint / place / erase — and nothing else is hand-coded; an effect is a COMPOSITION whose PARAMETERS (target +
+displacement) are computed by the relational EYE: an eye-selected anchor tells the hand WHERE. Smoke: an
+align-to-anchor MOVE task (recolor grammar winning = **0** — it cannot move objects) → the system EARNS
+**`move(toward exists(a_bigger), align_col)`** = the eye picks the anchor (the largest), the hand moves each object
+to its column. The gesture is EARNED (search target-predicate × displacement-mode + verify), not hand-coded.
+Effects join predicates as EARNED vocabulary. **The architecture is now PERCEIVE (eye) → ROUTE (V2) → ACT (hand):**
+thin innate faculties (pair-comparison eye + paint/place/erase hand), fully-EARNED vocabulary (predicates +
+gestures), verifier-gated, library-growing by composition. NEXT: wire effects into the policy/loop (V2 routes;
+`earn_effect` joins `earn_predicate`) + re-measure real-data coverage (does coverage move off the recolor-only 8%);
+scale on Colab (now) / Kaggle.
