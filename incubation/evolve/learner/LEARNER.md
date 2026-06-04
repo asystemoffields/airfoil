@@ -493,3 +493,14 @@ The reward + family-holdout bricks stand (reusable); the compose-head/STaR loop 
 a too-big-to-search regime. RETEST PLAN (Alex): when Vine's full earned-vocabulary solver is assembled, run it on
 the SAME ARC-1 eval(400) + the SAME beyond_gen6 gate as gen6_base = the honest head-to-head (Vine earned vs
 gen6_base hand-authored), the number a paper needs (not the 48/400 hand-authored figure).
+
+### VINE HEAD-TO-HEAD DIAGNOSTIC (`ground_vine.py`) — 3/400, and it caught an ASSEMBLY gap
+
+Assembled Vine (recognizer + open vocab + composition + gestures) on ARC-1 eval(400): solved 3, beyond_gen2 2,
+beyond_gen6 0; gen6_base (hand-authored) = 48 / 14-beyond. gen6 - Vine = 45. NOT a verdict (Alex: half-grown ->
+diagnosis only). The 45 split into TWO buckets: (1) ASSEMBLY-INCOMPLETE (mine to own): vine_solve only did
+RECOLOR, SINGLE decomp (4-conn by-color) + composition + move/copy -- NO select, NO colormap, only 1 of 4 decomps,
+all of which the grammar HAS and V2 ROUTES -> a fixable wiring gap, not a vocab gap; (2) VOCABULARY-UNGROWN: the
+effect mechanisms the families hand-authored (line/draw, counting/construction) Vine hasn't EARNED. NEXT: complete
+the assembly (route full grammar recolor/select/colormap x 4 decomps -- the cheap large recovery) -> re-diagnose ->
+THEN grow the effect frontier toward the residual gen6-Vine. The real head-to-head number waits for the grown vocab.
