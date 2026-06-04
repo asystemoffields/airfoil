@@ -1,0 +1,12 @@
+
+===== arc1-eval (n=400) =====
+  compositional  solved= 11 ablated=  9 INVENTED=  2 certified=True
+  analogical     solved=  3 ablated=  0 INVENTED=  3 certified=True
+  causal-decomp  solved= 11 ablated=  2 INVENTED=  9 certified=True
+
+===== arc1-train (n=400) =====
+  compositional  solved= 38 ablated= 32 INVENTED=  6 certified=True
+  analogical     solved= 35 ablated= 11 INVENTED= 30 certified=True
+  causal-decomp  solved= 47 ablated= 19 INVENTED= 28 certified=True
+
+=== done ===

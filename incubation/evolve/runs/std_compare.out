@@ -1,0 +1,8 @@
+gen2_base (best retrieval) eval solved: 34
+causal-decomp eval solved: 11
+  causal-decomp BEYOND base (invented vs best-retrieval): 0  []
+  union(base, causal-decomp): 34
+compositional beyond base: 0  []
+analogical beyond base: 0  []
+union(base, ALL 3 inventors): 34  (invention adds 0 beyond best retrieval: [])
+=== done ===

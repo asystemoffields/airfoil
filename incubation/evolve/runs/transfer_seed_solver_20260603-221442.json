@@ -1,0 +1,1 @@
+{"metrics": {"label": "seed_solver", "gate": "transfer", "n": 20, "warm_solved": null, "cold_solved": null, "reused": null, "reuse_rate": null, "has_reset": false, "budget": 1200, "seconds": 0.0, "flag": "no reset_library hook: cannot force the cross-task library empty, so experience-transfer cannot be isolated. Expose reset_library() to measure it."}, "per_task": []}
