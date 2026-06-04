@@ -4,3 +4,5 @@ __pycache__/
 models/
 *.gguf
 results/*.png
+
+incubation/evolve/learner/*.pt
