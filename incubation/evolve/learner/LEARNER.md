@@ -729,3 +729,19 @@ onto it (unlocks the 32% structural class); (B) richer SELECTOR/VALUE bases (obj
 count/position values; move/draw/connect as paint-derivations) for the same-shape 68%. ALL generated from thin
 irreducible bases per SELF_EVOLVING_CHARTER.md, lint-guarded -- NOT hand-coded effects. The loop is ready and waiting;
 it compounds the moment the proposer can solve.
+
+### GEN-3 canvas floor-lift (gate3_canvas.py): canvas lifts the floor OFF ZERO (3 pure), bulk needs canvas+CONTENT
+
+Built B0 CANVAS basis (REPLICATE/MAGNIFY/DECIMATE/WINDOW), factors INDUCED from the demos' shape relationship --
+PERCEIVED per-instance: self-shape / object-count / ncol / const-ratio (NOT literals). canvas_solve verified correct
+on synthetic (tile/magnify/self-tile/crop all caught). On RE-ARC (400 relations, MATCHED pairs -- fixed a 2-separate-
+gens()-calls bug that produced mismatched input/output and a FALSE 0): PURE canvas solves **3** (9172f3a0 magnify,
+a416b8f3 replicate, c59eb873 magnify) -> **floor 0 -> 3, the FIRST non-zero on real RE-ARC** (derive was 0/120).
+Below the synthesis's optimistic >=7-pure-canvas floor. WHY only 3: most size-changing relations (~33% of ARC) need
+canvas + CONTENT, not pure reshape -- the output SHAPE is often canvas-reachable (62c24649 = 2x scale-with-mod,
+6d0aefbc = width-concat-with-transform) but the CONTENT needs paint/mirror/mask on the reshaped canvas; d10ecb37
+(-> fixed 2x2) has a content-determined shape (harder). Pure canvas catches only the rare pure-reshape cases.
+NEXT (the real floor-lift): WIRE canvas into derive as FORWARD productions (canvas reshapes the intermediate -> the
+existing paint/draw/overlay CLOSE fills content) so canvas+content relations solve; then B1 decompose + B2 motion
+(wire motor_targets) + B3 draw + B4 overlay + the recognizer-PRUNING (the make-or-break for the big closure). The
+canvas basis is correct + lifts off zero; the integration into derive's forward branch is the build that gets the bulk.
