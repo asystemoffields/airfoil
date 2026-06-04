@@ -185,3 +185,24 @@ and gen-2 already found anti-unification mines ~0 macros from our atomic verifie
 generation lever is a **LEARNED generative proposer + verifier-as-reward expert iteration at SCALE (Kaggle)**,
 the phase we correctly deferred. Box next-steps (global head, more hand-effects, anti-unification) are
 diminishing; the high-value move is to stand up the generative-proposer/expert-iteration loop for Kaggle.
+
+## ANTI-UNIFICATION (`lgg.py`) — Mode-2 precondition: MECHANISM PROVEN (1.00 re-instantiation)
+
+Design verdict (honest, from the de-risk workflow): LGG is a NAVIGATION/EFFICIENCY organ, NOT expressiveness —
+it adds 0 new `beyond_gen6` (schema fillers come from the same grammar `induce()` exhausts). The cheap
+precondition test (leave-one-out schema re-instantiation on real ARC-1-train recolor/select buckets):
+- **re-instantiation success 43/43 = 1.00** (canonical 08ed6ac7/67385a82/6e82a1ae triple: **19/19**).
+  `antiunify(R1,R2)` lifts the per-task TABLE to a typed hole; re-instantiation routes that hole to ONE
+  `G.induce()` that re-fits the table on a held-out third task + exact-verifies — 100% of the time. **LGG
+  schemas ARE genuine per-task GENERATORS** = the gen-6 "differently-fitted relation per task," *minted* (from
+  two solved tasks), not hand-authored. The NAVIGATE→GENERATE step works mechanically.
+- **induce-call ratio (blind/LGG): median 6×, mean 5×** — real efficiency, but UNDER the 10× GO bar *on the
+  small grammar* (blind finds recolor solutions in ~5–6 calls, low ceiling). The 10×+ cashes out in the
+  TOO-BIG-TO-ENUMERATE COMPOSED regime (blind = pre-ops×effect×feature×decomp explodes; schema still collapses
+  to 1 induce). So 5–6× is the honest LOWER BOUND, not the headline — the design predicted this exact split.
+
+VERDICT: mechanism PASSES decisively (1.00); efficiency real-and-lower-bounded. The anti-unification organ is a
+genuine "better-version" component for the eventual scaled solver. NEXT: cash it in the composed regime — wire
+LGG schemas as a recognizer-ranked FAST-PATH into the composed solver (`grammar_comp`) and re-run the value-test
+where blind explodes (the real 10×+ efficiency test) — completing ready-to-scale gate #1 (every component proven
+to add value on the box).
