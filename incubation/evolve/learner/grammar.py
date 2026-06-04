@@ -119,6 +119,11 @@ FEATURES = {
     "uniq_size":   lambda o, objs: sum(x["size"] == o["size"] for x in objs) == 1,
     "uniq_color":  lambda o, objs: sum(x["color"] == o["color"] for x in objs) == 1,
     "uniq_shape":  lambda o, objs: sum(x["shape"] == o["shape"] for x in objs) == 1,
+    # relational / positional features (depend on the object SET) — extend expressiveness, same consistency head
+    "rank_col":    lambda o, objs: _rank(objs, o, "c0", False),   # left->right position rank
+    "rank_row":    lambda o, objs: _rank(objs, o, "r0", False),   # top->bottom position rank
+    "n_same_color": lambda o, objs: sum(x["color"] == o["color"] for x in objs),  # how many share its color
+    "is_largest":  lambda o, objs: _rank(objs, o, "size", True) == 0,
 }
 FEATURE_NAMES = list(FEATURES)
 

@@ -92,8 +92,10 @@ def gen_batch(rng, combos, bs):
 
 def main():
     rng = np.random.RandomState(0)
-    feats_all = ["size", "color", "holes", "height", "width", "rank_size", "uniq_size", "uniq_color"]
-    HELDOUT = [("recolor", "holes"), ("recolor", "uniq_color"), ("select", "size"), ("select", "uniq_size")]
+    feats_all = ["size", "color", "holes", "height", "width", "rank_size", "uniq_size", "uniq_color",
+                 "rank_col", "rank_row", "n_same_color", "is_largest"]   # incl. new relational/positional features
+    # hold out a mix of OLD and NEW features entirely -> tests generalization over the WIDENED grammar
+    HELDOUT = [("recolor", "holes"), ("recolor", "rank_col"), ("select", "n_same_color"), ("select", "is_largest")]
     train_combos = [("colormap", "size")]
     for e in ("recolor", "select"):
         for f in feats_all:
@@ -112,20 +114,25 @@ def main():
             print(f"  step {s+1}/{STEPS} loss {float(loss.detach()):.3f} ({time.time()-t0:.0f}s)", flush=True)
     net.eval()
     def ev(combos, n=320):
-        eok = fok = jok = tot = fcnt = 0
+        eok = fok = f3 = jok = tot = fcnt = 0
         with torch.no_grad():
             for _ in range(n // BS + 1):
                 V, O, m, g, ye, yf = gen_batch(rng, combos, BS)
                 le, lf = net(V, O, m, g); pe = le.argmax(1); pf = lf.argmax(1); mm = (ye != EFF_IX["colormap"])
+                top3 = lf.topk(3, dim=1).indices
                 eok += (pe == ye).sum().item(); tot += len(ye)
-                fok += ((pf == yf) & mm).sum().item(); jok += ((pe == ye) & (pf == yf) & mm).sum().item()
+                fok += ((pf == yf) & mm).sum().item()
+                f3 += (((top3 == yf.unsqueeze(1)).any(1)) & mm).sum().item()
+                jok += ((pe == ye) & (pf == yf) & mm).sum().item()
                 fcnt += mm.sum().item()
-        return eok / tot, fok / max(1, fcnt), jok / tot
-    te, tf, tj = ev(train_combos); he, hf, hj = ev(HELDOUT)
-    print(f"\nTRAINED combos:  effect {te:.2f}  feature {tf:.2f}  joint {tj:.2f}")
-    print(f"HELD-OUT combos: effect {he:.2f}  feature {hf:.2f}  joint {hj:.2f}   (random feature 0.10)")
-    print("READ: held-out FEATURE >> 0.10 = the consistency architecture identifies + TRANSFERS causal-feature "
-          "relevance to combos it never trained = Branch-B prerequisite MET -> scale to composed relations + ARC.")
+        c = max(1, fcnt)
+        return eok / tot, fok / c, f3 / c, jok / tot
+    te, tf, t3, tj = ev(train_combos); he, hf, h3, hj = ev(HELDOUT)
+    print(f"\nfeatures: {len(FEATS)} ({FEATS})")
+    print(f"TRAINED combos:  effect {te:.2f}  feat-top1 {tf:.2f}  feat-top3 {t3:.2f}  joint {tj:.2f}")
+    print(f"HELD-OUT combos: effect {he:.2f}  feat-top1 {hf:.2f}  feat-top3 {h3:.2f}  joint {hj:.2f}   (random top1 {1/len(FEATS):.2f})")
+    print("READ: held-out feat-top3 high = the consistency head TRANSFERS relevance to new (effect x feature) "
+          "combos over the WIDENED grammar; feat-top3 is the metric the verify-filtered pipeline actually uses.")
     torch.save(net.state_dict(), "learner_v2.pt"); print(f"saved learner_v2.pt ({time.time()-t0:.0f}s)")
 
 
