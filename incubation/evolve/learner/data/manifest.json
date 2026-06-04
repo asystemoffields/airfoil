@@ -1,0 +1,63 @@
+{
+  "created": "2026-06-04 12:00:45",
+  "note": "On-box VERIFIED sample for SCALE-phase relation curriculum. Full corpus -> Kaggle (see DATA.md). Grids are int lists.",
+  "samples": {
+    "barc_heavy_4omini": {
+      "file": "samples/barc_heavy_4omini_sample.jsonl",
+      "n_tasks": 300,
+      "bytes": 9286041,
+      "has_programs": true,
+      "split": "first 4 demos=train, rest=test (shuffled)",
+      "source_repo": "barc0/100k-gpt4omini-description-gpt4omini-code_generated_problems",
+      "source_file": "100k_gpt4o-mini_generated_problems.jsonl",
+      "pull": "remote HTTP line-stream (no bulk download)"
+    },
+    "barc_suggestfunction": {
+      "file": "samples/barc_suggestfunction_sample.jsonl",
+      "n_tasks": 100,
+      "bytes": 3236826,
+      "has_programs": true,
+      "note": "programs written against a SUGGESTED helper LIBRARY -> compositional vocabulary",
+      "source_repo": "barc0/200k_HEAVY_gpt4o-description-gpt4omini-code_generated_problems",
+      "source_file": "data_suggestfunction_100k.jsonl"
+    },
+    "rearc_generated": {
+      "file": "samples/rearc_generated_sample.jsonl",
+      "n_instances": 782,
+      "n_relations": 400,
+      "bytes": 4336335,
+      "has_programs": true,
+      "note": "verifier_<id> SSA DSL program per relation; UNLIMITED more via load_rearc_generated",
+      "source_repo": "Alignment-Lab-AI/ARC-stuff",
+      "diff_band": [
+        0.0,
+        0.6
+      ]
+    }
+  },
+  "local_sources": {
+    "conceptarc": {
+      "loader": "arc_sources.load_conceptarc",
+      "n_tasks": 160,
+      "path": "/data/conceptarc",
+      "has_programs": false,
+      "role": "held-out eval"
+    },
+    "arc1": {
+      "loader": "arc_sources.load_arc1",
+      "n_train": 400,
+      "n_eval": 400,
+      "path": "/data/arc/data",
+      "has_programs": false,
+      "role": "gate target"
+    },
+    "arc2": {
+      "loader": "arc_sources.load_arc2",
+      "n_train": 1000,
+      "n_eval": 120,
+      "path": "/data/arc-agi-2/data",
+      "has_programs": false,
+      "role": "gate target (harder)"
+    }
+  }
+}

@@ -281,3 +281,44 @@ expressiveness/coverage, which needs SCALE. **THE BOX IS DONE.** Cross over to t
 proposer (geometry head + relation head + schema-minting) over a RICH relation distribution + verifier-as-reward
 expert iteration, on Kaggle (free-compute; quota ~Jun 7-8). The bet: at scale the proposer GENERATES relations
 beyond the fixed grammar — the one lever that lifts coverage.
+
+## SCALE PHASE — architecture decided (de-risk workflow wtc772h7l + data workflow w7ijx1ysz, Alex's calls)
+
+FACTORED GENERATIVE PROPOSER (all non-LLM at solve time, exact verifier gates everything): frozen RECOGNIZER prior
+(V2H, the breadth router, distribution-robust) + STRUCTURAL/GEOMETRY head (V3-GEO, proposes the pre-op/frame
+prefix) + GENERATIVE RELATIONAL SUFFIX (a small autoregressive policy over a typed lambda-DSL strictly richer than
+the grammar: composition + let-binding + object-pair/set quantifiers + grown leaves) + VERIFIER-AS-REWARD EXPERT
+ITERATION. Honest verdict: ONLY the suffix generator crosses the expressibility wall; the geometry head alone is
+"the LGG trap repeated" (navigation of a non-bottleneck). THE load-bearing risk: the v19 breadth wall may be
+ARC-INTRINSIC, not recognizer-absence (the recognizer-as-breadth-router is the wager).
+
+**DSL FORK — Alex's call: THIN-CORE, EARN THE VOCABULARY.** BARC ARC-Heavy (~274k tasks + python programs +
+concept tags, streaming loader `ground_barc.py`) is used for its SCALE (training/self-distill distribution) + its
+MAP (concept tags = target vocabulary), but NOT its CODE — its programs are imperative numpy in BARC's own DSL,
+NOT cleanly transcribable, so cloning them = adopting BARC's hand-designed vocabulary (treadmill-up-a-level +
+lookup-Goodhart). Instead: a thin principled combinator CORE (composition, binding, object-pair quantifiers) +
+GROW leaf primitives from our own verified solves, steered toward the concept-tag map; the invention gate (held-
+out-family, certified-invented) is the guardrail. The system EARNS its vocabulary.
+
+BUILD ORDER (box-prep falsifiers gate every GPU spend): BOX-PREP 1 V3-GEO structural twin (`train_v3_geo.py`,
+held-out pre-op top-M recall >> chance); BOX-PREP 2 frame-norm coverage probe (`ground_v3_geo.py` — does VARC
+frame-norm make any reshaping ARC task NEWLY expressible = new beyond_gen6 on the box? if ~0, geometry coverage
+FALSIFIED before Kaggle); BOX-PREP 3 the lambda-DSL (`rel_dsl.py`) + BARC interface; BOX-PREP 4 the suffix policy
+(`suffix_policy.py`) + leave-one-family-out + invention_gate fitness; KAGGLE-1 = ONE expert-iteration round
+(falsifier, GO if held-out-family beyond_gen6 >= 3, <=8h T4x2); KAGGLE-2+ full loop only if GREEN. Data: BARC
+stream + RE-ARC (unlimited ARC-1 procedural) + ConceptARC (/data/conceptarc). Don't wire the literal DiscoRL net.
+
+### BOX-PREP 1+2 RESULTS — both GREEN (geometry organ validated cheaply, before any GPU)
+
+BOX-PREP 1 (`train_v3_geo.py`, V3-GEO = 3.1K-param STRUCTURAL twin of V2): held-out pre-ops (rot270/transpose/
+gravity_left/shift_right/sym_ud/scale2) top-1 **0.69** / top-3 0.73 ≈ TRAINED 0.72/0.77 (chance 0.04/0.12) — ranks
+pre-ops it NEVER trained on by structural alignment alone; the V2 consistency inductive bias lifts cleanly to
+geometry, generalizes by construction. Two organs, one principle.
+
+BOX-PREP 2 (`ground_v3_geo.py`, geometry-coverage falsifier): of **588** reshaping ARC tasks (in.shape != out.shape,
+all 0-grammar-solvable since recolor/select preserve shape), shape-changing-pre + grammar makes **3 NEWLY
+EXPRESSIBLE** (1cf80156/crop_content, c59eb873/scale2, 68b67ca3/downscale2) = new beyond_gen6; V3-GEO ranks the
+solving pre-op **top-3 on 6/6** real reshaping tasks (perfect structural transfer to real ARC). VERDICT: geometry
+coverage NOT falsified (real gain + transfer) → the organ earns its place. BUT 3/588 re-confirms EXPRESSIVENESS is
+the binding constraint: the geometry head makes tasks shape-COMPATIBLE; the generative suffix DSL must make them
+RELATIONALLY expressible — necessary-but-not-sufficient. Box-prep 1+2 GREEN → BOX-PREP 3 (the thin-core lambda-DSL).
