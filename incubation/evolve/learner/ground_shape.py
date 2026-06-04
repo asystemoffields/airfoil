@@ -48,7 +48,40 @@ def builders(k, g):
     return out
 
 
+def histograms(g):
+    """content-conditioned: per-color count -> bars. Returns {name: grid} candidate outputs."""
+    g = np.asarray(g, int)
+    cols = sorted(int(c) for c in np.unique(g) if c != 0)
+    if not cols:
+        return {}
+    objs = G.objects(g, 4, True)
+    outs = {}
+    for kind in ("cells", "objs"):
+        cnt = {c: (int((g == c).sum()) if kind == "cells" else sum(o["color"] == c for o in objs)) for c in cols}
+        mx = max(cnt.values())
+        if not (1 <= mx <= 30):
+            continue
+        for order in ("val", "asc", "desc"):
+            sc = cols if order == "val" else sorted(cols, key=lambda c: cnt[c], reverse=(order == "desc"))
+            h = np.zeros((len(sc), mx), int)
+            for i, c in enumerate(sc):
+                h[i, :cnt[c]] = c
+            outs[f"hist_h:{kind}:{order}"] = h
+            outs[f"hist_v:{kind}:{order}"] = h.T
+    return outs
+
+
+def _match(o, t):
+    return o is not None and not isinstance(o, tuple) and getattr(o, "shape", None) == t.shape and np.array_equal(o, t)
+
+
 def solve_shape(train, test):
+    # content-conditioned: histograms (per-color counts -> bars)
+    names = set(histograms(train[0][0]))
+    for nm in names:
+        if all(_match(histograms(gi).get(nm), go) for gi, go in train) and \
+           all(_match(histograms(gi).get(nm), go) for gi, go in test):
+            return True, nm
     """enumerate (count-feature, builder, color); verify across train; return True if a verified rule generalizes."""
     # solids: shape from count, single color (induced from the first demo's output)
     for feat in CFEATS:

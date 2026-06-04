@@ -172,9 +172,16 @@ families miss.** So a NEW effect class does move `beyond_gen6` off zero — the 
 in the family-miss region the exploration predicted (counting/construction). Combined ceiling now 49/400.
 
 MODEST: only 1 — the simple count-builders catch the easiest counting tasks; the bulk of the 86-task
-counting/construction family needs **content-conditioned** assembly (build a specific pattern from the input),
-which is harder. NEXT (the push continues): (a) wire shape-effects + a GLOBAL-consistency head into the
-learner's grammar (the consistency principle at the task/demo level: which global feature determines the output
-shape); (b) richer content-conditioned construction; (c) the other miss-families (line/draw, object-to-marker);
-(d) #5 anti-unification for GENERATED relations; then the learner navigates a grammar that is finally both
-richer-than-families AND too-big-to-enumerate (the regime where the value-test flips), and Kaggle for scale.
+counting/construction family needs **content-conditioned** assembly (build a specific pattern from the input).
+
+**Richer construction confirms the treadmill (per-color histograms → +0 beyond_gen6).** A genuinely-common
+content-conditioned pattern (output = bars encoding per-color counts), hand-authored in 6 layout variants,
+caught ZERO ARC eval tasks — because each real construction task needs a *bespoke* layout/rule. So hand-adding
+effect classes yields ~1 (or 0) `beyond_gen6` each: the gen-6 "every held-out task needs a differently-fitted
+relation" diagnostic, recurring. CONVERGENCE: the box-feasible levers have now done their job — the recognition
+machinery is PROVEN (relevance learnable + transfers + generalizes) and the expressiveness lever WORKS but
+plateaus fast under hand-authoring. The frontier (reaching `beyond_gen6` at volume) needs **GENERATED** relations,
+and gen-2 already found anti-unification mines ~0 macros from our atomic verified solutions — so the real
+generation lever is a **LEARNED generative proposer + verifier-as-reward expert iteration at SCALE (Kaggle)**,
+the phase we correctly deferred. Box next-steps (global head, more hand-effects, anti-unification) are
+diminishing; the high-value move is to stand up the generative-proposer/expert-iteration loop for Kaggle.
