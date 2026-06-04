@@ -519,3 +519,17 @@ eval with empty lib; warm = first EARN a library by running over TRAIN, then ret
 lib -> writing trivial, retrieval = lib_size x cheap-per-concept-eval (LINEAR; add a retrieval INDEX pre-filter at
 large scale to stay sub-linear). Honest caveat: ARC is breadth-bound, so train-warmed retrieval recovers the
 train-SIMILAR eval tasks (~the 34), not the breadth-distinct ones.
+
+### WARM/COLD RETRIEVAL — empty library, and THE convergence: expressiveness is the only lever
+
+ground_vine_live.py (train 150 / eval 200): COLD 3, WARM 3, library 0 concepts, +0 lift; "earned" 7/150 train but
+those were GRAMMAR-path (recolor/select) solves that store nothing (redundant with the grammar path). Vine's
+EARNED-BEYOND-GRAMMAR paths (relational/substrate/composition/gesture) fired 0 times on 150 REAL train tasks ->
+empty library -> no retrieval. ROOT CAUSE (the Nth confirmation): Vine earns ~nothing on real ARC because its
+earned faculties (containment/share-height/move/copy) DON'T MATCH what real ARC needs (richer effects: construction
+/draw/counting). The synthetic families it aces were SHAPED for it; real ARC isn't.
+THE CONVERGENCE (state it plainly): every downstream organ is BUILT, CORRECT, and IDLE -- retrieval, live library,
+mid-solve, RL bricks, navigation, recognizer, composition -- all validated on synthetic, all waiting on the same
+thing. The architecture is COMPLETE and SOUND. The single remaining lever is EXPRESSIVENESS: grow the faculties
+(the EFFECT frontier) toward what real ARC actually needs, and everything downstream lights up at once. Stop
+building downstream mechanisms; the only work that moves the number is expressiveness growth.
