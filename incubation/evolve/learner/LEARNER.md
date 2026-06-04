@@ -411,6 +411,12 @@ align-to-anchor MOVE task (recolor grammar winning = **0** — it cannot move ob
 to its column. The gesture is EARNED (search target-predicate × displacement-mode + verify), not hand-coded.
 Effects join predicates as EARNED vocabulary. **The architecture is now PERCEIVE (eye) → ROUTE (V2) → ACT (hand):**
 thin innate faculties (pair-comparison eye + paint/place/erase hand), fully-EARNED vocabulary (predicates +
-gestures), verifier-gated, library-growing by composition. NEXT: wire effects into the policy/loop (V2 routes;
-`earn_effect` joins `earn_predicate`) + re-measure real-data coverage (does coverage move off the recolor-only 8%);
-scale on Colab (now) / Kaggle.
+gestures), verifier-gated, library-growing by composition. WIRED IN + RE-MEASURED (`unified_remeasure.py`): the unified solver handles BOTH faculties in one loop (synthetic
+containment 12/12 via recolor, align 12/12 via move). BARC re-measure (394 tasks): recolor **31** + move **0** = 31
+(~8%). The move DELTA is ZERO — the ONE hand-picked gesture (align-to-anchor) matches no common BARC motion. This is
+the EFFECT TREADMILL warning: hand-picking gestures one-by-one is a guessing game (align caught nothing). → the
+answer is to make the FACULTIES self-evolving, not hand-pick gestures: the HAND (paint/erase) is already COMPLETE
+(spans every grid), so gestures are earnable compositions; the EYE's channels should likewise become EARNED from a
+RAW object substrate + general operators (thin-core, one level deeper) so the system EVOLVES whatever sense it
+needs. Floor stays: object-decomposition + raw object descriptions (the grounding). "Vine" (the name) grows its own
+tendrils. NEXT: raw-substrate eye (earn the channels), broaden the displacement/gesture space, re-measure; scale on Colab.
