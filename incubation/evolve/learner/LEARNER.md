@@ -340,7 +340,16 @@ feature correlates) has GRAMMAR winning relations = **0**, but the system DISCOV
 by searching the faculty's instantiations + verifying = it EARNED "contained" from the relational eye. The DSL is a
 strict SUPERSET of the grammar; the expressiveness ceiling is now the closure of the GROWN library, not our design.
 
-NEXT — BOX-PREP 4 (the headline thin-core experiment): wire the generative suffix policy over the DSL +
-the **re-discovery test** — does anti-unification (lgg.py, proven 1.00, EXTENDED to DSL ASTs) RE-DISCOVER the
-ablated SCAFFOLD constructs from verified solves? If yes, the system EARNED its relational vocabulary (the
-thin-core bet pays + the airtight creativity claim). Then leave-one-family-out + invention_gate → KAGGLE-1.
+### BOX-PREP 4 — LIBRARY GROWTH (`grow_library.py`): the ceiling CLIMBS by composing earned predicates
+
+Earned level-0 from simple tasks: containment → `exists(b_contains_a)`, largest → `forall(a_bigger)`. The COMPOSED
+task "contained-in-LARGEST" (grammar winning = **0**, NO single level-0 predicate solves it) → SOLVED by
+**`compose:exists(b_contains_a & forall(a_bigger))`** = the system BUILT "contained in the largest" by composing
+two EARNED predicates (containment ∘ is-largest), nothing hand-coded; the minted composition is REUSABLE (named).
+= the expressiveness ceiling climbs PAST the faculty's single instantiations via composition of earned vocabulary
+— the thin-core bet's payoff, demonstrated. "The ceiling stops being our imagination."
+
+NEXT: the generative suffix POLICY = a recognizer that ROUTES the predicate/composition search (the THIRD consistency
+sibling, to V2-features + V3-GEO-structure) instead of blind enumeration; + leave-one-family-out + invention_gate
+→ KAGGLE-1. CROSS-POLLINATION TODO: V3-GEO is currently the UN-hardened V2; backport V2H's support-count/evidence
+stat into V3-GEO, and add field-relative (set-attention) ranking to BOTH recognizers (suppresses the spurious tail).

@@ -68,6 +68,19 @@ def predicate_space():
             yield Quantify(ch, 1, mode)
 
 
+class Composed:                                 # the CEILING CLIMBING: a predicate NO single faculty instantiation
+    tier = CORE                                 # can express -- exists/forall b with pair_sig[ch]==v AND inner(b)
+    def __init__(self, channel, value, inner, mode="exists"):
+        self.ch = channel; self.value = value; self.inner = inner; self.mode = mode
+    def __repr__(self): return f"compose:{self.mode}({SIG[self.ch]}={self.value} & {self.inner})"
+    def __call__(self, o, objs):
+        hits = [(pair_signature(o, b)[self.ch] == self.value and bool(self.inner(b, objs)))
+                for b in objs if b is not o]
+        if self.mode == "exists": return int(any(hits))
+        if self.mode == "forall": return int(bool(hits) and all(hits))
+        return sum(hits)
+
+
 # ---------- program nodes (GRID -> GRID) ----------
 class Recolor:                                  # CORE backbone: decompose -> recolor each object by a KEY -> grid
     tier = CORE
@@ -153,8 +166,21 @@ def earn_predicate(train, test):
     return None
 
 
+def earn_composed(train, test, library):
+    """EARN a COMPOSED predicate: search OUTER (channel,value,mode) x INNER (an already-earned library predicate)
+    for a composition whose induced recolor solves+generalizes. This is the ceiling climbing past the faculty's
+    single instantiations -- built from earned vocabulary, nothing hand-coded."""
+    for ch in range(len(SIG)):
+        for mode in ("exists", "forall"):
+            for inner in library:
+                prog = induce_recolor(Composed(ch, 1, inner, mode), train)
+                if prog is not None and verify(prog, train, test):
+                    return prog
+    return None
+
+
 def uses_relational(prog):
-    return isinstance(getattr(prog, "key", None), Quantify) or \
+    return isinstance(getattr(prog, "key", None), (Quantify, Composed)) or \
         (isinstance(prog, Compose) and uses_relational(prog.prog))
 
 
