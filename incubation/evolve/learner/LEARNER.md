@@ -162,3 +162,19 @@ construction — tasks the families only partially reach) + DEEPER composition (
 + #5 anti-unification (GENERATE relations neither the grammar nor the families contain). Re-run the value-test
 only after the grammar is both richer-than-families and too-big-to-enumerate; otherwise blind enumeration is the
 honest baseline to beat and currently wins.
+
+## SHAPE-EFFECTS (`ground_shape.py`) — FIRST `beyond_gen6` (grammar-widening reaches a family-miss)
+
+Count-construction effects (output = f(count): solid block / bar / tile-by-count, color induced) on ARC-1
+eval(400): **solved 1, `beyond gen6_base` = 1 → a59b95c0** (`tile:tile_sq:n_colors` = tile the input k×k where
+k = number of distinct colors). **The first solve in the learner chapter that even the full hand-authored
+families miss.** So a NEW effect class does move `beyond_gen6` off zero — the expressiveness lever is real,
+in the family-miss region the exploration predicted (counting/construction). Combined ceiling now 49/400.
+
+MODEST: only 1 — the simple count-builders catch the easiest counting tasks; the bulk of the 86-task
+counting/construction family needs **content-conditioned** assembly (build a specific pattern from the input),
+which is harder. NEXT (the push continues): (a) wire shape-effects + a GLOBAL-consistency head into the
+learner's grammar (the consistency principle at the task/demo level: which global feature determines the output
+shape); (b) richer content-conditioned construction; (c) the other miss-families (line/draw, object-to-marker);
+(d) #5 anti-unification for GENERATED relations; then the learner navigates a grammar that is finally both
+richer-than-families AND too-big-to-enumerate (the regime where the value-test flips), and Kaggle for scale.
