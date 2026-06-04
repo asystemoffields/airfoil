@@ -32,11 +32,29 @@ saw under that effect = compositional generalization over the grammar = the prer
   (no exact verifier). So this toy is a unit test of "can the model learn relevance *at all*"; only after it
   passes do we move to the regime where the learner actually pays.
 
-- **v2 — explicit pairwise CONSISTENCY (`train_v2.py`, next).** Bake the inductive bias in: for each feature
-  *j*, a *shared* net scores whether each object's outcome is a consistent function of value_j across object
-  PAIRS (same value_j ⇒ same outcome; different ⇒ different); the feature head = argmax over per-feature
-  consistency scores. Shared across features ⇒ generalizes to held-out features by construction. If v2 cracks
-  held-out feature-acc, the architecture *can* represent + transfer relevance → scale to composed relations
-  (too big to enumerate) + ARC grounding. If even v2 fails, the honest read is that learned relevance is a weak
-  lever vs enumerate+verify, and the campaign's leverage stays in a richer verified library (→ the LLM-as-
-  relation-proposer question we deferred, or the Kaggle-scale generator).
+- **v2 — explicit pairwise CONSISTENCY (`train_v2.py`, 2.6K params): POSITIVE.** Bake the bias in: for each
+  feature *j*, a *shared, feature-index-agnostic* scorer maps the per-feature pairwise stats
+  [same-value_j, same-outcome, and cross-terms] → score_j; feature = argmax_j score_j.
+  `EFFECT 0.87 / 0.99`; `FEATURE 0.64 trained / **0.50 held-out**` (5× random) — and it **transfers** to combos
+  it never trained. **The Branch-B prerequisite is MET**: with the right inductive bias, causal-feature
+  relevance is learnable AND compositionally generalizable. The 2.6K param count is the point — the lever is
+  relational STRUCTURE, not scale ("keep perception + structure as architecture, learn only the relevance").
+  The recognition/relevance wall (recurring since the v22–v25 LLM-selector) yields to the right relational bias.
+
+  *The v0→v1→v2 arc:* pixel-CNN can't (0.00) → generic relational transformer can't (0.00) → consistency-
+  structured cracks it (0.50 held-out), at 2.6K params.
+
+## What v2 establishes, and the two value-tests next
+
+v2 proves the architecture *can represent + transfer* relevance. It does NOT yet prove the learner is *worth
+it* — on the clean toy this is redundant with `induce()`'s deterministic per-feature check (enumerate+verify
+already solves it). The learner only pays in two regimes, which are the next experiments:
+1. **SIM-TO-REAL (the immediate next step):** does the synthetic-trained recognizer transfer to *real ARC*
+   tasks? Pipeline: recognizer proposes top-K (effect, feature) → `induce()` over decomps → exact-verify →
+   measure solve-rate + `beyond_base`. If it transfers, the recognizer is real; if not, close the gap with the
+   HF ARC-ish sets (ConceptARC held-out, BARC ARC-Heavy self-distillation) + verified-ARC-solution distillation.
+2. **SCALE (does it pay):** widen the grammar to composed/multi-step relations (a space too big to blind-
+   enumerate under a budget) and check learned-proposal + verify > blind-enumeration + the same verify budget.
+
+Then Kaggle: scale model + data + the RL/verifier-as-reward loop. Target 600M-class on GPU; the box stays in
+the few-K-to-few-M relational regime where this problem has, so far, actually lived.
