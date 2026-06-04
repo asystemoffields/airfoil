@@ -388,7 +388,9 @@ proven piece-by-piece, all CPU, all committed.
 The loop: stream tasks → recognizer-guided policy → exact-verify → INVENTED solves (grammar=0 + relational +
 generalizes) GROW the library → library-first inner makes later compositions cheaper (the expert-iteration payoff,
 gradient-free box version). Dry-run N=30/stream: synthetic families **30/30 solved, 29 invented, library grew to 3**
-(exists(b_contains_a), exists(adjacent), forall(a_bigger)); ConceptARC (real) **0/30 solved**. The 0/30 is HONEST
+(exists(b_contains_a), exists(adjacent), forall(a_bigger)); ConceptARC (real) **0/30 solved**. Real BARC chunk
+(N=400, on the box, no GPU): **18/226 solved (all recognizer cost 1), 0 invented** = the ~8% recolor-expressible
+slice routed flawlessly; the 92% unsolved + 0-invented confirms EFFECTS are the frontier at real-data scale. The 0/30 is HONEST
 + important: our DSL's EFFECT vocabulary is still thin (recolor/select only); real ARC needs richer effects
 (move/draw/fill/construct). Per thin-core, EFFECTS are EARNED not hand-coded → growing the effect leaves (from BARC
 concept-tags + verified solves) is the SCALE phase's job. The 0/30 quantifies the effect-expressiveness frontier
