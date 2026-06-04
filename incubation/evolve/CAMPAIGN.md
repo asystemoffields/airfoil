@@ -180,6 +180,13 @@ Swept the two biggest untouched miss-families + an object-movement retry, same s
 
 **Consolidated deployable solver `cand/gen6_base.py`, verified as ONE solver** (gen2_base backstop + all relation-induction families, 2-attempt, standardized ablation = gen2_base): **arc1-eval 48/400 (12%), 14 beyond-base, 0 regressions, 0 errors** — all 13 of the union PLUS a 14th (84db8fc4) that only the combined solver reaches. **Campaign headline: a single non-LLM solver at 12% held-out ARC-AGI-1 with 14 certified beyond-strong-retrieval relation-induction solves, from a 0.5% seed.**
 
+**Per-family ownership of the 14 beyond-base solves** (each relation-induction family contributes *distinct*
+creativity — verified by standalone full-split runs): gen4_01 → 0a2355a6, 37d3e8b2 · gen4_03 → 21f83797,
+d282b262, **84db8fc4** (the 14th, banked only by the consolidated merge) · gen5_01 → 358ba94e, 9a4bb226,
+cd3c21df · gen5_02 → aa18de87, e0fb7511 · gen5_03 → 281123b4, 6a11f6da · gen6_01 → 3194b014, e872b94a.
+(gen6_02 / gen6_03 re-derive d282b262 only — no unique held-out contribution.) Where multiple families verify
+the same task they *agree* on the output, so the MDL tie-break never costs a solve.
+
 ## Where the loop rests — and the fork
 
 Relation-induction is the campaign's real creativity: 14 generalizing solves a strong retrieval baseline provably cannot reach. It is now at the **ceiling of hand-authored relation families** — each new family adds fewer new beyond-base, and the hard families need a *different* relation per held-out task.
