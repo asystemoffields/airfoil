@@ -533,3 +533,24 @@ mid-solve, RL bricks, navigation, recognizer, composition -- all validated on sy
 thing. The architecture is COMPLETE and SOUND. The single remaining lever is EXPRESSIVENESS: grow the faculties
 (the EFFECT frontier) toward what real ARC actually needs, and everything downstream lights up at once. Stop
 building downstream mechanisms; the only work that moves the number is expressiveness growth.
+
+### CELL SUBSTRATE (`cell_eye.py`) — the elegant expressiveness fix, GO GATE PASSED (workflow w2rlbnowm)
+
+THE INSIGHT: the rich effects were a PERCEPTION problem one level down -- the eye saw per-OBJECT scalars/pairs but
+never a cell relative to a cell, so symmetry/fill/draw/tile were INVISIBLE to it (and thus unbuildable by the hand).
+FIX = add ONE substrate, a literal copy of the object substrate shifted to CELLS: {r,c,color,is_bg} under innate
+INDEX MAPS {identity, mirror_h, mirror_v, transpose, translate(eye-supplied dr,dc)} + same comparison ops + same
+quantifiers. A CELL-SENSE = earned conjunction of cell-comparisons. THE DUALITY (precise + TRUE for cell-LOCAL
+predicates, the workflow narrowed the seed's "too cute" form honestly): a forall-over-cells predicate LOCALIZES its
+own violations in one pass -> detection earns completion (violation-set IS the edit, map IS the source color).
+GO GATE (2 distinct cell-local families, threshold >=2): symmetry-repair (axis-VARYING) 12/12 earned+invention-
+certified (grammar=0, move/copy can't); fill-holes (enclosed-bg neighbor predicate) 12/12 certified. **2/2 -> GO.**
+The cell substrate earns DISTINCT rich effects the faculties can't, from ONE substrate, no per-effect code = the
+elegant unification (rich effects = closure of one substrate + the existing combinators; same as "the third sibling
+was a mirage"). THE EXPRESSIVENESS LEVER (the only one left) IS MOVING. Ignition: residual-directed deduction (induce
+the cell-predicate that explains output XOR input; search ~hundreds of predicates not the astronomical grid-edit
+space). NEXT: wire V2H routing on cell-predicates; size-changing handling (residual breaks on tile/scale -> induce
+against eye-computed output shape); assemble cell-eye into ground_vine_live -> real-ARC head-to-head (does symmetry/
+fill coverage rise beyond recolor-only 4? + BARC); then Kaggle scale + the parked RL loop (now genuinely too-big).
+HONEST RISKS still open: ignition on REAL ARC (box used shaped synthetic); innate index-map set is a (small) design
+choice = treadmill pushed down a level not eliminated; duality false for bespoke-layout construction.
