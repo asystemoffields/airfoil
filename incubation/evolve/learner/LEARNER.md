@@ -383,6 +383,18 @@ closes at scale). **EVERYTHING BOX-VALIDATABLE IS DONE** — the factored propos
 relations, policy composes earned predicates, invention gate certifies invented-not-retrieved across families) is
 proven piece-by-piece, all CPU, all committed.
 
-KAGGLE HANDOFF (quota ~Jun 7-8): build the LEARNED suffix policy (autoregressive over the DSL, cold-started from
-the box's recognizer-guided solves) + verifier-as-reward expert iteration over BARC-stream/RE-ARC/ConceptARC;
-strict leave-one-FAMILY-out; GO if held-out-family beyond_gen6 ≥ 3 on one ≤8h T4×2 session. Free-compute only.
+### EXPERT-ITERATION LOOP (`kaggle_loop.py`) — dry-tested, the KAGGLE-1 vehicle
+
+The loop: stream tasks → recognizer-guided policy → exact-verify → INVENTED solves (grammar=0 + relational +
+generalizes) GROW the library → library-first inner makes later compositions cheaper (the expert-iteration payoff,
+gradient-free box version). Dry-run N=30/stream: synthetic families **30/30 solved, 29 invented, library grew to 3**
+(exists(b_contains_a), exists(adjacent), forall(a_bigger)); ConceptARC (real) **0/30 solved**. The 0/30 is HONEST
++ important: our DSL's EFFECT vocabulary is still thin (recolor/select only); real ARC needs richer effects
+(move/draw/fill/construct). Per thin-core, EFFECTS are EARNED not hand-coded → growing the effect leaves (from BARC
+concept-tags + verified solves) is the SCALE phase's job. The 0/30 quantifies the effect-expressiveness frontier
+one final time + scopes KAGGLE-1.
+
+KAGGLE HANDOFF (quota ~Jun 7-8): scale `kaggle_loop.py` N over BARC-stream/RE-ARC/ConceptARC + GROW the EFFECT
+leaves + the LEARNED suffix policy (autoregressive over the DSL, cold-started from the box's recognizer-guided
+solves) + verifier-as-reward expert iteration; strict leave-one-FAMILY-out; GO if held-out-family beyond_gen6 ≥ 3
+on one ≤8h T4×2 session. Free-compute only. Push via the kaggle headless workflow (kernel scaffold under `kaggle/`).

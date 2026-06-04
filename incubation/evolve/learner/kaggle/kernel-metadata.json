@@ -1,0 +1,13 @@
+{
+  "id": "USERNAME/airfoil-rellearner-kaggle1",
+  "title": "airfoil-rellearner-kaggle1",
+  "code_file": "kaggle_run.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["USERNAME/airfoil-learner-src"],
+  "competition_sources": [],
+  "kernel_sources": []
+}
