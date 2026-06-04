@@ -694,3 +694,19 @@ diverse-skeleton stream; REGIME = too-big-to-search (full glide-closure / deeper
 the schema UNLOCKS coverage (collapses an exponential closure to one hole) -> compounding becomes COVERAGE not cost.
 HONEST CEILING (workflow-measured, separate): derive solves ~2/114 RE-ARC = expressiveness wall; the loop compounds
 where derive SOLVES (synthetic), not yet on breadth-distinct real ARC. That's the after-the-loop question.
+
+### LEARNING LOOP generation-1: GO -- the loop COMPOUNDS on COST *and* COVERAGE
+
+Gen-1 (genetic-algo, seeded by gen-0): fixed the metric (total-cost-ratio not quartile) + added the too-big-to-search
+regime. Result on the synthetic stream + held-out GLIDE: (A) cost total ARM-1/ARM-0 = **0.02x (41x cheaper)** via ONE
+anti-unified schema [paint(diff@?MAP,img), paint(all,table)] that unifies invariance+symcolor; (C) **COVERAGE-UNLOCK:
+blind derive (iso-bounded production set) solves the held-out GLIDE family 0/12, the frozen library solves 12/12 ->
+lift +12.** The schema minted from ISOMETRY solves reaches the FULL map closure (incl glides) via its one hole, which
+blind (structure-searching depth-2) cannot afford to enumerate -> the abstraction COLLAPSES an exponential closure to
+one hole and UNLOCKS coverage the proposer cannot express. GO (total<0.7x AND coverage>=+5). The learning loop
+demonstrably learns-as-it-goes: cheaper AND able to do more, from verified solves + anti-unification, gradient-free.
+HONEST SCOPE: this is SYNTHETIC families where derive solves densely (parents exist to anti-unify). The real-ARC
+expressiveness wall (workflow-measured: derive ~2/114 RE-ARC) is the SEPARATE after-the-loop question -- the loop
+compounds where the proposer SOLVES; making derive solve real ARC is the next frontier. GEN-2 candidates: (a) RE-ARC
+same-relation compounding (does it hold on procedurally-varied real relations?); (b) recognizer-pruned search (V2H
+best-first) so the full closure is searchable by BLIND too (raising the floor); (c) the expressiveness question.
