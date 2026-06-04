@@ -456,3 +456,23 @@ pairs so it routes real/COMPOSED concepts directly (amortizing the search) + ada
 verified solves) runs on CPU; scale is for volume. Design Qs: what updates (V2 + a policy?), forgetting (mix
 synthetic+real), metric (does held-out real-task routing improve over rounds). NEXT: build expert-iteration v0;
 broaden the displacement/gesture vocabulary; scale on Colab.
+
+### RL / EXPERT-ITERATION LOOP — design de-risked (workflow wqh53q80o)
+
+Synthesis (buildable box-feasible v0): ONE short-horizon expert-iteration loop (STaR/ExIt/RWR contextual bandit,
+NOT temporal-RL, no DiscoRL net). POLICY = V2H.score (ranks open vocab + library concepts for free) + a NEW
+~3-8K COMPOSE-POLICY head ([V2H logits || demo stats || library-id bag] -> P(outer)xP(inner library-id), learns
+the inner-selection V2 can't surface) + concept_credit (Wilson-bound on verified/tried/distinct-families ->
+promote generalizers, prune one-offs = "reason about experiences"). REWARD = SOLVE x GEN x NOVELTY, a PRODUCT
+(creativity bar IS the loss weight; GEN=held-out verify kills spurious tail; NOVELTY=invention gate + not-a-
+library-lookup forces recombination not retrieval). All <11K params, CPU. Build order: reward.py -> held_out_
+family.py -> compose head -> train_exit.py (RWR/STaR round, synthetic replay vs forgetting) -> concept_credit.py
+-> exit_eval.py (leave-one-FAMILY-out falsifier) -> GO iff held-out-family certified-invented solve-rate RISES
+over >=3 rounds AND beats round-0 AND induce-calls fall -> trust_gate.py LAST (yank = SHRINK verified sample on
+trust>=0.99 families, NEVER remove: exact ARC has no partial credit, verifier is cheap -- AlphaGo analogy has a
+hard ceiling here) -> scale to Kaggle for VOLUME.
+KEY HONEST RISK (their own): the loop improves ROUTING but the binding constraint is EXPRESSIVENESS (the 5x-
+repeated finding); gradient-free library reuse ALREADY compounds, so the gradient may add little. -> the first
+experiment is a genuine falsifier (does learning-over-experience beat mere reuse?). IMPLICATION: EXPRESSIVENESS
+growth (effect/sense leaves) is the COVERAGE lever and should be a CONCURRENT track; the RL loop is the reason-
+over-experience/efficiency lever. Build BOTH, eyes open.
