@@ -241,3 +241,45 @@ what the model IS, trained in.
   thousands of calls). So a learned policy stays the inner-loop proposer; a local
   small GGUF is a real tool for outer-loop proposing, task/CoT generation, and ARC.
 - Everything logged in LOG.md; anything downloaded/installed tracked in INVENTORY.md.
+
+## Current chapter (2026-06-03): functionally-creative non-LLM ARC solver
+
+The "subconscious / incubation" chapter above RAN — see `incubation/NOTES.md`,
+executed through **step 17** (the deployable Hybrid-C end-to-end controller). Net of
+that chapter: creativity = *inference-time search over a frozen causal world-model +
+a structure-general value*, irreducible to reactive weights (triangulated three ways
+— param-scaling, distillation, training-cycles all fail to put it in weights);
+depth-scaled to depth-4; packaged as a progress-gated Hybrid-C (distilled fast path +
+gated search slow path). The toy arc is closed; the open move is to make the engine
+*genuinely* creative and prove it on a real benchmark.
+
+**Goal.** Make the non-LLM creative engine ACTUALLY creative (not a gesture) and
+smoke it on **ARC-AGI** — ARC-AGI-1 first, then ARC-AGI-2.
+
+**Method — DIY-AlphaEvolve.** Agents are the *design-time* variation operator,
+evolving a whole non-LLM solver. The deployed artifact = **search + small trained
+nets, NO LLM at solve time**. Harness lives at `incubation/evolve/`
+(`harness.py` = fitness: `solve@test` on a named ARC split, ARC 2-attempt rule +
+partial credit, persists json logs; `seed_solver.py` = gen-0 = the current best-first
+grid-distance DSL search).
+
+**Creativity, defined operationally (falsifiable, no woo).** (1) an UNRESTRICTED
+grasp of cause-and-effect — induce the *invariant causal mechanism*; cross-train-pair
+invariance licenses it; the exact verifier = the held-out intervention — PLUS (2)
+real-time INVENTION of that mechanism from experience (compose + abstract new rules,
+not retrieve from a menu). The selection **GATE** measures *invented-and-generalizing*
+mechanisms (they must survive an invention-OFF ablation), NOT coverage.
+
+**Measured so far.**
+- [x] **Seed baseline (gen-0) on ARC-AGI-1:** 24/400 train, **2/400 held-out eval**.
+      Failure taxonomy ~93–99% "bucket A" = the DSL can't EXPRESS the rule
+      (breadth/expressiveness ceiling, not search).
+- [~] **Gen-1 (6 evolved operators):** roughly DOUBLED dev solve-rate and GENERALIZES
+      (best, param-struct: **28/400 held-out eval = 7%, 14× the seed**). BUT honest
+      attribution: the gains are generalizing **competence** (parametric concept-
+      fitting); the **creative** mechanisms (experience reuse, novel multi-concept
+      linking) contributed **~0**.
+- [ ] **Next — a genuinely-different departure:** active **causal discovery**
+      (intervention + invariance + non-directed exploration) layered on this material,
+      toward a **learned grid causal world-model** — i.e. push past parametric concept-
+      fitting into invented-and-generalizing mechanism, the thing the gate measures.
