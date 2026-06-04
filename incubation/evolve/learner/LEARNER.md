@@ -349,7 +349,20 @@ two EARNED predicates (containment ∘ is-largest), nothing hand-coded; the mint
 = the expressiveness ceiling climbs PAST the faculty's single instantiations via composition of earned vocabulary
 — the thin-core bet's payoff, demonstrated. "The ceiling stops being our imagination."
 
-NEXT: the generative suffix POLICY = a recognizer that ROUTES the predicate/composition search (the THIRD consistency
-sibling, to V2-features + V3-GEO-structure) instead of blind enumeration; + leave-one-family-out + invention_gate
-→ KAGGLE-1. CROSS-POLLINATION TODO: V3-GEO is currently the UN-hardened V2; backport V2H's support-count/evidence
-stat into V3-GEO, and add field-relative (set-attention) ranking to BOTH recognizers (suppresses the spurious tail).
+### BOX-PREP 5 — sibling cross-pollination (Alex): one hardened core, V2 routes relations too
+
+5A (`ground_v2_relational.py`) — THE "third sibling" was a MIRAGE: the relational faculty's predicates are
+per-object values = just more FEATURES, and V2's consistency head is feature-count-AGNOSTIC + generalizes to
+unseen features by construction. Feed V2H (trained on regular features ONLY) the 14 regular + 14 relational
+features → on containment tasks (grammar=0) it ranks the true predicate `exists(b_contains_a)` **top-1 1.00,
+top-3 1.00, mean-rank 1.0/28, above every regular feature 40/40**, NO retraining. V2 routes the relational layer
+for FREE → the library/policy search becomes recognizer-GUIDED, not blind. The recognizer is just V2 with a wider eye.
+5B (`train_v3_geo.py`) — backported V2H's EVIDENCE/support stat into V3-GEO (raw structural-alignment volume,
+the analog of V2H's pair-support-count, SDIM 14→16). Held-out 0.69/0.73 unchanged on the box (small bank), folded
+in for SCALE-robustness (pays at large pre-op banks, as V2H did at large feature counts). Both siblings now share
+the hardened, evidence-aware core.
+
+NET ARCHITECTURE: ONE hardened, evidence-aware consistency core, fed by TWO feature sources (object-features +
+relational faculty) and ROUTED by V2, with V3-GEO as the structural router. The recognizer routes features AND
+relations; the POLICY (next) only needs to learn the COMPOSITIONS. NEXT: the generative suffix policy (recognizer-
+guided composition search) + leave-one-family-out + invention_gate → KAGGLE-1 (quota ~Jun 7-8).

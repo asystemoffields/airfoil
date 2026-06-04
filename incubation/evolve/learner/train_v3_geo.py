@@ -26,7 +26,7 @@ BANK = ["identity", "reflect_h", "reflect_v", "rot90", "rot180", "rot270", "tran
 BANK_IX = {n: i for i, n in enumerate(BANK)}
 HELDOUT = ["rot270", "transpose", "gravity_left", "shift_right", "sym_ud", "scale2"]  # never trained, tested
 TRAINBANK = [p for p in BANK if p not in HELDOUT]
-SDIM = 14
+SDIM = 16   # 8 structural stats x (mean, std); the 8th is the V2H-style EVIDENCE/support stat (raw alignment volume)
 
 
 def _pre(name, g):
@@ -58,7 +58,8 @@ def cand_stats(demos, p):
             cell = 0.0; nz = 0.0
         no_gp = len(G.objects(gp, 4, True)); no_go = len(G.objects(go, 4, True))
         nom = 1.0 / (1 + abs(no_gp - no_go))
-        rows.append([sm, rh, rw, cell, nz, nom, min(no_gp, 20) / 20.0])
+        support = np.log1p(int((gp == go).sum()) if gp.shape == go.shape else 0) / 6.0  # V2H-style EVIDENCE volume
+        rows.append([sm, rh, rw, cell, nz, nom, min(no_gp, 20) / 20.0, support])
     a = np.asarray(rows, np.float32)
     return np.concatenate([a.mean(0), a.std(0)]).astype(np.float32)
 
