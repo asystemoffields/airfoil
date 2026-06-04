@@ -327,13 +327,18 @@ RELATIONALLY expressible — necessary-but-not-sufficient. Box-prep 1+2 GREEN �
 
 Thinnest principled core (Alex: big in favor of thinner — "the second the expressiveness ceiling stops being our
 imagination"): FIXED floor = exactly the proven recognizer's level (object decompose + per-object FEATURES +
-compose — grounding/routing, NOT vocabulary); EVERYTHING relational above (object-pair/set quantifiers
-ContainedKey/ContainsKey/ArgExtreme + let/conditional) is SCAFFOLD — tagged `SCAFFOLD`, ABLATABLE. Smoke:
-SUBSUMPTION **3/3** (every grammar recolor-solve = a CORE-only DSL program → the thin core contains the whole
-proven grammar); EXPRESSIVENESS — a RANDOMIZED containment task (identical objects, random positions → NO
-per-object feature correlates) has GRAMMAR winning relations = **0** but DSL(scaffold ContainedKey) solves → the
-scaffold expresses a relation the fixed grammar STRUCTURALLY cannot. The DSL is a strict SUPERSET of the grammar;
-the expressiveness ceiling is now the closure of the GROWN library, not our combinator design.
+compose — grounding/routing, NOT vocabulary); The relational layer is EARNED, not hand-coded (Alex-approved refinement, the "relational eye" metaphor): the
+fixed core exposes a structural FACULTY — `pair_signature(a,b)` = the raw relational perceptions between two
+objects (the "cones": a-contains-b, b-contains-a, adjacent, aligned, relative-size, same-color) which NAMES
+NOTHING — plus the `Quantify` combinator (exists/forall over the faculty). A specific predicate (containment,
+adjacency…) is one (channel,value,mode) INSTANTIATION the system EARNS by search+verify, not a construct we give.
+Rationale: anti-unification earns COMPOSITIONS not PRIMITIVES, so a relationally-blind core can never re-discover
+containment (can't conjure a sense from examples) — we install the eye (grounding), it names the colors (vocab).
+Smoke: SUBSUMPTION **3/3** (every grammar recolor-solve = a CORE-only DSL program → thin core contains the whole
+grammar); EARN-THE-PREDICATE — a RANDOMIZED containment task (identical objects, random positions → NO per-object
+feature correlates) has GRAMMAR winning relations = **0**, but the system DISCOVERS **`quant:exists(b_contains_a=1)`**
+by searching the faculty's instantiations + verifying = it EARNED "contained" from the relational eye. The DSL is a
+strict SUPERSET of the grammar; the expressiveness ceiling is now the closure of the GROWN library, not our design.
 
 NEXT — BOX-PREP 4 (the headline thin-core experiment): wire the generative suffix policy over the DSL +
 the **re-discovery test** — does anti-unification (lgg.py, proven 1.00, EXTENDED to DSL ASTs) RE-DISCOVER the

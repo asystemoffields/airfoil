@@ -32,26 +32,40 @@ def _contains(a, b):
     return a is not b and ar0 <= br0 and ac0 <= bc0 and ar1 >= br1 and ac1 >= bc1 and (a["size"] != b["size"] or a["h"] != b["h"])
 
 
-class ContainedKey:                             # SCAFFOLD: object-PAIR relation the per-object grammar cannot say
-    tier = SCAFFOLD
-    def __repr__(self): return "rel:contained-in-another"
-    def __call__(self, o, objs): return int(any(_contains(x, o) for x in objs))
+def _adjacent(a, b):
+    ar0, ac0, ar1, ac1 = _bbox(a); br0, bc0, br1, bc1 = _bbox(b)
+    return a is not b and ar0 - 1 <= br1 and br0 - 1 <= ar1 and ac0 - 1 <= bc1 and bc0 - 1 <= ac1
+def _aligned(a, b):
+    return a is not b and (a["r0"] == b["r0"] or a["c0"] == b["c0"])
 
 
-class ContainsKey:                              # SCAFFOLD
-    tier = SCAFFOLD
-    def __repr__(self): return "rel:contains-another"
-    def __call__(self, o, objs): return int(any(_contains(o, x) for x in objs))
+# ===================== THE RELATIONAL EYE (a fixed structural FACULTY, core) =====================
+# pair_signature exposes the RAW relational perceptions between two objects -- the "cones". It NAMES NOTHING;
+# which channel+value matters ("contained", "adjacent", ...) is the vocabulary the system EARNS, not us.
+SIG = ["a_contains_b", "b_contains_a", "adjacent", "aligned", "a_bigger", "same_size", "same_color"]
+
+def pair_signature(a, b):
+    return (int(_contains(a, b)), int(_contains(b, a)), int(_adjacent(a, b)), int(_aligned(a, b)),
+            int(a["size"] > b["size"]), int(a["size"] == b["size"]), int(a["color"] == b["color"]))
 
 
-class ArgExtremeKey:                            # SCAFFOLD: 1 iff this object is the argmax/argmin of a feature
-    tier = SCAFFOLD
-    def __init__(self, feat, take_max=True): self.feat = feat; self.mx = take_max
-    def __repr__(self): return f"rel:arg{'max' if self.mx else 'min'}:{self.feat}"
+class Quantify:                                 # CORE combinator over the faculty (the quantifier = grounding);
+    tier = CORE                                 # a chosen (channel,value,mode) instantiation = the EARNED predicate
+    def __init__(self, channel, value=1, mode="exists"):
+        self.ch = channel; self.value = value; self.mode = mode
+    def __repr__(self): return f"quant:{self.mode}({SIG[self.ch]}={self.value})"
     def __call__(self, o, objs):
-        vals = [G.FEATURES[self.feat](x, objs) for x in objs]
-        tgt = max(vals) if self.mx else min(vals)
-        return int(G.FEATURES[self.feat](o, objs) == tgt)
+        hits = [pair_signature(o, b)[self.ch] == self.value for b in objs if b is not o]
+        if self.mode == "exists": return int(any(hits))
+        if self.mode == "forall": return int(bool(hits) and all(hits))
+        return sum(hits)                         # count
+
+
+def predicate_space():
+    """the EARNABLE relational predicates = instantiations of the Quantify combinator over the faculty."""
+    for ch in range(len(SIG)):
+        for mode in ("exists", "forall"):
+            yield Quantify(ch, 1, mode)
 
 
 # ---------- program nodes (GRID -> GRID) ----------
@@ -111,8 +125,37 @@ def to_dsl(rel):
     raise NotImplementedError(rel["effect"])
 
 
-def uses_scaffold(prog):
-    return SCAFFOLD in prog.tiers()
+def induce_recolor(key, train, conn=4, by_color=True):
+    """fit a recolor table: object's key-value -> its output color, consistent across demos (or None)."""
+    table = {}
+    for gi, go in train:
+        gi = np.asarray(gi, int); go = np.asarray(go, int)
+        if gi.shape != go.shape:
+            return None
+        objs = G.objects(gi, conn, by_color)
+        for o in objs:
+            k = key(o, objs)
+            cols = [int(go[r, c]) for (r, c) in o["cells"]]
+            col = max(set(cols), key=cols.count) if cols else 0
+            if k in table and table[k] != col:
+                return None
+            table[k] = col
+    return Recolor(key, table, conn, by_color)
+
+
+def earn_predicate(train, test):
+    """EARN a relational predicate from the FACULTY: search the Quantify instantiation space for one whose
+    induced recolor solves+generalizes. The predicate is DISCOVERED (search+verify), never hand-given."""
+    for pred in predicate_space():
+        prog = induce_recolor(pred, train)
+        if prog is not None and verify(prog, train, test):
+            return prog
+    return None
+
+
+def uses_relational(prog):
+    return isinstance(getattr(prog, "key", None), Quantify) or \
+        (isinstance(prog, Compose) and uses_relational(prog.prog))
 
 
 # ---------- smoke: SUBSUMES the grammar + EXPRESSES a relation the grammar structurally cannot ----------
@@ -128,7 +171,7 @@ def _demo():
         for eff, feat, rel in winning_relations(train, test):
             if eff == "recolor":
                 prog = to_dsl(rel); sub_tot += 1
-                if verify(prog, train, test) and not uses_scaffold(prog):
+                if verify(prog, train, test) and not uses_relational(prog):
                     sub_ok += 1
                 break
     print(f"SUBSUMPTION: {sub_ok}/{sub_tot} grammar recolor-solves reproduced by CORE-only DSL programs "
@@ -165,16 +208,14 @@ def _demo():
             demos.append((g, out))
         return demos
     ctrain = make_containment_task(4); ctest = make_containment_task(2)
-    prog = Recolor(ContainedKey(), {1: 2, 0: 3})
-    rel_ok = verify(prog, ctrain, ctest)
-    # confirm the GRAMMAR cannot express it: no winning grammar relation
-    gram = winning_relations(ctrain, ctest)
-    print(f"EXPRESSIVENESS: containment task -- DSL(scaffold ContainedKey) solves={rel_ok} (uses_scaffold="
-          f"{uses_scaffold(prog)}); GRAMMAR winning relations = {len(gram)} "
-          f"-> the scaffold expresses a relation the fixed grammar structurally CANNOT.")
-    print("READ: subsumption ~full + a scaffold-only solve the grammar can't reach = the thin-core DSL is a strict "
-          "superset of the proven grammar, with the relational layer cleanly TAGGED + ABLATABLE for the "
-          "'does anti-unification re-discover it' experiment (BOX-PREP 4).")
+    gram = winning_relations(ctrain, ctest)                  # grammar (per-object features) cannot express it
+    earned = earn_predicate(ctrain, ctest)                   # EARN it from the faculty -- search, nothing given
+    print(f"EARN-THE-PREDICATE: containment task -- GRAMMAR winning relations = {len(gram)} (per-object features "
+          f"can't say it); EARNED from the relational faculty -> {earned.key if earned else None} "
+          f"(uses_relational={uses_relational(earned) if earned else False})")
+    print("READ: grammar=0 but the system DISCOVERS the right predicate by searching instantiations of the fixed "
+          "pair-comparison FACULTY (the eye is given; the concept 'contained' is EARNED, not hand-coded). "
+          "BOX-PREP 4: does anti-unification NAME the recurring earned predicates into a reusable library.")
 
 
 if __name__ == "__main__":
