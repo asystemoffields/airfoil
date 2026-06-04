@@ -70,3 +70,35 @@ mechanism *invention*, not a richer menu:
 
 If gen-4 still adds 0 beyond retrieval, that's the finding (the open-compositional frontier likely needs a
 learned proposer and/or the RL/expert-iteration phase). Verifier merciless; proposer broad.
+
+## gen-4 — FIRST invention beyond retrieval (modest, real, verified)
+
+Standardized gate: each candidate's `solve_ablated` == `gen2_base.solve` (the strong retrieval ablation);
+headline = `eval_beyond_base`. Mapped gen2_base's 318 train / 366 eval misses into families (biggest:
+counting/construction 86, line/ray-draw-connect 77, object-to-marker-copy 57, relational-recolor 46). Levers:
+
+| lever | train_solved | train>base | eval_solved | **eval>base** |
+|---|---|---|---|---|
+| relational-depth        | 89 | 7 | 36 | **2** (0a2355a6, 37d3e8b2) |
+| non-directed-coverage   | 89 | 7 | 36 | **2** (21f83797, d282b262) |
+| active-causal-discovery | 87 | 5 | 34 | 0 |
+
+**First nonzero beyond-retrieval in the campaign**, independently re-verified: 4 DISTINCT held-out tasks
+beyond `gen2_base` → combined ceiling **34 + 4 = 38/400 eval (9.5%)** with 4 certified-creative solves.
+
+**The sharpened honest finding: fitting generalizes, composition overfits.** The 4 held-out wins came from
+richer relational *fitting* (e.g. recolor-by-hole-count/border/aspect — a relation base's size-only menu
+can't express). The open multi-step *composition* (value-guided / coverage beam) found beyond-base solves on
+TRAIN (5–7 per lever) but **~0 transferred** to held-out; active-causal-discovery's intervention/invariance
+cut train overfit (5 beyond-base) yet none generalized. So hand-built compositional search *invents on train
+but doesn't transfer* — the obstacle is the **generalization** of composition, not its discovery.
+
+## gen-5 — make composition GENERALIZE (the experience / openness lever)
+
+Hand-built search has given what it has (a trickle of relational fitters beyond retrieval). The
+open-composition path holds the high ceiling but doesn't transfer. Per the project thesis — and the bio anchor
+(openness to experience) — the lever is a **learned proposer trained on the curriculum** so compositional
+invention becomes *findable and transferable*: trained for COVERAGE not precision (the verifier supplies
+precision), library unpruned, repurposing credited. gen-5 tests this **cheaply and decisively first** — does a
+small CPU-trained proposer make even one composition family generalize beyond base? — before any heavy
+training; scale to Kaggle only if it earns the spend.
