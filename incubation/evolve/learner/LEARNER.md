@@ -443,6 +443,16 @@ of which 10 via a SUBSTRATE sense** (new expressiveness the fixed vocabulary cou
 self-evolving EYE ADDS real-data coverage (10 BARC solves the fixed channels missed); the HAND's gestures (still
 align-only) add 0 → the gesture/displacement VOCABULARY needs broadening (measure-then-grow). IMPORTANT: this is
 COLD — no persistent library, frozen recognizer, each task solved from scratch → it UNDERSTATES the
-persistent-experience ceiling. NEXT (Alex flagged): (a) PERSIST the library + thread it through every solve so
-experience accumulates; (b) EXPERT ITERATION — recognizer/policy LEARNS from its verified solves (the
-openness-to-experience endgame; makes scale pay); (c) broaden the displacement/gesture vocabulary; scale on Colab.
+persistent-experience ceiling. ### EXPERIENCE (Alex flagged: does it accumulate across tasks?) — layer 1 DONE, layer 2 is the endgame
+
+Before: a FROZEN shared recognizer (one-time learned prior) + a shallow within-run library; each eval cold/from-
+scratch. LAYER 1 — PERSISTENT LIBRARY (`persist_library.py`, DONE): every earned concept (feature/relational/
+substrate sense, composition, motor gesture) serializes to disk + back; a growing library survives across runs/
+sessions (demo: accumulated containment + substrate-sense + move + copy across a mixed stream, reloaded clean).
+Experience now persists instead of resetting. LAYER 2 — EXPERT ITERATION (next, the openness-to-experience
+endgame): the recognizer/policy LEARNS from its verified solves — fine-tune V2 on (real task → earned concept)
+pairs so it routes real/COMPOSED concepts directly (amortizing the search) + adapts sim→real→real. KEY: V2 is
+2.6K params, so this is BOX-FEASIBLE (no GPU) — the full experience loop (persist → accumulate → fine-tune on
+verified solves) runs on CPU; scale is for volume. Design Qs: what updates (V2 + a policy?), forgetting (mix
+synthetic+real), metric (does held-out real-task routing improve over rounds). NEXT: build expert-iteration v0;
+broaden the displacement/gesture vocabulary; scale on Colab.
