@@ -128,8 +128,16 @@ mostly CPU-box-feasible, verifier-gated throughout:
    (`pip install stitch_core`).
 7. **[med] Leave-one-FAMILY-out meta-training (the faithful Disco103 graft)** — Reptile over a distribution of
    relation families, families held out at meta-test — the literal "discover a rule that generalizes" stance.
-8. **[large] Verifier-as-reward expert iteration → disco-torch meta-RL** — the campaign endgame (Kaggle scale).
+8. **[large] Verifier-as-reward EXPERT ITERATION** (STaR/SOAR-style self-distillation: proposer samples
+   relations → induce + exact-verify → fine-tune on the verified solves; coverage + out-of-home repurposing in
+   the objective, NOT success-alone). Built FOR our one-shot propose+verify setting. **Do NOT wire in the literal
+   DiscoRL/disco-torch net** — it expects RL agent observations/actions and is a backward-in-time credit-
+   assignment rule over *trajectories*; our reward is immediate/binary/exact, no policy or time axis, so its
+   interface AND its learned inductive bias both mismatch (Alex's call, correct). Disco *inspiration* only:
+   meta-learn across a *distribution* of families (#7) for cross-family generalization — stock meta-learning,
+   not disco-torch. (We keep `disco-torch` as a conceptual reference for the discover-and-generalize philosophy,
+   not as a component.)
 
 **Build order I'm taking:** 3 (coverage loss) → 1 (relational features) + 2 (shape effects) + 4 (frame-norm)
 → ARC value-test (`beyond_base` on the cross-shape families) → 5 (anti-unification, first GENERATED relations)
-→ then Kaggle for 7–8.
+→ then 7 (leave-one-family-out meta-training) + 8 (expert iteration) at Kaggle scale.
