@@ -504,3 +504,18 @@ all of which the grammar HAS and V2 ROUTES -> a fixable wiring gap, not a vocab 
 effect mechanisms the families hand-authored (line/draw, counting/construction) Vine hasn't EARNED. NEXT: complete
 the assembly (route full grammar recolor/select/colormap x 4 decomps -- the cheap large recovery) -> re-diagnose ->
 THEN grow the effect frontier toward the residual gen6-Vine. The real head-to-head number waits for the grown vocab.
+
+### LIVE LIBRARY + the retrieval answer (Alex: "why can't it retrieve?")
+
+Assembly-fixed COLD Vine on ARC-1 eval(400): 4/400 (the full grammar path reaches only the ~4-5 recolor/select-
+EXPRESSIBLE eval tasks; most eval tasks aren't grammar-expressible). The 44 gen6-Vine misses split cleanly:
+(1) ~34 RETRIEVAL -- gen2_base memorizes the 400 train SOLUTIONS; Vine's library was COLD/EMPTY so it had nothing
+to retrieve = Alex's "never trained on the stuff it needs to retrieve" is RIGHT (not a philosophical limit, an
+empty memory); (2) ~10 hand-authored EFFECT mechanisms (construction/draw) Vine hasn't EARNED = the real frontier.
+FIX (`ground_vine_live.py`): the library becomes a LIVE working memory -- RETRIEVE earned concepts FIRST (try them
+before any search) + WRITE the instant a concept verifies, incl. MID-SOLVE (a verified composition writes BOTH the
+whole Composed AND its inner part = reusable building blocks immediately). WARM-vs-COLD test (ba95ocr4p): cold =
+eval with empty lib; warm = first EARN a library by running over TRAIN, then retrieve on eval. Compute: symbolic
+lib -> writing trivial, retrieval = lib_size x cheap-per-concept-eval (LINEAR; add a retrieval INDEX pre-filter at
+large scale to stay sub-linear). Honest caveat: ARC is breadth-bound, so train-warmed retrieval recovers the
+train-SIMILAR eval tasks (~the 34), not the breadth-distinct ones.

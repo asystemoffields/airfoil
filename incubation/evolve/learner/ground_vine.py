@@ -10,31 +10,45 @@ Run: /data/llm/.venv/bin/python ground_vine.py"""
 import sys, time
 import numpy as np
 import torch
+import torch
 import grammar as G
 import rel_dsl as D
-from open_loop import ALL_PREDS, NET, ranked        # assembled open vocabulary + the recognizer router
-from ground_v2_relational import REL_PREDS           # fixed relational set = the composition INNER pool
-from effect_faculty import earn_effect               # the motor hand (move/copy)
-from ground_arc_v2 import GEN2, GEN6                  # gen2_base (retrieval) / gen6_base (families) solved sets
+import substrate_eye as SE
+from open_loop import ranked                          # V2H router over the OPEN vocabulary (earned senses)
+from ground_v2_relational import REL_PREDS            # fixed relational set = the composition INNER pool
+from effect_faculty import earn_effect                # the motor hand (move/copy)
+from ground_arc_v2 import GEN2, GEN6                   # gen2_base (retrieval) / gen6_base (families) solved sets
+from ground_arc import recognizer_solve               # FULL grammar path: recolor/select/colormap x 4 decomps, routed
+from train_v2 import V2
 
 sys.path.insert(0, "/data/Windows-files/Documents/airfoil/incubation/evolve")
 import harness
 
+V2NET = V2(); V2NET.load_state_dict(torch.load("learner_v2.pt")); V2NET.eval()
+
 
 def vine_solve(train, test, topk=10):
-    r = ranked(train)
-    for key in r[:topk]:                              # recolor by a recognizer-ranked earned sense
-        prog = D.induce_recolor(key, train)
-        if prog is not None and D.verify(prog, train, test):
+    # 1. FULL GRAMMAR path (the big recovery): recolor/select/colormap x all 4 decomps, recognizer-routed
+    try:
+        s, _ = recognizer_solve(V2NET, train, test, topk_eff=2, topk_feat=3)
+        if s:
             return True
+    except Exception:
+        pass
+    r = ranked(train)
+    for key in r[:topk]:                              # 2. EARNED-SENSE recolor (relational / substrate, beyond grammar)
+        if isinstance(key, (D.Quantify, SE.SubQuantify)):
+            prog = D.induce_recolor(key, train)
+            if prog is not None and D.verify(prog, train, test):
+                return True
     outers = [k for k in r[:topk] if isinstance(k, D.Quantify)]
-    for outer in outers:                              # composition: ranked OUTER x FULL relational INNER
+    for outer in outers:                              # 3. composition: ranked OUTER x FULL relational INNER
         for inner in REL_PREDS:
             prog = D.induce_recolor(D.Composed(outer.ch, outer.value, inner, outer.mode), train)
             if prog is not None and D.verify(prog, train, test):
                 return True
     try:
-        if earn_effect(train, test) is not None:       # the motor hand
+        if earn_effect(train, test) is not None:       # 4. the motor hand
             return True
     except Exception:
         pass
