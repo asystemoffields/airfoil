@@ -322,3 +322,20 @@ solving pre-op **top-3 on 6/6** real reshaping tasks (perfect structural transfe
 coverage NOT falsified (real gain + transfer) → the organ earns its place. BUT 3/588 re-confirms EXPRESSIVENESS is
 the binding constraint: the geometry head makes tasks shape-COMPATIBLE; the generative suffix DSL must make them
 RELATIONALLY expressible — necessary-but-not-sufficient. Box-prep 1+2 GREEN → BOX-PREP 3 (the thin-core lambda-DSL).
+
+### BOX-PREP 3 — thin-core lambda-DSL (`rel_dsl.py`), VALIDATED
+
+Thinnest principled core (Alex: big in favor of thinner — "the second the expressiveness ceiling stops being our
+imagination"): FIXED floor = exactly the proven recognizer's level (object decompose + per-object FEATURES +
+compose — grounding/routing, NOT vocabulary); EVERYTHING relational above (object-pair/set quantifiers
+ContainedKey/ContainsKey/ArgExtreme + let/conditional) is SCAFFOLD — tagged `SCAFFOLD`, ABLATABLE. Smoke:
+SUBSUMPTION **3/3** (every grammar recolor-solve = a CORE-only DSL program → the thin core contains the whole
+proven grammar); EXPRESSIVENESS — a RANDOMIZED containment task (identical objects, random positions → NO
+per-object feature correlates) has GRAMMAR winning relations = **0** but DSL(scaffold ContainedKey) solves → the
+scaffold expresses a relation the fixed grammar STRUCTURALLY cannot. The DSL is a strict SUPERSET of the grammar;
+the expressiveness ceiling is now the closure of the GROWN library, not our combinator design.
+
+NEXT — BOX-PREP 4 (the headline thin-core experiment): wire the generative suffix policy over the DSL +
+the **re-discovery test** — does anti-unification (lgg.py, proven 1.00, EXTENDED to DSL ASTs) RE-DISCOVER the
+ablated SCAFFOLD constructs from verified solves? If yes, the system EARNED its relational vocabulary (the
+thin-core bet pays + the airtight creativity claim). Then leave-one-family-out + invention_gate → KAGGLE-1.
