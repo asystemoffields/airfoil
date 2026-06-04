@@ -570,3 +570,23 @@ params) + THINGY-modded (structural edits). The 0/400 is the empirical case for 
 earning is ~0, so the schema library must be SEEDED from synthetic families / BARC / curriculum (clean THINGYs) ->
 adapted to messy real. NEXT: (a) build the dihedral+periodic+flood-fill perception-completion + re-run ignition;
 (b) design workflow on analogical adaptation (schema rep + retrieval + mod operators + bootstrap + box falsifier).
+
+### SELF-EVOLVING CORRECTION + REAL-ARC IGNITION (Alex: "we equipped vine to evolve everything it might need?")
+
+Alex caught that cell_eye.py / ground_vine_cell2.py HAND-CODED per-family earners (earn_symmetry/fill/periodic) =
+the treadmill creeping back, betraying the self-evolving design. CORRECTION: cell_evolve.py = ONE earn_cell_effect
+searching the GENERATIVE substrate -- the grid ISOMETRY GROUP (dihedral, finite+complete) + TRANSLATIONS (the
+invariance family) + neighbor-quantifier (the locality family) -- + the DUALITY auto-generating effects. symmetry/
+periodic/fill ALL EVOLVE from the SAME search, no per-family code (box: symmetry 10/10, fill 10/10, periodic fires).
+A NEW basis element => a NEW earnable effect for free. Honest scope of "evolve everything" = evolve every COMPOSITION
+of a thin innate basis (the basis is chosen + must be complete; the compositions are earned -- can't conjure a
+primitive outside the substrate).
+REAL-ARC IGNITION (ground_vine_cell2.py completing the principled perception): ARC-1 eval(400) = **7 solved (was 4)**,
+3 via CELL:periodic, **2 BEYOND gen6_base** (4f537728, ea959feb) = the FIRST genuinely-new earned ground on real ARC
+(Vine solving real eval tasks the HAND-AUTHORED gen6_base MISSES). So: (a) we DID handicap Vine -- narrow maps; completing
+the perception (the isometry group + periodicity) lifts 0->3 cell solves, 2 beyond gen6; (b) the self-evolving loop is
+the principled realization (ground_vine_evolve.py wires earn_cell_effect, not hand-coded earners, into the solver).
+HANDICAP AUDIT (Alex's other Q): no bug/rigging (train-induce/test-verify honest); under-representations = narrow maps
+(fixed), exact-match no-adaptation (the messy-task gap -> analogical layer wr36mpy4u), bg=0 in fill, + LOW POWER
+(symmetry/fill rare in the 400-eval -> 0 conflated "narrow earner" with "few targets"; ConceptARC at /data/conceptarc
+is the fairer enriched testbed). NEXT: confirm ground_vine_evolve; then analogical adaptation for the messy tasks.
