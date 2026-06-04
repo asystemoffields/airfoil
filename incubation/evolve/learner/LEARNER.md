@@ -141,3 +141,24 @@ mostly CPU-box-feasible, verifier-gated throughout:
 **Build order I'm taking:** 3 (coverage loss) → 1 (relational features) + 2 (shape effects) + 4 (frame-norm)
 → ARC value-test (`beyond_base` on the cross-shape families) → 5 (anti-unification, first GENERATED relations)
 → then 7 (leave-one-family-out meta-training) + 8 (expert iteration) at Kaggle scale.
+
+## VALUE TEST (`ground_arc_v2.py`) — HONEST NEGATIVE: the learner doesn't PAY at this grammar size
+
+Recognizer-driven composed solver, ARC-1 eval(400): **solved 4, all beyond gen2_base (retrieval) but
+`beyond gen6_base` (families) = 0**; mean 105 induce-calls. Blind enumeration of the SAME composed space at the
+SAME 105-call budget: **solved 5 (more)**. So both halves of the value claim fail here:
+1. no tasks beyond the families (the small grammar overlaps their coverage);
+2. the recognizer is NOT more efficient — the composed space is small enough (~105 calls) that blind enumeration
+   is essentially EXHAUSTIVE within budget, so top-K navigation adds nothing and even misses one task.
+
+**Finding (consistent with the campaign meta-finding):** on a small, enumerable, exactly-verifiable space the
+learner is REDUNDANT — enumerate+verify wins. The learner PAYS only when the grammar is *simultaneously*
+(a) richer than the families (→ new `beyond_gen6`) AND (b) too big to enumerate under budget (→ navigation
+matters). The current grammar is NEITHER, so this test was in the wrong regime. The machinery is proven
+(relevance learnable, transfers to real ARC, generalizes over the grammar); the VALUE is not yet demonstrated.
+
+**This makes the load-bearing next steps explicit (not "more of the same"):** #2 shape-effects (counting/
+construction — tasks the families only partially reach) + DEEPER composition (2-step → space past enumerable)
++ #5 anti-unification (GENERATE relations neither the grammar nor the families contain). Re-run the value-test
+only after the grammar is both richer-than-families and too-big-to-enumerate; otherwise blind enumeration is the
+honest baseline to beat and currently wins.
