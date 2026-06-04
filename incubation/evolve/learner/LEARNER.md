@@ -249,3 +249,13 @@ top-K) + a cheap lever (demos; + an untested one: a distractor-HARDENED recogniz
 bet: at scale the space is huge (navigation needed), expressiveness is rich (coverage to win), AND we control the
 curriculum's demo count (navigation pays). Orthogonal to the coverage finding — expressiveness bottlenecks
 COVERAGE, navigation scales SEARCH; both now validated for the scale regime.
+
+**PUSH FURTHER (`train_v2_hardened.py`):** the spurious-consistency limit is partly ARCHITECTURAL — v2's stats are
+pair-count-NORMALIZED (means), so robust vs spurious consistency look identical to the scorer. Fix: add a
+SUPPORT-COUNT stat (log #same-value pairs) + train with 40 distractors injected. Hardened V2H vs baseline v2
+@4 demos: find-cost DOWN ~15-30% everywhere (528f 9.0 vs 12.6; 1514f 40.3 vs 47.2; 5014f 110 vs 158); top-5 UP
+**+0.08-0.09 in the 500-1500-feature regime** (528f 0.77 vs 0.69; 1514f 0.80 vs 0.71). (5014f top-5 dip = vs an
+uncontrolled-seed baseline + noisy/UNconverged training (loss ~2.5) -> a LOWER bound; more steps/harder negatives
+push further.) COMPLETE ANSWER (how far navigation pushes on the box): it SCALES (16-37×, space-invariant top-K),
+with TWO proven composable levers (evidence/demos + an evidence-aware recognizer) and the ceiling NOT yet found —
+a robustly scalable, still-improving component. Navigation is neither the bottleneck nor fragile.
