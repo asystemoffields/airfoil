@@ -58,3 +58,25 @@ already solves it). The learner only pays in two regimes, which are the next exp
 
 Then Kaggle: scale model + data + the RL/verifier-as-reward loop. Target 600M-class on GPU; the box stays in
 the few-K-to-few-M relational regime where this problem has, so far, actually lived.
+
+## SIM-TO-REAL (`ground_arc.py`) — the recognizer TRANSFERS to real ARC (green light)
+
+Enumerated the grammar over ARC-1 → **24 grammar-solvable tasks** (19 train, 5 eval). The v2 recognizer
+(trained on synthetic blobs ONLY) on those REAL tasks:
+- **feature top-3 = 24/24 (1.00)** — proposes the correct causal feature for every real task in its top-3;
+- effect top-1 = 15/24 (0.62);
+- propose(top-2 eff × top-3 feat) → induce → exact-verify **SOLVES 23/24 (0.96)** vs the enumerate-all ceiling
+  24/24 — with a tiny candidate set instead of all 81 types × decomps.
+
+**The relevance signal is DOMAIN-GENERAL**: "objects sharing a feature-value share an outcome" reads off real
+ARC demos exactly as off synthetic, because the consistency structure is abstract (not the visual statistics).
+So sim-to-real transfer of *relevance* needed **no** HF data — the HF ARC-ish sets are for widening curriculum
+diversity + self-distillation as the grammar grows, not for closing a (small) sim-to-real gap.
+
+**Honest scope:** the 24 overlap `gen2_base`'s menu (enumeration is cheap here, so the recognizer *navigates*
+rather than *solves more*). The recognizer PAYS once the grammar is WIDENED past enumerable size (more
+decomps/features/effects + COMPOSED relations) — which is also when it reaches ARC tasks *beyond* `gen2_base`.
+
+**Next:** widen the grammar (compose relations + more features/effects) → retrain the recognizer → ground on
+ARC measuring `beyond_base`, comparing recognizer-top-K vs blind-enumeration *under a fixed verify budget*
+(the regime where the learner is necessary, not just tidy). Then fold in HF data + go to Kaggle.
