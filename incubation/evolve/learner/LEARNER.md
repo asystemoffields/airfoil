@@ -419,4 +419,20 @@ answer is to make the FACULTIES self-evolving, not hand-pick gestures: the HAND 
 (spans every grid), so gestures are earnable compositions; the EYE's channels should likewise become EARNED from a
 RAW object substrate + general operators (thin-core, one level deeper) so the system EVOLVES whatever sense it
 needs. Floor stays: object-decomposition + raw object descriptions (the grounding). "Vine" (the name) grows its own
-tendrils. NEXT: raw-substrate eye (earn the channels), broaden the displacement/gesture space, re-measure; scale on Colab.
+tendrils. ### SELF-EVOLVING FACULTIES (Vine) — the thin-core move, recursively (`substrate_eye.py`)
+
+Alex's question: can it EVOLVE every sense/hand it needs? Answer: yes — apply thin-core one level deeper.
+SELF-EVOLVING EYE (`substrate_eye.py`, box-gate GREEN): the only innate perception is the RAW object substrate
+(per-object r0,c0,r1,c1,h,w,size,color) + comparison operators (a.p OP b.q); a sense is an EARNED composition of
+comparisons. (1) EARN A NEW SENSE: a share-height task (shared height VARIES per demo) — GRAMMAR winning 0,
+hand-coded channels None, but the eye EVOLVES **`exists(a.h==b.h)`** from the substrate = a sense never given.
+(2) COMPLETENESS: hand-coded `contained` == the substrate conjunction `a.r0>=b.r0 & a.c0>=b.c0 & a.r1<=b.r1 &
+a.c1<=b.c1` (True) → the fixed channels were just IGNITION; the substrate spans them. The HAND is already complete
+(paint/erase reach every grid) → gestures are earned compositions, no missing hand. So the only INNATE thing is
+object-decomposition + raw descriptions; senses, predicates, gestures, compositions are ALL earned. Open-ended at every level.
+SELF-EVOLVING HAND (`effect_faculty.py`, box-gate GREEN): `earn_effect` now searches the COMPLETE motor basis
+(erase?+place) — from the SAME eye-grounded search it earns **`move`** on a move task and **`copy`** on a copy task
+(grammar=0 both; the gesture is EARNED, not hand-picked). BOTH faculties now self-evolving + validated. The only
+INNATE thing is object-decomposition + raw object descriptions; senses, predicates, gestures, compositions are ALL
+earned. NEXT: wire substrate-channels + the complete motor basis into the unified loop/policy (recognizer routes
+the earned senses+gestures); re-measure real-data coverage off the recolor-only 8%; scale on Colab.

@@ -27,10 +27,11 @@ def place(grid, cells, color, delta):
     return grid
 
 
-class Move:                                   # an EARNED gesture: eye-selected target + eye-derived displacement
-    tier = CORE
-    def __init__(self, target_pred, mode): self.target_pred = target_pred; self.mode = mode
-    def __repr__(self): return f"move(toward {self.target_pred}, {self.mode})"
+class Gesture:                                # an EARNED gesture from the COMPLETE motor basis (erase?+place):
+    tier = CORE                               # do_erase distinguishes move (erase+place) from copy (place only)
+    def __init__(self, target_pred, mode, do_erase=True):
+        self.target_pred = target_pred; self.mode = mode; self.do_erase = do_erase
+    def __repr__(self): return f"{'move' if self.do_erase else 'copy'}(toward {self.target_pred}, {self.mode})"
     def _delta(self, o, t):
         if self.mode == "align_row": return (t["r0"] - o["r0"], 0)
         if self.mode == "align_col": return (0, t["c0"] - o["c0"])
@@ -42,7 +43,8 @@ class Move:                                   # an EARNED gesture: eye-selected 
         t = targets[0]; out = grid.copy()
         for o in objs:
             if self.target_pred(o, objs): continue          # don't move the anchor
-            erase(out, o["cells"]); place(out, o["cells"], o["color"], self._delta(o, t))
+            if self.do_erase: erase(out, o["cells"])        # move erases the original; copy leaves it
+            place(out, o["cells"], o["color"], self._delta(o, t))
         return out
 
 
@@ -55,12 +57,14 @@ def verify_effect(eff, train, test=None):
 
 
 def earn_effect(train, test):
-    """EARN a motor gesture: the EYE (predicate_space) selects the anchor; search target-predicate x mode; verify."""
+    """EARN a motor gesture from the COMPLETE basis: the EYE selects the anchor; search target x mode x erase?;
+    verify. Move vs copy is EARNED (which gesture the task needs), not hand-picked."""
     for target_pred in D.predicate_space():
         for mode in MODES:
-            eff = Move(target_pred, mode)
-            if verify_effect(eff, train, test):
-                return eff
+            for do_erase in (True, False):
+                eff = Gesture(target_pred, mode, do_erase)
+                if verify_effect(eff, train, test):
+                    return eff
     return None
 
 
@@ -84,19 +88,35 @@ def make_align_task(n):
     return demos
 
 
+def make_copy_task(n):
+    """each object is COPIED to the anchor's column (original STAYS) -- earns copy (place WITHOUT erase)."""
+    demos = []
+    for _ in range(n):
+        g = np.zeros((16, 16), int); ar, ac = rng.randint(0, 13), rng.randint(0, 13)
+        g[ar:ar+3, ac:ac+3] = 5
+        rows = [r for r in range(0, 16, 2) if not (ar - 1 <= r <= ar + 3)]; rng.shuffle(rows)
+        dots = []
+        for dr in rows[:3]:
+            dc = rng.randint(0, 16); dc = (dc + 2) % 16 if dc == ac else dc
+            g[dr, dc] = 4; dots.append((dr, dc))
+        out = g.copy()
+        for (dr, _dc) in dots: out[dr, ac] = 4              # COPY at the anchor column; original stays
+        demos.append((g, out))
+    return demos
+
+
 def _demo():
     import sys
     sys.path.insert(0, "/data/Windows-files/Documents/airfoil/incubation/evolve")
     from ground_arc import winning_relations
-    tr = make_align_task(4); te = make_align_task(2)
-    gram = len(winning_relations(tr, te))                   # recolor grammar can't MOVE anything
-    eff = earn_effect(tr, te)
-    print(f"EFFECT FACULTY (the motor hand, eye-grounded):")
-    print(f"  align-to-anchor MOVE task -- GRAMMAR (recolor) winning relations = {gram} (it cannot move objects)")
-    print(f"  EARNED motor gesture -> {eff}  (the EYE picks the anchor; the hand moves each object there)")
-    print("READ: grammar=0 (recolor can't move) but the system EARNS a MOVE whose target+displacement are computed "
-          "by the relational eye = PERCEIVE->ROUTE->ACT with thin faculties + earned vocabulary. Effects join "
-          "predicates as EARNED, not hand-coded -> the effect frontier (the 0/30 ConceptARC) opens.")
+    print("EFFECT FACULTY (the motor hand) — gesture EARNED from the complete basis (erase?+place), not hand-picked:")
+    for name, gen in [("MOVE  (align-to-anchor)", make_align_task), ("COPY  (to anchor column)", make_copy_task)]:
+        tr = gen(4); te = gen(2)
+        gram = len(winning_relations(tr, te)); eff = earn_effect(tr, te)
+        print(f"  {name}: GRAMMAR (recolor) winning = {gram}  ->  EARNED gesture: {eff}")
+    print("READ: from the SAME motor basis (erase?+place) + the SAME eye-grounded search, the system earns MOVE on "
+          "the move task and COPY on the copy task -- the gesture is EARNED, not hand-picked. Hand already complete; "
+          "PERCEIVE->ROUTE->ACT with thin faculties + fully-earned vocabulary.")
 
 
 if __name__ == "__main__":
