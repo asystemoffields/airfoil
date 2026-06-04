@@ -476,3 +476,20 @@ repeated finding); gradient-free library reuse ALREADY compounds, so the gradien
 experiment is a genuine falsifier (does learning-over-experience beat mere reuse?). IMPLICATION: EXPRESSIVENESS
 growth (effect/sense leaves) is the COVERAGE lever and should be a CONCURRENT track; the RL loop is the reason-
 over-experience/efficiency lever. Build BOTH, eyes open.
+
+### RL FALSIFIER (`exit_loop.py`) — HONEST NO-GO (v0): the gradient didn't beat search/reuse on the box
+
+Compose-policy head (MLP over per-inner [uniq, frac]) + STaR round, leave-one-FAMILY-out over composed-anchor
+families {contained-in-largest, -tallest, -uniq-color}. Distill on largest+tallest, held-out uniq-color:
+held-out cost-to-solve 3.75(r0) -> 3.0 -> 3.0 -> 4.33 -> 3.5 = FLAT/noisy (round 3 ABOVE round 0); solve 0.75->~0.9.
+So the gradient did NOT learn a generalizing inner-selection that drops held-out cost = the synthesis's KEY RISK
+confirmed: routing isn't the bottleneck, the suite is search-covered so the head only buys efficiency, and the
+gradient didn't beat gradient-free reuse. Two reasons: (a) v0 head input [uniq,frac] under-determines (multiple
+anchors are uniquely-satisfied -> can't disambiguate WHICH); a richer input (V2 logits + demo stats + library bag,
+per the synthesis) MIGHT help but (b) the deeper point stands -- EXPRESSIVENESS is the bottleneck, not routing.
+IMPLICATION (acted on): the RL loop is a reasoning/efficiency organ that doesn't pay until the search is genuinely
+too big; the COVERAGE lever is EXPRESSIVENESS growth (more sense/effect leaves) -> that's the track to push.
+The reward + family-holdout bricks stand (reusable); the compose-head/STaR loop is parked pending a richer head OR
+a too-big-to-search regime. RETEST PLAN (Alex): when Vine's full earned-vocabulary solver is assembled, run it on
+the SAME ARC-1 eval(400) + the SAME beyond_gen6 gate as gen6_base = the honest head-to-head (Vine earned vs
+gen6_base hand-authored), the number a paper needs (not the 48/400 hand-authored figure).
