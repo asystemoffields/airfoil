@@ -643,3 +643,20 @@ language; "generate everything" = all its DERIVATIONS, recognizer-prunable + ver
 REAL-ARC compose (hand-coded data point, ground_vine_adapt.py): 8 solved (was 7), 1 compose solve (ca8f78db =
 periodicH2 o colormap), 0 beyond_gen6 -- composition reaches real ARC modestly, not yet beyond-gen6 ground. NEXT:
 wire `derive` (the unified cell+structural engine -- it subsumes the pure cell loop AND compose) into the solver.
+
+### BASIS vs MENU + de-treadmilling the analogical component (Alex)
+
+BASIS = irreducible OPERATORS + closure (held-out members EMERGE by composition; adding a generator = xN). MENU =
+enumerated OUTPUTS (each hand-placed; adding one = +1; nothing emerges). DISCRIMINATOR (the lint's core test): does a
+never-listed item emerge from composing existing elements with ZERO new code? COROLLARY: no basis element may be a
+composition of the others (else a menu hides in the basis).
+Found treadmilling: (a) the analogical engine's productions were a MENU (CLOSE/FORWARD function lists); (b) my own
+generators.py smuggled compositions into "bases" (extent = max-min; enclosed = a neighbor-quantifier).
+FIX (generators.py): thin IRREDUCIBLE bases + generators -- object_features ({count,max,min,nunique} x {row,col,color,
+one}, height/width emerge as max-min compositions), motor_targets (eye-read positions, no MODES), paint_family
+(paint(SELECTOR x VALUE) over ONE motor primitive), substrate_relations ({props} x {ops} x {props}). Held-out members
+emerge (max_row, h==w). derive_grammar productions now GENERATED via paint_family -> invariance/colormap/fill EMERGE
+as paint instances; 4/4 derivations 8/8 incl HELD-OUT rot180/diag o colormap; treadmill detector PASS (no operator
+menu, no production menu). Search bounded to iso+eye-periods (the glide closure needs recognizer-pruning to search).
+REMAINING for the full sweep: treadmill_lint.py (the runnable lint) + wire #1 features/#2 gestures/#4 relations into
+the solver + ONE final test (per Alex: not per-fix).
