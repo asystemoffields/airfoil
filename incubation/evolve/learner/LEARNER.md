@@ -660,3 +660,20 @@ as paint instances; 4/4 derivations 8/8 incl HELD-OUT rot180/diag o colormap; tr
 menu, no production menu). Search bounded to iso+eye-periods (the glide closure needs recognizer-pruning to search).
 REMAINING for the full sweep: treadmill_lint.py (the runnable lint) + wire #1 features/#2 gestures/#4 relations into
 the solver + ONE final test (per Alex: not per-fix).
+
+### TREADMILL LINT GREEN + de-treadmill sweep complete; LEARNING LOOP is the frontier (Alex)
+
+treadmill_lint.py (extends the generativity guard) checks three things: (A) GENERATIVITY -- bases produce HELD-OUT
+members with zero new code; (B) IRREDUCIBILITY -- no basis element is a composition of the others (the corollary);
+(C) NO MENU SLOTS -- vocabularies the solver routes over are generator-sourced, not literals. **GREEN.**
+Fixes landed: #3 productions GENERATED (generators.paint_family = paint(SELECTOR x VALUE)); #2 gestures MODES
+generated from the {row,col} axis-subset basis (effect_faculty._delta now generic; earn_effect intact); #1 features
+generator-sourced (object_features, {count,max,min,nunique}x{row,col,color,one}, height/width emerge as max-min
+compositions); #4 substrate_relations generator available. Bases are thin+irreducible (extent/enclosed/glide purged).
+(Honest residual: the lint's slot check is literal-vs-call -- it catches menu LITERALS; deeper per-item hand-coding
+inside a generated-named slot would need the generativity probe, which we run for the cell substrate + features/rels.)
+THE FRONTIER (Alex, after the basis-vs-menu reframe): the LEARNING LOOP -- propose(recognizer-pruned derivation
+search)/verify/abstract(anti-unify->library DAG)/reuse(schemas-first, compounding)/credit(Wilson-prune)/[distill only
+if it earns its place]. The premise: primitives are COMPLETE (paint), so the limit is SEARCH+GENERALIZATION; the cure
+is learned abstractions that make the generalizing program SHORT; the target is OPEN-ENDED EXTENSIBILITY not "solve
+everything". Design workflow w66z1atqf running. Per Alex: WORK ON THE LOOP before testing on more ARC.

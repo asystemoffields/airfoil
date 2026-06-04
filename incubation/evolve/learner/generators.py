@@ -47,6 +47,13 @@ def object_features():
 # ============ #2 MOTOR DISPLACEMENTS: was effect_faculty.MODES (hand menu) -> EYE-COMPUTED targets ============
 # BASIS: a target position is READ from the scene (an anchor object's edge/center), never a named mode. Generated
 # per scene from the perceived objects -> new "modes" are just other eye-read positions, no menu.
+def displacement_modes():
+    """generate alignment modes from the {row,col} axis-subset BASIS: the non-empty subsets of axes to align an
+    object onto its anchor (row / col / row+col). A complete basis (not a menu); the OFFSET itself is eye-read."""
+    axes = ["row", "col"]
+    return ["+".join(a for j, a in enumerate(axes) if i & (1 << j)) for i in range(1, 1 << len(axes))]
+
+
 def motor_targets(obj, anchor):
     """eye-computed placement targets for moving `obj` relative to `anchor` (positions READ, not a MODES menu)."""
     (ar0, ac0, ar1, ac1) = anchor["bbox"]; (r0, c0, r1, c1) = obj["bbox"]

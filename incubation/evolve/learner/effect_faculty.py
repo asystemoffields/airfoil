@@ -13,7 +13,8 @@ import grammar as G
 import rel_dsl as D
 
 CORE = "core"
-MODES = ["align_row", "align_col", "onto"]   # eye-derived displacement rules (target tells the hand where)
+import generators
+MODES = generators.displacement_modes()      # GENERATED from the {row,col} axis-subset basis (not a hand menu)
 
 
 # ---- the three motor ATOMS (the hand) ----
@@ -32,10 +33,9 @@ class Gesture:                                # an EARNED gesture from the COMPL
     def __init__(self, target_pred, mode, do_erase=True):
         self.target_pred = target_pred; self.mode = mode; self.do_erase = do_erase
     def __repr__(self): return f"{'move' if self.do_erase else 'copy'}(toward {self.target_pred}, {self.mode})"
-    def _delta(self, o, t):
-        if self.mode == "align_row": return (t["r0"] - o["r0"], 0)
-        if self.mode == "align_col": return (0, t["c0"] - o["c0"])
-        return (t["r0"] - o["r0"], t["c0"] - o["c0"])      # onto
+    def _delta(self, o, t):                                # eye-read offset, generic over the aligned-axis subset
+        return ((t["r0"] - o["r0"]) if "row" in self.mode else 0,
+                (t["c0"] - o["c0"]) if "col" in self.mode else 0)
     def ev(self, grid):
         grid = np.asarray(grid, int); objs = G.objects(grid, 4, True)
         targets = [o for o in objs if self.target_pred(o, objs)]
